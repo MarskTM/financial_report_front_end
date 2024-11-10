@@ -1,9 +1,17 @@
 import React from "react";
+import { LoginFrom, LoginContent } from "../../../components";
+interface Props {}
 
-type Props = {};
+const LoginPage: React.FC<Props> = ({}) => {
+  return (
+    <div className="w-svw h-full flex flex-row items-center justify-center bg-slate-50">
+      <LoginContent />
 
-const LoginPage = (props: Props) => {
-  return <div>LoginPage</div>;
+      <div>
+        <LoginFrom />
+      </div>
+    </div>
+  );
 };
 
 export default LoginPage;

@@ -1,11 +1,11 @@
 import React from 'react'
 
-type Props = {}
+interface Props {
 
-const index = (props: Props) => {
-  return (
-    <div>index</div>
-  )
 }
 
-export default index
+const HomePage: React.FC<Props> = ({}) => {
+  return <div>Hello from home page</div>;
+};
+
+export default HomePage;

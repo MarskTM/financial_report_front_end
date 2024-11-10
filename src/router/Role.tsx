@@ -1,7 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
+import Loading from "../components/notify/Loading";
 
 const Role: React.FC<{ role: string[]; children: React.FC }> = ({
   role,
@@ -10,10 +8,10 @@ const Role: React.FC<{ role: string[]; children: React.FC }> = ({
   role: string[];
   children: React.FC;
 }) => {
-  let userCredentials = "user"
+  let userCredentials = ["user", "andmin"];
   var checkRole;
   for (let i = 0; i < Role.length; i++) {
-    if (role[i] === "user") {
+    if (userCredentials.includes(role[i])) {
       checkRole = true;
       break;
     }
