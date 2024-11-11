@@ -14,15 +14,12 @@ import logoImgPlaceholder from "@/assets/logo/logo_img_placeholder.png";
 interface Props {}
 
 const SignUpForm: React.FC<Props> = ({}) => {
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   // Hàm xử lý khi người dùng chọn một file
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setSelectedImage(file);
-
       // Tạo URL cho preview ảnh
       const imageUrl = URL.createObjectURL(file);
       setPreviewUrl(imageUrl);
@@ -30,9 +27,9 @@ const SignUpForm: React.FC<Props> = ({}) => {
   };
 
   return (
-    <Card className="mx-auto h-[600px] max-w-screen-md shadow-lg">
+    <Card className="mx-auto h-[600px] max-w-[980px] shadow-lg px-16">
       <CardHeader className="mb-5">
-        <CardTitle className="text-2xl bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+        <CardTitle className="text-2xl bg-gradient-to-r from-sky-800 to-blue-900 bg-clip-text text-transparent">
           Đăng Ký Tài Khoản
         </CardTitle>
         <CardDescription>
@@ -100,28 +97,28 @@ const SignUpForm: React.FC<Props> = ({}) => {
             />
           </div>
 
-          <div className="grid col-start-9 col-span-3 row-start-2 row-span-2 mt-5">
-            <div className="w-full flex items-center h-9 ">
-              <Label htmlFor="avata" className="m-auto ">
+          <div className="grid col-start-9 col-span-3 row-start-1 row-span-3 pl-10">
+            <div className="w-full flex items-center mb-2">
+              <Label htmlFor="avata" className="m-auto !mt-0 leading-4">
                 Ảnh đại diện:
               </Label>
             </div>
 
             <div>
               {previewUrl ? (
-                <div className="w-full flex items-center">
+                <div className="w-full flex items-center h-40 mb-4">
                   <img
                     src={previewUrl}
                     alt="Preview"
-                    className="m-auto w-20 h-20"
+                    className="m-auto w-32 h-44 mb-4"
                   />
                 </div>
               ) : (
-                <div className="w-full flex items-center">
+                <div className="w-full flex items-center h-40 mb-4">
                   <img
                     src={logoImgPlaceholder}
                     alt="Preview"
-                    className="m-auto w-16 h-16 mb-4 rounded-md bg-zinc-100"
+                    className="m-auto w-32 h-40 mb-4 rounded-md bg-zinc-100"
                   />
                 </div>
               )}
@@ -130,7 +127,7 @@ const SignUpForm: React.FC<Props> = ({}) => {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                content="Upload File"
+                className="w-28 mx-auto pl-[15px]"
               />
             </div>
           </div>
@@ -138,7 +135,7 @@ const SignUpForm: React.FC<Props> = ({}) => {
           <div className="grid gap-y-2 gap-x-1 col-start-5 col-span-4 row-start-5 row-span-1">
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-cyan-400 to-blue-600 hover:scale-105 active:opacity-85 transform transition-transform duration-300"
+              className="w-full bg-gradient-to-r from-sky-600 to-blue-900 hover:scale-105 active:opacity-85 transform transition-transform duration-300"
             >
               Đăng Ký
             </Button>
@@ -148,7 +145,7 @@ const SignUpForm: React.FC<Props> = ({}) => {
           Bạn đã có tài khoản?{" "}
           <Link
             to="/login"
-            className="underline bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent"
+            className="underline bg-gradient-to-r from-sky-600 to-blue-900 bg-clip-text text-transparent"
           >
             Đăng nhập!
           </Link>
