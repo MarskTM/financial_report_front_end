@@ -17,7 +17,9 @@ const LoginFrom: React.FC<Props> = ({}) => {
   return (
     <Card className="mx-auto max-w-screen-sm w-96 shadow-lg">
       <CardHeader>
-        <CardTitle className="text-2xl">Đăng Nhập</CardTitle>
+        <CardTitle className="text-2xl bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+          Đăng Nhập
+        </CardTitle>
         <CardDescription>
           Vui lòng điền thông tin vào biểu mẫu sau để truy cập hệ thống.
         </CardDescription>
@@ -47,7 +49,10 @@ const LoginFrom: React.FC<Props> = ({}) => {
               required
             />
           </div>
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full bg-gradient-to-r from-cyan-400 to-blue-600 hover:scale-105 active:opacity-85 transform transition-transform duration-300"
+          >
             Đăng Nhập
           </Button>
           <Button variant="outline" className="w-full">
@@ -59,7 +64,10 @@ const LoginFrom: React.FC<Props> = ({}) => {
         </div>
         <div className="mt-4 text-center text-sm">
           Bạn chưa có tài khoản?{" "}
-          <Link to="/register" className="underline">
+          <Link
+            to="/register"
+            className="underline bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent"
+          >
             Đăng Ký ngay!
           </Link>
         </div>

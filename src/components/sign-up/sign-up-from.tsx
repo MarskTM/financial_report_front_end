@@ -30,9 +30,11 @@ const SignUpForm: React.FC<Props> = ({}) => {
   };
 
   return (
-    <Card className="mx-auto h-[600px] max-w-screen-md shadow-lg px-5">
+    <Card className="mx-auto h-[600px] max-w-screen-md shadow-lg">
       <CardHeader className="mb-5">
-        <CardTitle className="text-2xl">Đăng Ký Tài Khoản</CardTitle>
+        <CardTitle className="text-2xl bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+          Đăng Ký Tài Khoản
+        </CardTitle>
         <CardDescription>
           Vui lòng điền thông tin vào biểu mẫu sau để tao mới tài khoản trong hệ
           thống.
@@ -42,7 +44,7 @@ const SignUpForm: React.FC<Props> = ({}) => {
         <div className="grid gap-4 grid-cols-12">
           <div className="grid gap-2 row-span-1 col-span-4 col-start-2">
             <div className="flex items-center">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Email:</Label>
             </div>
             <Input
               id="email"
@@ -53,7 +55,7 @@ const SignUpForm: React.FC<Props> = ({}) => {
           </div>
           <div className="grid gap-2 row-span-1 col-span-3">
             <div className="flex items-center">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Password:</Label>
             </div>
             <Input
               id="password"
@@ -65,7 +67,7 @@ const SignUpForm: React.FC<Props> = ({}) => {
 
           <div className="grid gap-y-2 gap-x-1 col-start-2 col-span-3 row-start-2 row-span-1 mt-8">
             <div className="flex items-center">
-              <Label htmlFor="firstName">Họ Tên</Label>
+              <Label htmlFor="firstName">Họ tên:</Label>
             </div>
             <Input
               id="firstName"
@@ -77,7 +79,7 @@ const SignUpForm: React.FC<Props> = ({}) => {
 
           <div className="grid gap-y-2 gap-x-1 col-span-3 row-start-2 row-span-1 mt-8 mx-2">
             <div className="flex items-center">
-              <Label htmlFor="lastName">Sdt</Label>
+              <Label htmlFor="lastName">Sdt:</Label>
             </div>
             <Input
               id="lastName"
@@ -89,7 +91,7 @@ const SignUpForm: React.FC<Props> = ({}) => {
 
           <div className="grid gap-y-2 gap-x-1 col-start-2 col-span-6 row-start-3 row-span-1">
             <div className="flex items-center">
-              <Label htmlFor="address">Liên hệ</Label>
+              <Label htmlFor="address">Địa chỉ liên hệ:</Label>
             </div>
             <Input
               id="address"
@@ -101,7 +103,7 @@ const SignUpForm: React.FC<Props> = ({}) => {
           <div className="grid col-start-9 col-span-3 row-start-2 row-span-2 mt-5">
             <div className="w-full flex items-center h-9 ">
               <Label htmlFor="avata" className="m-auto ">
-                Ảnh đại diện
+                Ảnh đại diện:
               </Label>
             </div>
 
@@ -134,14 +136,20 @@ const SignUpForm: React.FC<Props> = ({}) => {
           </div>
 
           <div className="grid gap-y-2 gap-x-1 col-start-5 col-span-4 row-start-5 row-span-1">
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-cyan-400 to-blue-600 hover:scale-105 active:opacity-85 transform transition-transform duration-300"
+            >
               Đăng Ký
             </Button>
           </div>
         </div>
         <div className="mt-7 text-end text-sm">
           Bạn đã có tài khoản?{" "}
-          <Link to="/login" className="underline">
+          <Link
+            to="/login"
+            className="underline bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent"
+          >
             Đăng nhập!
           </Link>
         </div>
@@ -149,9 +157,9 @@ const SignUpForm: React.FC<Props> = ({}) => {
           <div className=" w-1/2 my-5 m-auto border-t-2 border-gray-300"></div>
           <p className="text-sm text-gray-600">
             <span className="font-bold">Bảo mật:</span> Khi bạn thực hiện đăng
-            ký, hệ thống sẽ mặc định rằng bạn đồng ý với các điều khoản về bảo mật
-            thông tin người dùng mà chúng tôi đưa ra. Thông tin
-            chi tiết vui lòng truy cập{" "}
+            ký, hệ thống sẽ mặc định rằng bạn đồng ý với các điều khoản về bảo
+            mật thông tin người dùng mà chúng tôi đưa ra. Thông tin chi tiết vui
+            lòng truy cập{" "}
             <Link
               to="https://www.vndirect.com.vn/cac-dieu-khoan-va-dieu-kien-giao-dich-chung-khoan/"
               className="underline"
