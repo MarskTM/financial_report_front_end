@@ -4,3 +4,8 @@ import SignUpForm from "./sign-up/sign-up-from"
 import SignUpContent from "./sign-up/sign-up-content";
 // ------------------------------Auth Component-------------------------------
 export { LoginFrom, LoginContent, SignUpForm, SignUpContent};
+
+
+import SidebarMenu from "./sidebar-navigation/sidebar_menu";
+// ------------------------------Sidebar Navigation Component-------------------------------
+export { SidebarMenu } 
