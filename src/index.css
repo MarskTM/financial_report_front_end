@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -18,11 +21,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   margin: 0;
   display: flex;
   min-width: 320px;
   min-height: 100vh;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
 }
 
 @layer base {
