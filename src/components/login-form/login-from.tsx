@@ -65,7 +65,7 @@ const LoginFrom: React.FC<Props> = ({}) => {
         <div className="mt-4 text-center text-sm">
           Bạn chưa có tài khoản?{" "}
           <Link
-            to="/register"
+            to="/sign-up"
             className="underline bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent"
           >
             Đăng Ký ngay!

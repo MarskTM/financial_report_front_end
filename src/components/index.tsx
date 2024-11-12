@@ -7,7 +7,7 @@ export { LoginFrom, LoginContent, SignUpForm, SignUpContent};
 
 
 import SidebarMenu from "./sidebar-navigation/sidebar_menu";
-import Header from "./header/header";
+import Header from "./header/header-dashboard";
 
 // ------------------------------Sidebar Navigation Component-------------------------------
 export { SidebarMenu, Header }; 

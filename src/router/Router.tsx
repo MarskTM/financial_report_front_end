@@ -13,8 +13,8 @@ import RegisterPage from "../page/auth/register/RegisterPage";
 
 const Router: React.FC = () => {
   const router = createBrowserRouter([
-    { path: "/login", element: <Auth children={LoginPage} /> },
-    { path: "/register", element: <RegisterPage /> },
+    { path: "/sign-in", element: <Auth children={LoginPage} /> },
+    { path: "/sign-up", element: <RegisterPage /> },
     { path: "/", element: <Navigate to="/home" replace /> },
     {
       path: "/home",

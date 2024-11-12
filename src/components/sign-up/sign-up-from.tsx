@@ -144,7 +144,7 @@ const SignUpForm: React.FC<Props> = ({}) => {
         <div className="mt-7 text-end text-sm">
           Bạn đã có tài khoản?{" "}
           <Link
-            to="/login"
+            to="/sign-in"
             className="underline bg-gradient-to-r from-sky-600 to-blue-900 bg-clip-text text-transparent"
           >
             Đăng nhập!

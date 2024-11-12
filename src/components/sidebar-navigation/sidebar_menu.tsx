@@ -39,7 +39,7 @@ const SidebarMenu: React.FC<Props> = ({}) => {
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
             <LayoutDashboard className="h-4 w-4" />
           </div>
-          <span>Trang chủ</span>
+          <span>Dashboard</span>
         </Link>
 
         <Link
@@ -141,7 +141,7 @@ const SidebarMenu: React.FC<Props> = ({}) => {
           </Button>
         </div>
         <Button className="mt-4 w-full bg-gradient-to-r from-blue-400 to-blue-600">
-          Đăng Ký Premium 
+          Đăng Ký Premium
         </Button>
       </div>
     </div>
