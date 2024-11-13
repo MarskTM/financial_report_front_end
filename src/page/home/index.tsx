@@ -29,7 +29,7 @@ const HomePage: React.FC<Props> = ({}) => {
 
       {/* Navbar Position */}
       <div className="w-80 h-[95vh] fixed top-3 ml-3 pr-6 z-50">
-        <SidebarMenu />
+        <SidebarMenu defaultLink="/home" />
       </div>
 
       {/* Page Content */}

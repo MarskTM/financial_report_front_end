@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -24,8 +24,10 @@ type Item = {
   isActive?: boolean;
 };
 
-interface Props {}
-const SidebarMenu: React.FC<Props> = ({}) => {
+interface Props {
+  defaultLink: string;
+}
+const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
   const navigate = useNavigate();
   const [menuItems, setMenuItem] = useState<Item[]>([
     {
@@ -33,7 +35,7 @@ const SidebarMenu: React.FC<Props> = ({}) => {
       label: "Tổng Quan",
       link: "/home",
       subItems: [],
-      isActive: true,
+      isActive: false,
     },
     {
       icon: <Table className="h-4 w-4" />,
@@ -59,7 +61,7 @@ const SidebarMenu: React.FC<Props> = ({}) => {
     {
       icon: <CreditCard className="h-4 w-4" />,
       label: "Đầu Tư Doanh Nghiệp",
-      link: "/home/creditcard",
+      link: "/home/Creditcard",
       subItems: [],
       isActive: false,
     },
@@ -93,6 +95,20 @@ const SidebarMenu: React.FC<Props> = ({}) => {
     // Sau khi hoàn tất logic, chuyển hướng bằng navigate
     navigate(currentItem.link);
   };
+
+  useEffect(() => {
+    setMenuItem((items) =>
+      items.map((i) =>
+        i.link === defaultLink
+         ? {...i, isActive: true }
+          : {...i, isActive: false }
+      )
+    );
+    // Cleanup logic
+    return () => {
+      // Perform any necessary cleanup actions here
+    };
+  }, [])
 
   return (
     <div className="w-full h-full bg-white opacity-95 shadow-xl rounded-xl flex flex-col">

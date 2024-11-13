@@ -11,6 +11,10 @@ import HomePage from "../page/home";
 import LoginPage from "../page/auth/login/LoginPage";
 import RegisterPage from "../page/auth/register/RegisterPage";
 import Enterprise from "../page/enterprise";
+import NewsPage from "@/page/news";
+import Analyst from "../page/analyst";
+import Creditcard from "../page/creditcard";
+
 const Router: React.FC = () => {
   const router = createBrowserRouter([
     { path: "/sign-in", element: <Auth children={LoginPage} /> },
@@ -28,15 +32,15 @@ const Router: React.FC = () => {
     },
     {
       path: "/home/News",
-      element: <Role role={["user", "admin"]} children={HomePage} />,
+      element: <Role role={["user", "admin"]} children={NewsPage} />,
     },
     {
       path: "/home/Analyst",
-      element: <Role role={["user", "admin"]} children={HomePage} />,
+      element: <Role role={["user", "admin"]} children={Analyst} />,
     },
     {
-      path: "/home/creditcard",
-      element: <Role role={["user", "admin"]} children={HomePage} />,
+      path: "/home/Creditcard",
+      element: <Role role={["user", "admin"]} children={Creditcard} />,
     },
 
     // Profile Route
