@@ -31,7 +31,7 @@ const Header: React.FC<Props> = ({}) => {
   console.log("Resizing...");
   return (
     <header
-      className={`transition delay-150 duration-300 ease-in-out rounded ${
+      className={`transition delay-150 duration-200 ease-in-out rounded ${
         isScrolled ? "bg-white opacity-90 drop-shadow-xl" : "bg-transparent"
       }`}
     >
@@ -49,7 +49,13 @@ const Header: React.FC<Props> = ({}) => {
         </div>
         <div className="ml-auto flex items-center space-x-4">
           <div className="relative w-full max-w-[300px]">
-            <Input type="search" placeholder="Type here..." className="pr-8" />
+            <Input
+              type="search"
+              placeholder="Type here..."
+              className={`pr-8 transition delay-200 duration-200 ease-in-out ${
+                !isScrolled ? "bg-zinc-50" : ""
+              }`}
+            />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
