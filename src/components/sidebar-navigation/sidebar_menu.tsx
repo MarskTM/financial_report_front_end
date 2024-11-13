@@ -111,7 +111,7 @@ const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
   }, [])
 
   return (
-    <div className="w-full h-full bg-white opacity-95 shadow-xl rounded-xl flex flex-col">
+    <div className="w-[96%] h-full bg-white opacity-95  rounded-xl flex flex-col">
       {/* Brand */}
       <div className="p-6">
         <Link to="/" className="flex items-center gap-2 font-semibold">

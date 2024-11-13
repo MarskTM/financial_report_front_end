@@ -34,10 +34,10 @@ const HomePage: React.FC<Props> = ({}) => {
 
       {/* Page Content */}
       <div className="w-[82%] h-full pt-28 ml-80 z-40">
-        <div className="p-6 space-y-6">
+        <div className="space-y-6">
           <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-6">
             {/* Documentation Card */}
-            <Card className="flex flex-row md:col-span-2 lg:col-span-3">
+            <Card className="flex flex-row justify-between md:col-span-2 lg:col-span-3">
               <CardContent className="p-6 w-96">
                 <div className="space-y-2">
                   <div className="text-sm text-muted-foreground">

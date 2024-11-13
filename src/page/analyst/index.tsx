@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, SidebarMenu } from "@/components";
+import { Header, SidebarMenu, TableDashboard } from "@/components";
 interface Props {}
 
 const Analyst: React.FC<Props> = ({}) => {
@@ -15,7 +15,9 @@ const Analyst: React.FC<Props> = ({}) => {
       </div>
 
       {/* Page Content */}
-      <div className="w-[82%] h-full pt-28 ml-80 z-40"></div>
+      <div className="w-[82%] h-full pt-28 ml-80 z-40">
+        <TableDashboard />
+      </div>
     </div>
   );
 };
