@@ -12,5 +12,15 @@ import Header from "./header/header-dashboard";
 export { SidebarMenu, Header };
 
 import TableDashboard from "./table/table-dashboard";
+import TableEnterpriteReport from "./table/table-enterprise";
+import TidingCard from "./card/enterprise-tidings";
+import StatsCard from "./card/starts-card";
+import HomeChartBar from "./chart/home-chart-bar";
 // ------------------------------ Content Component-------------------------------
-export { TableDashboard };
+export {
+  TableDashboard,
+  TableEnterpriteReport,
+  TidingCard,
+  StatsCard,
+  HomeChartBar,
+};

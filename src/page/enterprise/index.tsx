@@ -1,5 +1,12 @@
 import React from "react";
-import { Header, SidebarMenu } from "@/components";
+import {
+  Header,
+  SidebarMenu,
+  TableEnterpriteReport,
+  TidingCard,
+} from "@/components";
+import { Plus } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,51 +25,96 @@ import {
 interface Props {}
 
 const Enterprise: React.FC<Props> = ({}) => {
+  const projects = [
+    {
+      projectNumber: "Project #2",
+      title: "Modern",
+      description:
+        "As Uber works through a huge amount of internal management turmoil.",
+      imageUrl: "/placeholder.svg?height=200&width=400",
+      avatars: [
+        "/placeholder.svg?height=24&width=24",
+        "/placeholder.svg?height=24&width=24",
+      ],
+    },
+    {
+      projectNumber: "Project #1",
+      title: "Scandinavian",
+      description:
+        "Music is something that every person has his or her own specific opinion about.",
+      imageUrl: "/placeholder.svg?height=200&width=400",
+      avatars: [
+        "/placeholder.svg?height=24&width=24",
+        "/placeholder.svg?height=24&width=24",
+      ],
+    },
+    {
+      projectNumber: "Project #3",
+      title: "Minimalist",
+      description:
+        "Different people have different taste, and various types of music.",
+      imageUrl: "/placeholder.svg?height=200&width=400",
+      avatars: [
+        "/placeholder.svg?height=24&width=24",
+        "/placeholder.svg?height=24&width=24",
+      ],
+    },
+  ];
+
   return (
     <div className="w-screen h-full bg-slate-200 relative">
-      <div className="w-[82%] fixed top-3 left-80 z-50">
+      <div className="w-[83%] fixed top-3 left-72 z-50">
         <Header />
       </div>
 
       {/* Navbar Position */}
-      <div className="w-80 h-[95vh] fixed top-3 ml-3 pr-6 z-50">
+      <div className="w-72 h-[97vh] fixed top-3 ml-3 pr-6 z-50">
         <SidebarMenu defaultLink="/home/Enterprise" />
       </div>
 
       {/* Page Content */}
-      <div className="w-[82%] h-full pt-28 ml-80 z-40">
+      <div className="w-[83%] h-full pt-28 ml-72 z-40">
         <div>
           {/* Header */}
           <div className="mb-8 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Avatar className="h-16 w-16">
-                <AvatarImage src="/placeholder.svg" alt="Richard Davis" />
+                <AvatarImage
+                  src="https://image.bnews.vn/MediaUpload/Org/2022/04/26/logo-bidv-20220426071253.jpg"
+                  alt="Richard Davis"
+                  className="h-16 w-16"
+                />
                 <AvatarFallback>RD</AvatarFallback>
               </Avatar>
               <div>
-                <h1 className="text-2xl font-bold">Richard Davis</h1>
-                <p className="text-muted-foreground">CEO / Co-Founder</p>
+                <h1 className="text-2xl font-bold">
+                  Ngân hàng Thương mại cổ phần Đầu tư và Phát triển Việt Nam
+                </h1>
+                <p className="text-muted-foreground">BIDV</p>
               </div>
             </div>
+
             <div className="flex gap-4">
-              <Button variant="outline">
-                <Home className="mr-2 h-4 w-4" />
-                App
+              <Button variant="outline" asChild>
+                <Link to="https://bidv.com.vn/vn/trang-chu" target="_blank">
+                  <Home className="mr-2 h-4 w-4" />
+                  Trang chủ
+                </Link>
               </Button>
-              <Button variant="outline">
+              {/* <Button variant="outline">
                 <MessageSquare className="mr-2 h-4 w-4" />
-                Message
-              </Button>
+                Thông tin chi tiết
+              </Button> */}
               <Button variant="outline">
                 <Settings className="mr-2 h-4 w-4" />
-                Settings
+                Báo cáo tài chính
               </Button>
             </div>
           </div>
 
           <div className="grid gap-6 md:grid-cols-[300px_1fr_300px]">
             {/* Left Sidebar */}
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <CardTitle>Platform Settings</CardTitle>
               </CardHeader>
@@ -116,7 +168,7 @@ const Enterprise: React.FC<Props> = ({}) => {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
 
             {/* Main Content */}
             <Card>
@@ -224,26 +276,23 @@ const Enterprise: React.FC<Props> = ({}) => {
 
           {/* Projects Section */}
           <div className="mt-6">
-            <h2 className="text-lg font-medium mb-4">Projects</h2>
-            <h3 className="text-muted-foreground mb-4">
-              Architects design houses
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((i) => (
-                <div
-                  key={i}
-                  className="aspect-[4/3] overflow-hidden rounded-lg"
-                >
-                  <img
-                    src={`/placeholder.svg?height=300&width=400`}
-                    alt={`Project ${i}`}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+            <h2 className="text-lg font-medium mb-4">Tin Tức</h2>
+            <div className="flex space-x-4 overflow-x-auto p-4">
+              {projects.map((project, index) => (
+                <TidingCard key={index} {...project} />
               ))}
+              <Card className="w-full max-w-sm flex items-center justify-center border-dashed border-2">
+                <CardContent className="flex flex-col items-center">
+                  <Plus className="w-8 h-8 text-muted-foreground" />
+                  <div className="text-muted-foreground mt-2">New project</div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
+
+        {/* Danh sách báo cáo */}
+        <TableEnterpriteReport />
       </div>
     </div>
   );

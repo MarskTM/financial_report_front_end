@@ -31,11 +31,13 @@ const Header: React.FC<Props> = ({}) => {
   console.log("Resizing...");
   return (
     <header
-      className={`transition delay-150 duration-200 ease-in-out rounded ${
-        isScrolled ? "bg-white opacity-90 drop-shadow-xl" : "bg-transparent"
+      className={`transition delay-150 duration-200 ease-in-out rounded-xl backdrop-blur-xl ${
+        isScrolled
+          ? "bg-white/80 drop-shadow-lg shadow-blue-500/50"
+          : "bg-transparent"
       }`}
     >
-      <div className="container flex h-14 items-center px-4">
+      <div className="container flex h-20 items-center px-4">
         <div className="flex items-center space-x-2">
           <Link
             to="/"
@@ -52,9 +54,7 @@ const Header: React.FC<Props> = ({}) => {
             <Input
               type="search"
               placeholder="Type here..."
-              className={`pr-8 transition delay-200 duration-200 ease-in-out ${
-                !isScrolled ? "bg-zinc-50" : ""
-              }`}
+              className={`pr-8 transition delay-200 duration-200 ease-in-out bg-zinc-50 `}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"

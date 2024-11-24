@@ -31,7 +31,7 @@ const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
   const navigate = useNavigate();
   const [menuItems, setMenuItem] = useState<Item[]>([
     {
-      icon: <LayoutDashboard className="h-4 w-4" />,
+      icon: <LayoutDashboard className="h-3 w-3" />,
       label: "Tổng Quan",
       link: "/home",
       subItems: [],
@@ -111,12 +111,12 @@ const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
   }, [])
 
   return (
-    <div className="w-[96%] h-full bg-white opacity-95  rounded-xl flex flex-col">
+    <div className="w-[95%] h-full bg-white opacity-95 rounded-xl flex flex-col shadow-2xl backdrop-blur-sm">
       {/* Brand */}
       <div className="p-6">
         <Link to="/" className="flex items-center gap-2 font-semibold">
           <MonitorSmartphone className="h-6 w-6" />
-          <span>Financial Cash Flow</span>
+          <span className="text-sm">Financial Cash Flow</span>
         </Link>
       </div>
 
@@ -145,7 +145,7 @@ const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
             >
               {item.icon}
             </div>
-            <span>{item.label}</span>
+            <span className="text-sm">{item.label}</span>
           </Link>
         ))}
       </nav>
@@ -163,7 +163,7 @@ const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
               <UserCircle2 className="h-4 w-4" />
             </div>
-            <span>Hồ Sơ</span>
+            <span className="text-sm">Hồ Sơ</span>
           </Link>
 
           <Link
@@ -173,7 +173,7 @@ const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
               <LogIn className="h-4 w-4" />
             </div>
-            <span>Đăng Nhập</span>
+            <span className="text-sm">Đăng Nhập</span>
           </Link>
 
           <Link
@@ -183,7 +183,7 @@ const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
               <UserPlus className="h-4 w-4" />
             </div>
-            <span>Đăng Ký</span>
+            <span className="text-sm">Đăng Ký</span>
           </Link>
         </nav>
       </div>

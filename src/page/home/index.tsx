@@ -1,5 +1,10 @@
 import * as React from "react";
-import { Header, SidebarMenu, TableDashboard } from "@/components";
+import {
+  Header,
+  SidebarMenu,
+  TableDashboard,
+  HomeChartBar,
+} from "@/components";
 
 //
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,22 +27,22 @@ interface Props {}
 
 const HomePage: React.FC<Props> = ({}) => {
   return (
-    <div className="w-screen h-full bg-slate-200 relative">
-      <div className="w-[82%] fixed top-3 left-80 z-50">
+    <div className="w-screen h-full bg-slate-50 relative">
+      <div className="w-[83%] fixed pl-2 top-3 left-72 z-50">
         <Header />
       </div>
 
       {/* Navbar Position */}
-      <div className="w-80 h-[95vh] fixed top-3 ml-3 pr-6 z-50">
+      <div className="w-72 h-[97vh] fixed top-3 ml-3 pr-6 z-50">
         <SidebarMenu defaultLink="/home" />
       </div>
 
       {/* Page Content */}
-      <div className="w-[82%] h-full pt-28 ml-80 z-40">
+      <div className="w-[83%] h-full pl-2 pt-28 ml-72 z-40">
         <div className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-6">
+          <div className="flex felx-row">
             {/* Documentation Card */}
-            <Card className="flex flex-row justify-between md:col-span-2 lg:col-span-3">
+            <Card className="flex flex-row justify-between md:w-1/2 lg:w-7/12 h-64 p-5">
               <CardContent className="p-6 w-96">
                 <div className="space-y-2">
                   <div className="text-sm text-muted-foreground">
@@ -63,8 +68,8 @@ const HomePage: React.FC<Props> = ({}) => {
             </Card>
 
             {/* Work with rockets Card */}
-            <Card className="md:col-span-2 lg:col-span-2 bg-navy-900 text-white bg-gradient-to-br from-blue-400 to-blue-600">
-              <CardContent className="p-6 space-y-4">
+            <Card className="ml-10 p-5 md:w-1/2 lg:w-5/12 h-64 bg-white">
+              <CardContent className="p-6 space-y-4 bg-gradient-to-br text-white from-blue-400 to-blue-600">
                 <h2 className="text-2xl font-bold">Work with the rockets</h2>
                 <p className="text-sm opacity-90">
                   Wealth creation is an evolutionarily recent positive-sum game.
@@ -76,63 +81,17 @@ const HomePage: React.FC<Props> = ({}) => {
               </CardContent>
             </Card>
           </div>
-          <div className="grid gap-6 md:grid-cols-2">
+
+          <div className="flex flex-row md:grid-cols-2">
             {/* Active Users Card */}
-            <Card>
+            <Card className="w-1/2 mr-5">
               <CardContent className="p-6">
-                <div className="space-y-8">
-                  <div className="h-[200px] w-full bg-muted/10">
-                    {/* Bar chart visualization */}
-                    <div className="flex justify-between h-full px-2">
-                      {[400, 200, 100, 200, 400, 100, 400, 200, 400].map(
-                        (height, i) => (
-                          <div
-                            key={i}
-                            className="w-4 bg-primary/60 self-end"
-                            style={{ height: (height / 400) * 100 + "%" }}
-                          />
-                        )
-                      )}
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold">Active Users</h3>
-                    <p className="text-sm text-muted-foreground">
-                      (+23%) than last week
-                    </p>
-                    <div className="mt-4 grid grid-cols-4 gap-4">
-                      <div>
-                        <div className="text-2xl font-bold">36K</div>
-                        <div className="text-sm text-muted-foreground">
-                          Users
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-2xl font-bold">2M</div>
-                        <div className="text-sm text-muted-foreground">
-                          Clicks
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-2xl font-bold">$435</div>
-                        <div className="text-sm text-muted-foreground">
-                          Sales
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-2xl font-bold">43</div>
-                        <div className="text-sm text-muted-foreground">
-                          Items
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <HomeChartBar />
               </CardContent>
             </Card>
 
             {/* Sales Overview Card */}
-            <Card>
+            <Card className="w-1/2">
               <CardHeader>
                 <CardTitle>
                   <div className="flex items-baseline gap-2">
@@ -169,6 +128,7 @@ const HomePage: React.FC<Props> = ({}) => {
               </CardContent>
             </Card>
           </div>
+
           <TableDashboard />
         </div>
       </div>

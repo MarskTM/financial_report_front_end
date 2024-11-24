@@ -106,19 +106,19 @@ const SignUpForm: React.FC<Props> = ({}) => {
 
             <div>
               {previewUrl ? (
-                <div className="w-full flex items-center h-32 mb-4">
+                <div className="w-full flex items-center h-36 mb-4">
                   <img
                     src={previewUrl}
                     alt="Preview"
-                    className="m-auto w-32 h-32 mb-4"
+                    className="m-auto w-32 h-36 mb-4 rounded-md"
                   />
                 </div>
               ) : (
-                <div className="w-full flex items-center h-32 mb-4">
+                <div className="w-full flex items-center h-36 mb-4">
                   <img
                     src={logoImgPlaceholder}
                     alt="Preview"
-                    className="m-auto w-32 h-32 mb-4 rounded-md bg-zinc-100"
+                    className="m-auto w-32 h-36 mb-4 rounded-md bg-zinc-100"
                   />
                 </div>
               )}
