@@ -37,8 +37,8 @@ const Header: React.FC<Props> = ({}) => {
           : "bg-transparent"
       }`}
     >
-      <div className="container flex h-20 items-center px-4">
-        <div className="flex items-center space-x-2">
+      <div className="flex h-20 items-center px-4 justify-around">
+        <div className="flex items-center space-x-3">
           <Link
             to="/"
             className="flex items-center text-sm text-muted-foreground hover:text-primary"
@@ -49,6 +49,7 @@ const Header: React.FC<Props> = ({}) => {
           <span className="text-muted-foreground">/</span>
           <span className="text-sm font-medium">Dashboard</span>
         </div>
+
         <div className="ml-auto flex items-center space-x-4">
           <div className="relative w-full max-w-[300px]">
             <Input
@@ -72,10 +73,12 @@ const Header: React.FC<Props> = ({}) => {
               <path d="m21 21-4.3-4.3" />
             </svg>
           </div>
+
           <Button variant="ghost" size="icon">
             <Settings2Icon className="h-4 w-4" />
             <span className="sr-only">Settings</span>
           </Button>
+
           <Button variant="ghost" size="icon">
             <BellIcon className="h-4 w-4" />
             <span className="sr-only">Notifications</span>

@@ -11,15 +11,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Users, MousePointerClick, DollarSign, Package } from "lucide-react";
 
 const data = [
-  { label: "Tài chính", value: 400, color: "", item: ""},
-  { label: "Bất động sản", value: 200 },
-  { label: "Nông lâm nghiệp", value: 100 },
+  { label: "Tài chính", value: 543, color: "", item: ""},
+  { label: "Bất động sản", value: 142 },
+  { label: "Nông lâm nghiệp", value: 134 },
   { label: "Sản suất", value: 200 },
-  { label: "Phân phối & Bán lẻ", value: 400 },
-  { label: "Kinh doanh online", value: 100 },
-  { label: "Kinh doanh vận tải", value: 100 },
-  { label: "Dịch vụ công cộng", value: 400 },
-  { label: "Công nghệ thông tin", value: 200 },
+  { label: "Phân phối & Bán lẻ", value: 324 },
+  { label: "Kinh doanh online", value: 162 },
+  { label: "Kinh doanh vận tải", value: 86 },
+  { label: "Dịch vụ công cộng", value: 122 },
+  { label: "Công nghệ thông tin", value: 340 },
 ];
 
 // Định nghĩa kiểu cho Tooltip tùy chỉnh
@@ -42,7 +42,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   return null; // Không hiển thị Tooltip khi không có dữ liệu
 };
 
-const HomeChartBar: React.FC = () => {
+const DashboardChartBar: React.FC = () => {
   return (
     <div className="space-y-6">
       <Card className="bg-gradient-to-r from-indigo-900 to-gray-900 opacity-90 rounded-xl p-6">
@@ -66,13 +66,13 @@ const HomeChartBar: React.FC = () => {
       </Card>
 
       <div className="flex flex-row items-center">
-        <h3 className="text-2xl font-bold mr-2">Danh mục đầu tư</h3>
+        <h3 className="text-xl font-bold mr-2">Danh mục báo cáo </h3>
         <Package className="w-6 h-6 text-green-500" />
       </div>
 
       <div className="px-7 w-full flex flex-wrap">
         {data.map((item, index) => (
-          <div key={index} className="w-52 flex items-center mr-8 p-2">
+          <div key={index} className="w-44 flex items-center mr-8 p-2">
             <div className="p-2 mr-2 bg-gray-100 rounded-lg">
               <Package className="w-6 h-6 text-purple-500" />
             </div>
@@ -89,4 +89,4 @@ const HomeChartBar: React.FC = () => {
   );
 };
 
-export default HomeChartBar;
+export default DashboardChartBar;

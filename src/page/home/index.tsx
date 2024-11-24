@@ -3,13 +3,15 @@ import {
   Header,
   SidebarMenu,
   TableDashboard,
-  HomeChartBar,
+  DashboardChartBar,
+  DashboardTidings,
 } from "@/components";
 
 //
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import { ArrowRight, Rocket } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const salesData = [
   { month: "Apr", value1: 50, value2: 40 },
@@ -27,7 +29,7 @@ interface Props {}
 
 const HomePage: React.FC<Props> = ({}) => {
   return (
-    <div className="w-screen h-full bg-slate-50 relative">
+    <div className="w-screen h-full bg-slate-100 relative">
       <div className="w-[83%] fixed pl-2 top-3 left-72 z-50">
         <Header />
       </div>
@@ -41,61 +43,65 @@ const HomePage: React.FC<Props> = ({}) => {
       <div className="w-[83%] h-full pl-2 pt-28 ml-72 z-40">
         <div className="space-y-6">
           <div className="flex felx-row">
-            {/* Documentation Card */}
-            <Card className="flex flex-row justify-between md:w-1/2 lg:w-7/12 h-64 p-5">
-              <CardContent className="p-6 w-96">
-                <div className="space-y-2">
-                  <div className="text-sm text-muted-foreground">
-                    Build by developers
-                  </div>
-                  <h2 className="text-2xl font-bold">Soft UI Dashboard</h2>
+            {/* tiding new */}
+            <Card className="flex flex-row justify-around md:w-1/2 lg:w-7/12 h-96 p-5">
+              <CardContent className="p-3 w-1/2 lg:mr-14">
+                <div className="space-y-2 flex flex-col">
+                  <Link
+                    to="/home/News"
+                    className="text-sm font-bold underline underline-offset-2 text-blue-950"
+                  >
+                    Tin tức nổi bật
+                  </Link>
+                  <h2 className="text-2xl font-bold">
+                    Thị trường 9 triệu tài khoản, sao VN-Index quẩn quanh mốc
+                    1.200 điểm?
+                  </h2>
                   <p className="text-sm text-muted-foreground">
-                    From colors, cards, typography to complex elements, you will
-                    find the full documentation.
+                    Các yếu tố vĩ mô trong nước và thế giới có nhiều tín hiệu
+                    tích cực, ủng hộ xu hướng đi lên của thị trường chứng khoán,
+                    thế nhưng với 9 triệu tài khoản VN-Index vẫn chỉ loanh quanh
+                    mốc hơn 1.200 điểm.
                   </p>
-                  <button className="inline-flex items-center text-sm text-primary">
-                    Read More <ArrowRight className="ml-1 h-4 w-4" />
+
+                  <button className="pt-16 inline-flex items-center justify-end text-sm text-slate-600">
+                    Chi tiết <ArrowRight className="ml-1 h-4 w-4" />
                   </button>
                 </div>
               </CardContent>
 
-              {/* Rocket Card */}
               <Card className="w-96 bg-gradient-to-br from-blue-400 to-blue-600">
-                <CardContent className="p-6 flex justify-center items-center">
-                  <Rocket className="h-32 w-32 text-white" />
-                </CardContent>
+                <img
+                  className="w-full h-full rounded-md"
+                  src="https://cafefcdn.com/thumb_w/640/203337114487263232/2024/11/24/avatar1732411481291-17324114819651110845126.png"
+                  alt="test"
+                />
               </Card>
             </Card>
 
-            {/* Work with rockets Card */}
-            <Card className="ml-10 p-5 md:w-1/2 lg:w-5/12 h-64 bg-white">
-              <CardContent className="p-6 space-y-4 bg-gradient-to-br text-white from-blue-400 to-blue-600">
-                <h2 className="text-2xl font-bold">Work with the rockets</h2>
-                <p className="text-sm opacity-90">
-                  Wealth creation is an evolutionarily recent positive-sum game.
-                  It is all about who take the opportunity first.
-                </p>
-                <button className="inline-flex items-center text-sm">
-                  Read More <ArrowRight className="ml-1 h-4 w-4" />
-                </button>
-              </CardContent>
+            {/* list tidings */}
+            <Card className="ml-6 px-5 py-7 md:w-1/2 lg:w-5/12 h-96 bg-white">
+              <span className="text-xl font-bold text-blue-900 drop-shadow-xl">
+                Tin tức trong ngày
+              </span>
+              <DashboardTidings />
             </Card>
           </div>
 
-          <div className="flex flex-row md:grid-cols-2">
+          <div className="flex flex-row">
             {/* Active Users Card */}
             <Card className="w-1/2 mr-5">
               <CardContent className="p-6">
-                <HomeChartBar />
+                <DashboardChartBar />
               </CardContent>
             </Card>
 
             {/* Sales Overview Card */}
-            <Card className="w-1/2">
+            <Card className="w-1/2 ">
               <CardHeader>
                 <CardTitle>
                   <div className="flex items-baseline gap-2">
-                    <span>Sales Overview</span>
+                    <span className="text-xl font-bold">Sales Overview</span>
                     <span className="text-sm font-normal text-green-500">
                       <span className="text-green-500">↑</span> 4% more in 2021
                     </span>

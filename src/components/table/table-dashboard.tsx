@@ -76,7 +76,7 @@ const TableDashboard: React.FC<Props> = ({}) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">
+        <CardTitle className="text-xl font-bold">
           Quản lý Báo Cáo Tài Chính
         </CardTitle>
       </CardHeader>
