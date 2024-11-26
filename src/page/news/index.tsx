@@ -4,7 +4,7 @@ interface Props {}
 
 const NewsPage: React.FC<Props> = ({}) => {
   return (
-    <div className="w-screen h-full bg-slate-200 relative">
+    <div className="w-screen h-full bg-neutral-100 relative">
       <div className="w-[83%] fixed top-3 left-72 z-50">
         <Header />
       </div>

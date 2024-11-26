@@ -2,68 +2,27 @@ import React from "react";
 import {
   Header,
   SidebarMenu,
-  TableEnterpriteReport,
-  TidingCard,
+  TableEnterpriseReport,
+  HistoricalTimeline,
+  StockChart,
 } from "@/components";
-import { Plus } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import {
   Home,
-  MessageSquare,
   Settings,
   Pencil,
-  Facebook,
-  Twitter,
-  Instagram,
 } from "lucide-react";
 
 interface Props {}
 
 const Enterprise: React.FC<Props> = ({}) => {
-  const projects = [
-    {
-      projectNumber: "Project #2",
-      title: "Modern",
-      description:
-        "As Uber works through a huge amount of internal management turmoil.",
-      imageUrl: "/placeholder.svg?height=200&width=400",
-      avatars: [
-        "/placeholder.svg?height=24&width=24",
-        "/placeholder.svg?height=24&width=24",
-      ],
-    },
-    {
-      projectNumber: "Project #1",
-      title: "Scandinavian",
-      description:
-        "Music is something that every person has his or her own specific opinion about.",
-      imageUrl: "/placeholder.svg?height=200&width=400",
-      avatars: [
-        "/placeholder.svg?height=24&width=24",
-        "/placeholder.svg?height=24&width=24",
-      ],
-    },
-    {
-      projectNumber: "Project #3",
-      title: "Minimalist",
-      description:
-        "Different people have different taste, and various types of music.",
-      imageUrl: "/placeholder.svg?height=200&width=400",
-      avatars: [
-        "/placeholder.svg?height=24&width=24",
-        "/placeholder.svg?height=24&width=24",
-      ],
-    },
-  ];
-
   return (
-    <div className="w-screen h-full bg-slate-200 relative">
-      <div className="w-[83%] fixed top-3 left-72 z-50">
+    <div className="w-screen h-full bg-neutral-100 relative">
+      <div className="w-[83%] fixed pl-2 top-3 left-72 z-50">
         <Header />
       </div>
 
@@ -73,7 +32,7 @@ const Enterprise: React.FC<Props> = ({}) => {
       </div>
 
       {/* Page Content */}
-      <div className="w-[83%] h-full pt-28 ml-72 z-40">
+      <div className="w-[83%] h-full pt-32 pl-2 ml-72 z-40 lg:mr-14">
         <div>
           {/* Header */}
           <div className="mb-8 flex items-center justify-between">
@@ -111,146 +70,98 @@ const Enterprise: React.FC<Props> = ({}) => {
               </Button>
             </div>
           </div>
-z``
-          <div className="grid gap-6 md:grid-cols-[300px_1fr_300px]">
-            {/* Left Sidebar */}
-            {/* <Card>
-              <CardHeader>
-                <CardTitle>Platform Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <h3 className="text-sm font-medium text-muted-foreground mb-4">
-                    ACCOUNT
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="follow">
-                        Email me when someone follows me
-                      </label>
-                      <Switch id="follow" />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="answer">
-                        Email me when someone answers on my post
-                      </label>
-                      <Switch id="answer" />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="mention">
-                        Email me when someone mentions me
-                      </label>
-                      <Switch id="mention" />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-muted-foreground mb-4">
-                    APPLICATION
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="launches">
-                        New launches and projects
-                      </label>
-                      <Switch id="launches" />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="updates">Monthly product updates</label>
-                      <Switch id="updates" />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="newsletter">
-                        Subscribe to newsletter
-                      </label>
-                      <Switch id="newsletter" />
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card> */}
 
+          <div className="w-full flex flex-row">
             {/* Main Content */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Profile Information</CardTitle>
+            <Card className="w-3/5 backdrop-blur-xl bg-white shadow-none border-none">
+              <CardHeader className=" flex flex-row items-center justify-between">
+                <CardTitle className="text-base text-blue-950 underline underline-offset-2">
+                  Ban lãnh Đạo
+                </CardTitle>
                 <Button variant="ghost" size="icon">
                   <Pencil className="h-4 w-4" />
                 </Button>
               </CardHeader>
               <CardContent className="space-y-6">
+                <h1 className="text-2xl font-bold">
+                  Thông điệp từ Chủ tịch Hội đồng Quản trị Phan Đức Tú
+                </h1>
                 <p className="text-muted-foreground">
-                  Hi, I'm Alec Thompson, Decisions: If you can't decide, the
-                  answer is no. If two equally difficult paths, choose the one
-                  more painful in the short term (pain avoidance is creating an
-                  illusion of equality).
+                  67 năm xây dựng và trưởng thành là hành trình đầy tự hào của
+                  lớp lớp thế hệ cán bộ lãnh đạo, người lao động của BIDV, trải
+                  qua “bao thác, bao ghềnh” đã trui rèn, bồi tụ nên bản lĩnh,
+                  cốt cách kiên cường, vượt khó của “Người BIDV”. Tại mốc son
+                  này, với quyết tâm của Ban lãnh đạo, sự đồng sức, đồng lòng
+                  của tập thể cán bộ người lao động, BIDV đã hội tụ đầy đủ điều
+                  kiện, quyết tâm và khát vọng để thay đổi và chinh phục những
+                  đỉnh cao mới.
                 </p>
-                <div className="grid gap-4">
-                  <div className="grid grid-cols-[100px_1fr] items-center">
-                    <span className="font-medium">First Name:</span>
-                    <span>Alec M. Thompson</span>
-                  </div>
-                  <div className="grid grid-cols-[100px_1fr] items-center">
-                    <span className="font-medium">Mobile:</span>
-                    <span>(44) 123 1234 123</span>
-                  </div>
-                  <div className="grid grid-cols-[100px_1fr] items-center">
+
+                <div className="pt-10 grid gap-4">
+                  <div className="grid grid-cols-[100px_1fr] items-center text-sm">
                     <span className="font-medium">Email:</span>
-                    <span>alecthompson@mail.com</span>
+                    <span>bidv247@bidv.com.vn</span>
                   </div>
-                  <div className="grid grid-cols-[100px_1fr] items-center">
-                    <span className="font-medium">Location:</span>
-                    <span>USA</span>
+                  <div className="grid grid-cols-[100px_1fr] items-center text-sm">
+                    <span className="font-medium">Liên hệ:</span>
+                    <span className="">
+                      (+84) 19009247 (Cá nhân) / 19009248 (Doanh nghiệp)
+                    </span>
                   </div>
-                  <div className="grid grid-cols-[100px_1fr] items-center">
-                    <span className="font-medium">Social:</span>
-                    <div className="flex gap-4">
-                      <Facebook className="h-5 w-5 text-blue-600" />
-                      <Twitter className="h-5 w-5 text-blue-400" />
-                      <Instagram className="h-5 w-5 text-pink-600" />
-                    </div>
+                  <div className="grid grid-cols-[100px_1fr] items-center text-sm">
+                    <span className="font-medium">Địa chỉ:</span>
+                    <span>
+                      Tháp BIDV, 194 Trần Quang Khải, Hoàn Kiếm, Hà Nội.
+                    </span>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* Right Sidebar */}
-            <Card>
+            <Card className="w-2/5 ml-5 backdrop-blur-xl bg-white shadow-none border-none">
               <CardHeader>
-                <CardTitle>Platform Settings</CardTitle>
+                <CardTitle className="text-lg text-blue-950 font-bold ">
+                  Hội Đồng Quản Trị
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {[
                     {
-                      name: "Sophie B.",
-                      message: "Hi! I need more information...",
-                      avatar: "/placeholder.svg",
+                      name: "Ông Phan Đức Tú",
+                      message: "Chủ tịch HĐQT",
+                      avatar:
+                        "https://bidv.com.vn/wps/wcm/connect/5bf17139-7ff3-4447-ada1-d5ba53fd6ac2/L%C4%90+on+web-27.jpg?MOD=AJPERES&CACHEID=ROOTWORKSPACE-5bf17139-7ff3-4447-ada1-d5ba53fd6ac2-p8P78oK",
                     },
                     {
-                      name: "Alexander",
-                      message: "Awesome work, can you...",
-                      avatar: "/placeholder.svg",
+                      name: "Ông Lê Ngọc Lâm",
+                      message: "Ủy viên HĐQT",
+                      avatar:
+                        "https://bidv.com.vn/wps/wcm/connect/1aed2e57-abe6-45f6-ba26-d62d813313a2/L%C4%90+on+web-06.jpg?MOD=AJPERES&CACHEID=ROOTWORKSPACE-1aed2e57-abe6-45f6-ba26-d62d813313a2-p8P7L2S",
                     },
                     {
-                      name: "Ivanna",
-                      message: "About files I can...",
-                      avatar: "/placeholder.svg",
+                      name: "Ông Đặng Văn Tuyên",
+                      message: "Ủy viên HĐQT",
+                      avatar:
+                        "https://bidv.com.vn/wps/wcm/connect/5cc11c81-d8ac-473e-a11d-3d37ad9737ab/L%C4%90+on+web-09.jpg?MOD=AJPERES&CACHEID=ROOTWORKSPACE-5cc11c81-d8ac-473e-a11d-3d37ad9737ab-p8P6Sng",
                     },
                     {
-                      name: "Peterson",
-                      message: "Have a great afternoon...",
-                      avatar: "/placeholder.svg",
+                      name: "Ông Yoo Je Bong",
+                      message: "Ủy viên HĐQT",
+                      avatar:
+                        "https://bidv.com.vn/wps/wcm/connect/2bddafa7-d013-4081-98ff-2d18c985e39f/L%C4%90+on+web-14.jpg?MOD=AJPERES&CACHEID=ROOTWORKSPACE-2bddafa7-d013-4081-98ff-2d18c985e39f-p8P70Eq",
                     },
                     {
-                      name: "Bruce Mars",
-                      message: "Hi! I need more information...",
-                      avatar: "/placeholder.svg",
+                      name: "Ông Trần Xuân Hoàng",
+                      message: "Ủy viên HĐQT",
+                      avatar:
+                        "https://bidv.com.vn/wps/wcm/connect/02a03e65-3af5-4c66-8936-eff07d57f86e/L%C4%90+on+web-20.jpg?MOD=AJPERES&CACHEID=ROOTWORKSPACE-02a03e65-3af5-4c66-8936-eff07d57f86e-p8P7G6q",
                     },
                   ].map((user, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between"
+                      className="p-2 flex items-center justify-between border-2 rounded-md bg-slate-100"
                     >
                       <div className="flex items-center gap-3">
                         <Avatar>
@@ -258,14 +169,16 @@ z``
                           <AvatarFallback>{user.name[0]}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <div className="font-medium">{user.name}</div>
+                          <div className="font-medium text-base">
+                            {user.name}
+                          </div>
                           <div className="text-sm text-muted-foreground">
                             {user.message}
                           </div>
                         </div>
                       </div>
                       <Button variant="outline" size="sm">
-                        REPLY
+                        Chi tiết
                       </Button>
                     </div>
                   ))}
@@ -274,25 +187,17 @@ z``
             </Card>
           </div>
 
-          {/* Projects Section */}
-          <div className="mt-6">
-            <h2 className="text-lg font-medium mb-4">Tin Tức</h2>
-            <div className="flex space-x-4 overflow-x-auto p-4">
-              {projects.map((project, index) => (
-                <TidingCard key={index} {...project} />
-              ))}
-              <Card className="w-full max-w-sm flex items-center justify-center border-dashed border-2">
-                <CardContent className="flex flex-col items-center">
-                  <Plus className="w-8 h-8 text-muted-foreground" />
-                  <div className="text-muted-foreground mt-2">New project</div>
-                </CardContent>
-              </Card>
-            </div>
+          {/* Historical Time line */}
+          <HistoricalTimeline />
+
+          {/* Stock Chart*/}
+          <div className="w-full h-[800px] pt-16 bg-white my-20">
+            <StockChart />
           </div>
         </div>
 
         {/* Danh sách báo cáo */}
-        <TableEnterpriteReport />
+        <TableEnterpriseReport />
       </div>
     </div>
   );

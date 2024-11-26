@@ -10,8 +10,8 @@ import {
 //
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts";
-import { ArrowRight, Rocket } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const salesData = [
   { month: "Apr", value1: 50, value2: 40 },
@@ -40,11 +40,11 @@ const HomePage: React.FC<Props> = ({}) => {
       </div>
 
       {/* Page Content */}
-      <div className="w-[83%] h-full pl-2 pt-28 ml-72 z-40">
+      <div className="w-[83%] h-full pl-2 pt-28 ml-72 mb-10 z-40">
         <div className="space-y-6">
           <div className="flex felx-row">
-            {/* tiding new */}
-            <Card className="flex flex-row justify-around md:w-1/2 lg:w-7/12 h-96 p-5">
+            {/* new tiding*/}
+            <Card className="flex flex-row justify-around md:w-1/2 lg:w-7/12 h-96 p-5 ">
               <CardContent className="p-3 w-1/2 lg:mr-14">
                 <div className="space-y-2 flex flex-col">
                   <Link
@@ -80,7 +80,7 @@ const HomePage: React.FC<Props> = ({}) => {
             </Card>
 
             {/* list tidings */}
-            <Card className="ml-6 px-5 py-7 md:w-1/2 lg:w-5/12 h-96 bg-white">
+            <Card className="ml-6 px-5 py-7 md:w-1/2 lg:w-5/12 h-96">
               <span className="text-xl font-bold text-blue-900 drop-shadow-xl">
                 Tin tức trong ngày
               </span>
@@ -89,14 +89,14 @@ const HomePage: React.FC<Props> = ({}) => {
           </div>
 
           <div className="flex flex-row">
-            {/* Active Users Card */}
+            {/* dashboard chart bar*/}
             <Card className="w-1/2 mr-5">
               <CardContent className="p-6">
                 <DashboardChartBar />
               </CardContent>
             </Card>
 
-            {/* Sales Overview Card */}
+            {/* dashboard Sales Card */}
             <Card className="w-1/2 ">
               <CardHeader>
                 <CardTitle>

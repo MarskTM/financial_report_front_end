@@ -1,11 +1,16 @@
 import React from "react";
-import { Header, SidebarMenu } from "@/components";
+import {
+  Header,
+  SidebarMenu,
+  EnterpriseTable,
+  SidebarTrending,
+} from "@/components";
 interface Props {}
 
 const Creditcard: React.FC<Props> = ({}) => {
   return (
-    <div className="w-screen h-full bg-slate-200 relative">
-      <div className="w-[83%] relative top-3 left-72 z-50">
+    <div className="w-screen h-full bg-neutral-100 relative">
+      <div className="w-[83%] fixed pl-2 top-3 left-72 z-50">
         <Header />
       </div>
 
@@ -15,7 +20,16 @@ const Creditcard: React.FC<Props> = ({}) => {
       </div>
 
       {/* Page Content */}
-      <div className="w-[83%] h-full pt-28 ml-72 z-40"></div>
+      <div className="w-[83%] h-full pt-32 pl-2 ml-72 z-40 lg:mr-14 flex flex-row justify-between">
+        {/* Main content */}
+        <div className="w-3/4 mr-10">
+          <EnterpriseTable />
+        </div>
+        {/* Sub content */}
+        <div className="w-1/4">
+          <SidebarTrending />
+        </div>
+      </div>
     </div>
   );
 };

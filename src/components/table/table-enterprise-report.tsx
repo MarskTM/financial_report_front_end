@@ -72,30 +72,27 @@ const getStatusColor = (status: string) => {
 
 interface Props {}
 
-const TableDashboard: React.FC<Props> = ({}) => {
+const TableEnterpriseReport: React.FC<Props> = ({}) => {
   return (
-    <Card className="border-none">
+    <Card className="mb-10 border-none shadow-none max-h-96 overflow-y-auto">
       <CardHeader>
-        <CardTitle className="text-xl font-bold">
-          Báo Cáo Tài Chính
-        </CardTitle>
+        <CardTitle className="text-xl font-bold">Báo cáo & Tài liệu</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Tên Công Ty</TableHead>
               <TableHead>Báo Cáo</TableHead>
               <TableHead>Loại</TableHead>
               <TableHead>Trạng Thái</TableHead>
               <TableHead>Ngày Công Bố</TableHead>
-              <TableHead>Thao Tác</TableHead>
+              <TableHead className="text-center">Thao Tác</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {reports.map((report, index) => (
               <TableRow key={index}>
-                <TableCell className="font-medium">{report.company}</TableCell>
+                {/* <TableCell className="font-medium">{report.company}</TableCell> */}
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <FileText className="h-4 w-4 text-blue-500" />
@@ -118,7 +115,7 @@ const TableDashboard: React.FC<Props> = ({}) => {
                 </TableCell>
                 <TableCell>{report.publishDate}</TableCell>
                 <TableCell>
-                  <div className="flex gap-2">
+                  <div className="flex justify-center gap-2">
                     <Button variant="outline" size="sm">
                       <Eye className="h-4 w-4 mr-1" />
                       Xem
@@ -138,4 +135,4 @@ const TableDashboard: React.FC<Props> = ({}) => {
   );
 };
 
-export default TableDashboard;
+export default TableEnterpriseReport;

@@ -1,6 +1,5 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -10,120 +9,206 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Download, Eye, FileText } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { Eye, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const reports = [
+const data = [
   {
-    company: "Công ty CP Vinamilk",
-    reportName: "Báo cáo tài chính Quý 4/2023",
-    type: "BCTC Quý",
-    status: "Chưa xác minh",
-    publishDate: "15/01/2024",
-    pdfUrl: "/sample.pdf",
+    stt: 1,
+    company: "Vinhomes",
+    code: "VHM",
+    price: 45.2,
+    price_type: "up",
+    type: "Bất động sản",
+    views: "2156",
   },
   {
-    company: "Tập đoàn FPT",
-    reportName: "Báo cáo thường niên 2023",
-    type: "BCTN",
-    status: "Đang xử lý",
-    publishDate: "10/01/2024",
-    pdfUrl: "/sample.pdf",
+    stt: 2,
+    company: "Vinamilk",
+    code: "VNM",
+    price: 87.6,
+    price_type: "down",
+    type: "Thực phẩm",
+    views: "3245",
   },
   {
-    company: "Ngân hàng Vietcombank",
-    reportName: "Báo cáo tài chính hợp nhất 2023",
-    type: "BCTC Năm",
-    status: "Đã xác minh",
-    publishDate: "20/01/2024",
-    pdfUrl: "/sample.pdf",
+    stt: 3,
+    company: "FPT",
+    code: "FPT",
+    price: 92.5,
+    price_type: "up",
+    type: "Công nghệ",
+    views: "4512",
   },
   {
-    company: "Tập đoàn Hòa Phát",
-    reportName: "Báo cáo quản trị công ty 2023",
-    type: "BCQT",
-    status: "Chờ xác minh",
-    publishDate: "05/01/2024",
-    pdfUrl: "/sample.pdf",
+    stt: 4,
+    company: "Hoa Phat",
+    code: "HPG",
+    price: 22.3,
+    price_type: "up",
+    type: "Sắt thép",
+    views: "1893",
   },
   {
-    company: "Tập đoàn Hòa Phát",
-    reportName: "Báo cáo chính hợp nhất Quý 3/2023",
-    type: "BCQT",
-    status: "Đã xác minh",
-    publishDate: "05/01/2024",
-    pdfUrl: "/sample.pdf",
+    stt: 5,
+    company: "BIDV",
+    code: "BID",
+    price: 47.8,
+    price_type: "down",
+    type: "Ngân hàng",
+    views: "3765",
+  },
+  {
+    stt: 6,
+    company: "PetroVietnam",
+    code: "PVD",
+    price: 18.9,
+    price_type: "up",
+    type: "Dầu khí",
+    views: "2956",
+  },
+  {
+    stt: 7,
+    company: "Techcombank",
+    code: "TCB",
+    price: 35.4,
+    price_type: "down",
+    type: "Ngân hàng",
+    views: "2176",
+  },
+  {
+    stt: 8,
+    company: "Masan Group",
+    code: "MSN",
+    price: 63.7,
+    price_type: "up",
+    type: "Hàng tiêu dùng",
+    views: "4045",
+  },
+  {
+    stt: 9,
+    company: "Novaland",
+    code: "NVL",
+    price: 19.5,
+    price_type: "down",
+    type: "Bất động sản",
+    views: "1587",
+  },
+  {
+    stt: 10,
+    company: "Vietcombank",
+    code: "VCB",
+    price: 94.2,
+    price_type: "up",
+    type: "Ngân hàng",
+    views: "5721",
   },
 ];
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "Đã xác minh":
+    case "up":
       return "bg-green-500/15 text-green-600";
-    case "Đang xử lý":
-      return "bg-blue-500/15 text-blue-600";
-    case "Chờ xác minh":
+    case "medium":
       return "bg-yellow-500/15 text-yellow-600";
-    case "Chưa xác minh":
+    case "down":
       return "bg-red-500/15 text-red-600";
     default:
-      return "bg-gray-500/15 text-gray-600";
+      return "bg-yellow-500/15 text-yellow-600";
+  }
+};
+
+const getPriceColor = (price_type: string) => {
+  switch (price_type) {
+    case "up":
+      return "text-green-600";
+    case "down":
+      return "text-red-600";
+    default:
+      return "text-yellow-600";
   }
 };
 
 interface Props {}
 
-const TableEnterpriteReport: React.FC<Props> = ({}) => {
+const EmterpriseTable: React.FC<Props> = ({}) => {
   return (
-    <Card className="mb-10 shadow-none max-h-96 overflow-y-auto">
+    <Card className="mb-10 border-none shadow-none h-[83vh] overflow-y-auto bg-white relative">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">Báo cáo & Tài liệu</CardTitle>
+        <CardTitle className="text-xl font-bold">Doanh Nghiệp</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="h-[65vh] overflow-y-scroll">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Báo Cáo</TableHead>
-              <TableHead>Loại</TableHead>
-              <TableHead>Trạng Thái</TableHead>
-              <TableHead>Ngày Công Bố</TableHead>
-              <TableHead className="text-center">Thao Tác</TableHead>
+              <TableHead>Stt</TableHead>
+              <TableHead>Doanh Nghiệp</TableHead>
+              <TableHead>Mã CK</TableHead>
+              <TableHead>Giá Sàn</TableHead>
+              <TableHead>Loại Hình</TableHead>
+              <TableHead>Lượt Xem</TableHead>
+              <TableHead className="text-center"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {reports.map((report, index) => (
-              <TableRow key={index}>
-                {/* <TableCell className="font-medium">{report.company}</TableCell> */}
+            {data.map((item, index) => (
+              <TableRow key={index} className="h-12">
                 <TableCell>
-                  <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-blue-500" />
-                    <span className="font-medium text-primary">
-                      {report.reportName}
-                    </span>
-                  </div>
+                  <span className="font-medium text-primary text-center">
+                    {item.stt}
+                  </span>
                 </TableCell>
-                <TableCell>
-                  <Badge variant="secondary">{report.type}</Badge>
+                <TableCell className="w-64">
+                  <span className="font-medium text-primary">
+                    {item.company}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <Badge
-                    className={`hover:bg-slate-200 hover:opacity-80 ${getStatusColor(
-                      report.status
-                    )}`}
+                    className={`${getStatusColor(
+                      item.price_type
+                    )} hover:bg-slate-300 backdrop-blur-sm`}
                   >
-                    {report.status}
+                    {item.code}
                   </Badge>
                 </TableCell>
-                <TableCell>{report.publishDate}</TableCell>
                 <TableCell>
+                  <span
+                    className={`font-medium ${getPriceColor(item.price_type)}`}
+                  >
+                    {item.price}
+                  </span>
+                </TableCell>
+                <TableCell className="w-52">
+                  <Badge className="bg-slate-100 hover:bg-slate-300">
+                    <span className="font-medium text-primary">
+                      {item.type}
+                    </span>
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <div className="flex flex-row items-center">
+                    <Eye className="h-4 w-4 mr-1" />
+                    <span className="font-medium text-primary text-center">
+                      {item.views}
+                    </span>
+                  </div>
+                </TableCell>
+
+                <TableCell className="!w-10">
                   <div className="flex justify-center gap-2">
-                    <Button variant="outline" size="sm">
-                      <Eye className="h-4 w-4 mr-1" />
-                      Xem
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Download className="h-4 w-4 mr-1" />
-                      Tải về
-                    </Button>
+                    <Link to="">
+                      <ExternalLink className="h-4 w-4 mr-1" />
+                    </Link>
                   </div>
                 </TableCell>
               </TableRow>
@@ -131,8 +216,37 @@ const TableEnterpriteReport: React.FC<Props> = ({}) => {
           </TableBody>
         </Table>
       </CardContent>
+
+      <div className="absolute right-4 bottom-4">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem className="hover:bg-slate-100 p-2 rounded-md">
+              <Link to="">
+                <ChevronLeft />
+              </Link>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem className="hover:bg-slate-100 p-2 rounded-md">
+              <Link to="">
+                <ChevronRight />
+              </Link>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </Card>
   );
 };
 
-export default TableEnterpriteReport;
+export default EmterpriseTable;
