@@ -17,6 +17,7 @@ interface FinancialItem {
   id: string;
   name: string;
   values: number[];
+  expanded?: boolean;
   children?: FinancialItem[];
 }
 
@@ -25,6 +26,7 @@ const financialData: FinancialItem[] = [
     id: "current-assets",
     name: "Tài sản ngắn hạn",
     values: [1231, 1068, 952, 974, 974],
+    expanded: true,
     children: [
       {
         id: "cash",
@@ -57,6 +59,7 @@ const financialData: FinancialItem[] = [
     id: "non-current-assets",
     name: "Tài sản dài hạn",
     values: [1192, 929, 885, 910, 878],
+    expanded: true,
     children: [
       {
         id: "long-term-receivables",
@@ -80,9 +83,15 @@ const financialData: FinancialItem[] = [
 interface Props {}
 
 const TableBalanceSheet: React.FC<Props> = () => {
-  const [expandedItems, setExpandedItems] = React.useState<Set<string>>(
-    new Set()
-  );
+  const [expandedItems, setExpandedItems] = React.useState<Set<string>>(() => {
+    let setExpandedItems = new Set<string>();
+    financialData.map((item) => {
+      if (item.expanded) {
+        setExpandedItems.add(item.id);
+      }
+    });
+    return setExpandedItems;
+  });
 
   const toggleItem = (id: string) => {
     const newExpanded = new Set(expandedItems);
@@ -99,47 +108,43 @@ const TableBalanceSheet: React.FC<Props> = () => {
     const hasChildren = item.children && item.children.length > 0;
 
     return (
-      <div className="w-full">
-        <React.Fragment key={item.id}>
-          <tr className={cn(level === 0 ? "font-medium" : "")}>
-            <td className="relative whitespace-nowrap py-4 pl-4 pr-3 text-sm">
-              <div
-                className="flex items-center gap-1"
-                style={{ paddingLeft: `${level * 24}px` }}
-              >
-                {hasChildren && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-5 w-5"
-                    onClick={() => toggleItem(item.id)}
-                  >
-                    {isExpanded ? (
-                      <Minus className="h-4 w-4" />
-                    ) : (
-                      <Plus className="h-4 w-4" />
-                    )}
-                  </Button>
-                )}
-                {item.name}
-              </div>
+      <React.Fragment key={item.id}>
+        <tr className={cn(level === 0 ? "font-medium" : "")}>
+          <td className="relative whitespace-nowrap py-4 pl-4 pr-3 text-sm">
+            <div
+              className="flex items-center gap-1"
+              style={{ paddingLeft: `${level * 24}px` }}
+            >
+              {hasChildren && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-5 w-5"
+                  onClick={() => toggleItem(item.id)}
+                >
+                  {isExpanded ? (
+                    <Minus className="h-4 w-4" />
+                  ) : (
+                    <Plus className="h-4 w-4" />
+                  )}
+                </Button>
+              )}
+              {item.name}
+            </div>
+          </td>
+          {item.values.map((value, index) => (
+            <td
+              key={index}
+              className="whitespace-nowrap px-3 py-4 text-sm text-right"
+            >
+              {value || "-"}
             </td>
-            {item.values.map((value, index) => (
-              <td
-                key={index}
-                className="whitespace-nowrap px-3 py-4 text-sm text-right"
-              >
-                {value || "-"}
-              </td>
-            ))}
-          </tr>
-          {hasChildren &&
-            isExpanded &&
-            item.children?.map((child) =>
-              renderFinancialItem(child, level + 1)
-            )}
-        </React.Fragment>
-      </div>
+          ))}
+        </tr>
+        {hasChildren &&
+          isExpanded &&
+          item.children?.map((child) => renderFinancialItem(child, level + 1))}
+      </React.Fragment>
     );
   };
 
@@ -155,6 +160,7 @@ const TableBalanceSheet: React.FC<Props> = () => {
             Báo cáo lưu chuyển tiền tệ
           </TabsTrigger>
         </TabsList>
+
         <TabsContent value="balance-sheet" className="space-y-4">
           <div className="flex flex-wrap items-center gap-4 rounded-lg bg-muted/40 p-4">
             <div className="flex items-center gap-2">

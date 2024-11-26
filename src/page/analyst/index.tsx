@@ -58,16 +58,16 @@ const Analyst: React.FC<Props> = ({}) => {
           </div>
         </div>
 
-        <div className="w-full pb-10 bg-white">
+        <div className="w-full pb-10 min-h-[60vh] bg-white">
           {/* Main Content */}
           <div className="w-3/5 m-3 pt-4">
             <TableBalanceSheet />
-            <TableBalanceSheet />
-            <TableBalanceSheet />
-            <TableBalanceSheet />
           </div>
-          
+
           {/* Sub content */}
+          <div>
+            
+          </div>
         </div>
         {/* space */}
         <div className="w-full h-10"></div>
