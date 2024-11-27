@@ -1,3 +1,4 @@
+
 // ------------------------------- Authentication model ---------------------------
 export interface User {
 	id: string;
@@ -20,7 +21,6 @@ export interface News {
 }
 
 // -------------------------------- Company Model --------------------------------
-
 
 // -------------------------------- Financial Report Model --------------------------------
 export interface FinancialReport {

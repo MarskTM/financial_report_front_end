@@ -15,12 +15,13 @@ export { SidebarMenu, Header };
 // ------------------------------ Table Component-------------------------------
 import TableDashboard from "./table/table-dashboard";
 import TableEnterpriseReport from "./table/table-enterprise-report";
+import TableFinancialReport from "./table/table-financial-report";
 import EnterpriseTable from "./table/table-enterprise";
 import TableBalanceSheet from "./table/table-balance-sheet";
 
 export {
   TableEnterpriseReport,
-  // TableFinancialReport,
+  TableFinancialReport,
   TableDashboard,
   EnterpriseTable,
   TableBalanceSheet,
@@ -40,11 +41,13 @@ import StatsCard from "./card/starts-card";
 import DashboardTidings from "./tiding/dashboard-tidings";
 import HistoricalTimeline from "./time-line/historical-time-line";
 import SidebarTrending from "./sidebar/sidebar_trending";
+import FinancialReportDetail from './financial-report/financial-report-detail';
 
 export {
-  TidingCard,
-  StatsCard,
-  DashboardTidings,
-  HistoricalTimeline,
-  SidebarTrending,
+	TidingCard,
+	StatsCard,
+	DashboardTidings,
+	HistoricalTimeline,
+	SidebarTrending,
+	FinancialReportDetail,
 };

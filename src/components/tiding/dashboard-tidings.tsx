@@ -2,12 +2,9 @@ import React from "react";
 import {
   TrendingUp,
   TrendingDown,
-  DollarSign,
   Briefcase,
   Globe,
-  BarChart2,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Props = {};
 
