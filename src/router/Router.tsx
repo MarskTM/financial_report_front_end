@@ -9,7 +9,7 @@ import Role from "./Role";
 import Auth from "./Auth";
 import HomePage from "../page/home";
 import LoginPage from "../page/auth/login/LoginPage";
-import RegisterPage from "../page/auth/register/RegisterPage";
+import RegisterPage from "../page/auth/register/registerPage";
 import Enterprise from "../page/enterprise";
 import NewsPage from "@/page/news";
 import Analyst from "../page/analyst";

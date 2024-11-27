@@ -67,7 +67,7 @@ const Analyst: React.FC<Props> = ({}) => {
           {/* Main Content */}
           <div className="w-3/5 m-3 pt-4">
             <TableBalanceSheet />
-            <TableBalanceSheet />
+            {/* <TableBalanceSheet /> */}
           </div>
 
           {/* Sub content */}

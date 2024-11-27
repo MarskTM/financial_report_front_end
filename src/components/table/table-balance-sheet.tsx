@@ -149,111 +149,207 @@ const TableBalanceSheet: React.FC<Props> = () => {
   };
 
   return (
-    <div className="w-full space-y-4">
-      <Tabs defaultValue="balance-sheet" className="w-full">
-        <TabsList className="bg-white">
-          <TabsTrigger value="balance-sheet">Bảng cân đối kế toán</TabsTrigger>
-          <TabsTrigger value="income-statement">
-            Báo cáo kết quả kinh doanh
-          </TabsTrigger>
-          <TabsTrigger value="cash-flow">
-            Báo cáo lưu chuyển tiền tệ
-          </TabsTrigger>
-        </TabsList>
+		<div className="w-full space-y-4">
+			<Tabs defaultValue="balance-sheet" className="w-full">
+				<TabsList className="bg-white">
+					<TabsTrigger value="balance-sheet">Bảng cân đối kế toán</TabsTrigger>
+					<TabsTrigger value="income-statement">
+						Báo cáo kết quả kinh doanh
+					</TabsTrigger>
+					<TabsTrigger value="cash-flow">
+						Báo cáo lưu chuyển tiền tệ
+					</TabsTrigger>
+				</TabsList>
 
-        <TabsContent value="balance-sheet" className="space-y-4">
-          <div className="flex flex-wrap items-center gap-4 rounded-lg bg-muted/40 p-4">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">Kỳ báo cáo</span>
-              <Select defaultValue="q3">
-                <SelectTrigger className="w-[120px]">
-                  <SelectValue placeholder="Chọn quý" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="q1">Quý 1</SelectItem>
-                  <SelectItem value="q2">Quý 2</SelectItem>
-                  <SelectItem value="q3">Quý 3</SelectItem>
-                  <SelectItem value="q4">Quý 4</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">Năm</span>
-              <Select defaultValue="2024">
-                <SelectTrigger className="w-[120px]">
-                  <SelectValue placeholder="Chọn năm" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="2024">2024</SelectItem>
-                  <SelectItem value="2023">2023</SelectItem>
-                  <SelectItem value="2022">2022</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">Số kỳ hiển thị</span>
-              <Select defaultValue="5">
-                <SelectTrigger className="w-[120px]">
-                  <SelectValue placeholder="Chọn số kỳ" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="4">4</SelectItem>
-                  <SelectItem value="5">5</SelectItem>
-                  <SelectItem value="6">6</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">Đơn vị</span>
-              <Select defaultValue="billion">
-                <SelectTrigger className="w-[120px]">
-                  <SelectValue placeholder="Chọn đơn vị" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="billion">Tỷ đồng</SelectItem>
-                  <SelectItem value="million">Triệu đồng</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground">VND</span>
-            </div>
-          </div>
+				<TabsContent value="balance-sheet" className="space-y-4">
+					<div className="flex flex-wrap items-center gap-4 rounded-lg bg-muted/40 p-4">
+						<div className="flex items-center gap-2">
+							<span className="text-sm font-medium">Kỳ báo cáo</span>
+							<Select defaultValue="q3">
+								<SelectTrigger className="w-[120px]">
+									<SelectValue placeholder="Chọn quý" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="q1">Quý 1</SelectItem>
+									<SelectItem value="q2">Quý 2</SelectItem>
+									<SelectItem value="q3">Quý 3</SelectItem>
+									<SelectItem value="q4">Quý 4</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+						<div className="flex items-center gap-2">
+							<span className="text-sm font-medium">Năm</span>
+							<Select defaultValue="2024">
+								<SelectTrigger className="w-[120px]">
+									<SelectValue placeholder="Chọn năm" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="2024">2024</SelectItem>
+									<SelectItem value="2023">2023</SelectItem>
+									<SelectItem value="2022">2022</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+						<div className="flex items-center gap-2">
+							<span className="text-sm font-medium">Số kỳ hiển thị</span>
+							<Select defaultValue="5">
+								<SelectTrigger className="w-[120px]">
+									<SelectValue placeholder="Chọn số kỳ" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="4">4</SelectItem>
+									<SelectItem value="5">5</SelectItem>
+									<SelectItem value="6">6</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+						<div className="flex items-center gap-2">
+							<span className="text-sm font-medium">Đơn vị</span>
+							<Select defaultValue="billion">
+								<SelectTrigger className="w-[120px]">
+									<SelectValue placeholder="Chọn đơn vị" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="billion">Tỷ đồng</SelectItem>
+									<SelectItem value="million">Triệu đồng</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+						<div className="flex items-center gap-2">
+							<span className="text-xs text-muted-foreground">VND</span>
+						</div>
+					</div>
 
-          <div className="rounded-md border">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead>
-                  <tr>
-                    <th className="bg-muted/50 py-3 pl-4 pr-3 text-left text-sm font-semibold">
-                      Chỉ tiêu
-                    </th>
-                    <th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
-                      Q3/2024
-                    </th>
-                    <th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
-                      Q2/2024
-                    </th>
-                    <th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
-                      Q1/2024
-                    </th>
-                    <th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
-                      Q4/2023
-                    </th>
-                    <th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
-                      Q3/2023
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {financialData.map((item) => renderFinancialItem(item))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </TabsContent>
-      </Tabs>
-    </div>
+					<div className="rounded-md border">
+						<div className="overflow-x-auto">
+							<table className="min-w-full divide-y divide-gray-200">
+								<thead>
+									<tr>
+										<th className="bg-muted/50 py-3 pl-4 pr-3 text-left text-sm font-semibold">
+											Chỉ tiêu
+										</th>
+										<th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
+											Q3/2024
+										</th>
+										<th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
+											Q2/2024
+										</th>
+										<th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
+											Q1/2024
+										</th>
+										<th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
+											Q4/2023
+										</th>
+										<th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
+											Q3/2023
+										</th>
+									</tr>
+								</thead>
+								<tbody className="divide-y divide-gray-200 bg-white">
+									{financialData.map((item) =>
+										renderFinancialItem(item),
+									)}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</TabsContent>
+
+				<TabsContent value="income-statement" className="space-y-4">
+					<div className="flex flex-wrap items-center gap-4 rounded-lg bg-muted/40 p-4">
+						<div className="flex items-center gap-2">
+							<span className="text-sm font-medium">Kỳ báo cáo</span>
+							<Select defaultValue="q3">
+								<SelectTrigger className="w-[120px]">
+									<SelectValue placeholder="Chọn quý" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="q1">Quý 1</SelectItem>
+									<SelectItem value="q2">Quý 2</SelectItem>
+									<SelectItem value="q3">Quý 3</SelectItem>
+									<SelectItem value="q4">Quý 4</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+						<div className="flex items-center gap-2">
+							<span className="text-sm font-medium">Năm</span>
+							<Select defaultValue="2024">
+								<SelectTrigger className="w-[120px]">
+									<SelectValue placeholder="Chọn năm" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="2024">2024</SelectItem>
+									<SelectItem value="2023">2023</SelectItem>
+									<SelectItem value="2022">2022</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+						<div className="flex items-center gap-2">
+							<span className="text-sm font-medium">Số kỳ hiển thị</span>
+							<Select defaultValue="5">
+								<SelectTrigger className="w-[120px]">
+									<SelectValue placeholder="Chọn số kỳ" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="4">4</SelectItem>
+									<SelectItem value="5">5</SelectItem>
+									<SelectItem value="6">6</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+						<div className="flex items-center gap-2">
+							<span className="text-sm font-medium">Đơn vị</span>
+							<Select defaultValue="billion">
+								<SelectTrigger className="w-[120px]">
+									<SelectValue placeholder="Chọn đơn vị" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="billion">Tỷ đồng</SelectItem>
+									<SelectItem value="million">Triệu đồng</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+						<div className="flex items-center gap-2">
+							<span className="text-xs text-muted-foreground">VND</span>
+						</div>
+					</div>
+
+					<div className="rounded-md border">
+						<div className="overflow-x-auto">
+							<table className="min-w-full divide-y divide-gray-200">
+								<thead>
+									<tr>
+										<th className="bg-muted/50 py-3 pl-4 pr-3 text-left text-sm font-semibold">
+											Chỉ tiêu
+										</th>
+										<th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
+											Q3/2024
+										</th>
+										<th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
+											Q2/2024
+										</th>
+										<th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
+											Q1/2024
+										</th>
+										<th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
+											Q4/2023
+										</th>
+										<th className="bg-muted/50 px-3 py-3 text-right text-sm font-semibold">
+											Q3/2023
+										</th>
+									</tr>
+								</thead>
+								<tbody className="divide-y divide-gray-200 bg-white">
+									{financialData.map((item) =>
+										renderFinancialItem(item),
+									)}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</TabsContent>
+			</Tabs>
+		</div>
   );
 };
 
