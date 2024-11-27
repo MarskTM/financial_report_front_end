@@ -26,21 +26,25 @@ export {
   TableBalanceSheet,
 };
 
+// ------------------------------ Chart Component-------------------------------
+import HealthyEnterpriseChart from "./chart/healthy-enterprise-chart";
+import StockChart from "./chart/stock-chart";
+import DashboardChartBar from "./chart/dashboard-chart-bar";
+
+export { HealthyEnterpriseChart, StockChart, DashboardChartBar };
+
 // ------------------------------ Content Component-------------------------------
 import TidingCard from "./card/enterprise-tidings";
 import StatsCard from "./card/starts-card";
-import DashboardChartBar from "./chart/dashboard-chart-bar";
+
 import DashboardTidings from "./tiding/dashboard-tidings";
 import HistoricalTimeline from "./time-line/historical-time-line";
-import StockChart from "./chart/stock-chart";
 import SidebarTrending from "./sidebar/sidebar_trending";
 
 export {
   TidingCard,
   StatsCard,
-  DashboardChartBar,
   DashboardTidings,
   HistoricalTimeline,
-  StockChart,
   SidebarTrending,
 };

@@ -1,5 +1,10 @@
 import React from "react";
-import { Header, SidebarMenu, TableBalanceSheet } from "@/components";
+import {
+  Header,
+  SidebarMenu,
+  TableBalanceSheet,
+  HealthyEnterpriseChart,
+} from "@/components";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -58,15 +63,16 @@ const Analyst: React.FC<Props> = ({}) => {
           </div>
         </div>
 
-        <div className="w-full pb-10 min-h-[60vh] bg-white">
+        <div className="w-full pb-10 min-h-[60vh] bg-white flex lg:flex-row  md:flex-col gap-6">
           {/* Main Content */}
           <div className="w-3/5 m-3 pt-4">
+            <TableBalanceSheet />
             <TableBalanceSheet />
           </div>
 
           {/* Sub content */}
-          <div>
-            
+          <div className="w-2/5 ">
+            <HealthyEnterpriseChart />
           </div>
         </div>
         {/* space */}
