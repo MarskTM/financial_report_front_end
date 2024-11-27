@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, SidebarMenu } from "@/components";
+import { Header, SidebarMenu, CategoryTiding } from '@/components';
 interface Props {}
 
 const NewsPage: React.FC<Props> = ({}) => {
@@ -15,7 +15,9 @@ const NewsPage: React.FC<Props> = ({}) => {
 			</div>
 
 			{/* Page Content */}
-			<div className="w-[83%] h-full pt-28 ml-72 z-40"></div>
+			<div className="w-[83%] h-full pt-28 ml-72 z-40">
+        <CategoryTiding />
+      </div>
 		</div>
   );
 };

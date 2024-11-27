@@ -34,19 +34,21 @@ import DashboardChartBar from "./chart/dashboard-chart-bar";
 
 export { HealthyEnterpriseChart, StockChart, DashboardChartBar };
 
-// ------------------------------ Content Component-------------------------------
+// ------------------------------ Tiding Component-------------------------------
 import TidingCard from "./card/enterprise-tidings";
+import CategoryTiding from "./tiding/category-tiding";
+import DashboardTidings from "./tiding/dashboard-tidings";
+
+export { TidingCard, DashboardTidings, CategoryTiding };
+// ------------------------------ Content Component-------------------------------
 import StatsCard from "./card/starts-card";
 
-import DashboardTidings from "./tiding/dashboard-tidings";
 import HistoricalTimeline from "./time-line/historical-time-line";
 import SidebarTrending from "./sidebar/sidebar_trending";
 import FinancialReportDetail from './financial-report/financial-report-detail';
 
 export {
-	TidingCard,
 	StatsCard,
-	DashboardTidings,
 	HistoricalTimeline,
 	SidebarTrending,
 	FinancialReportDetail,
