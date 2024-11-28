@@ -29,7 +29,7 @@ const Role: React.FC<{ role: string[]; children: React.FC }> = ({
 
   return (
     <React.Fragment>
-      {checkRole !== undefined ? <Children /> : <Loading />}
+      {checkRole === undefined ? <Children /> : <Loading />}
     </React.Fragment>
   );
 };

@@ -1,9 +1,9 @@
-import React from "react";
-import { Header, SidebarMenu, CategoryTiding } from '@/components';
+import React from 'react';
+import { Header, SidebarMenu, CategoryTiding, SubCategoryTiding } from '@/components';
 interface Props {}
 
 const NewsPage: React.FC<Props> = ({}) => {
-  return (
+	return (
 		<div className="w-screen h-full bg-slate-100 relative">
 			<div className="w-[83%] fixed top-3 left-72 z-50">
 				<Header />
@@ -15,11 +15,12 @@ const NewsPage: React.FC<Props> = ({}) => {
 			</div>
 
 			{/* Page Content */}
-			<div className="w-[83%] h-full pt-28 ml-72 z-40">
-        <CategoryTiding />
-      </div>
+			<div className="w-[83%] h-full pt-28 ml-72 z-40 space-y-12">
+				<CategoryTiding />
+				<SubCategoryTiding />
+			</div>
 		</div>
-  );
+	);
 };
 
 export default NewsPage;

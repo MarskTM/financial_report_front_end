@@ -36,10 +36,11 @@ export { HealthyEnterpriseChart, StockChart, DashboardChartBar };
 
 // ------------------------------ Tiding Component-------------------------------
 import TidingCard from "./card/enterprise-tidings";
-import CategoryTiding from "./tiding/category-tiding";
 import DashboardTidings from "./tiding/dashboard-tidings";
+import CategoryTiding from "./tiding/category-tiding";
+import SubCategoryTiding from "./tiding/sub-category-tiding";
 
-export { TidingCard, DashboardTidings, CategoryTiding };
+export { TidingCard, DashboardTidings, CategoryTiding, SubCategoryTiding };
 // ------------------------------ Content Component-------------------------------
 import StatsCard from "./card/starts-card";
 
