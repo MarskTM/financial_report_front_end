@@ -1,5 +1,9 @@
 import React from "react";
 import Loading from "../components/notify/Loading";
+import * as api from "@/redux/api/auth";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/redux/Store";
 
 const Role: React.FC<{ role: string[]; children: React.FC }> = ({
   role,
@@ -8,10 +12,16 @@ const Role: React.FC<{ role: string[]; children: React.FC }> = ({
   role: string[];
   children: React.FC;
 }) => {
-  let userCredentials = ["user", "andmin"];
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userCredentials = useSelector((state: RootState) => state.auth.users);
+  if (role === undefined || userCredentials === null) {
+    api.refesh(navigate, dispatch);
+  }
+
   var checkRole;
   for (let i = 0; i < Role.length; i++) {
-    if (userCredentials.includes(role[i])) {
+    if (userCredentials.role.includes(role[i])) {
       checkRole = true;
       break;
     }

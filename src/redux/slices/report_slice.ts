@@ -1,35 +1,36 @@
-import { FinancialReport } from './../model/index';
+import { FinancialReport } from "./../model/index";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import * as Model from "../model";
 
 // ------------------------------- Slice ---------------------------------
 export interface FinancialReportState {
-  users: Model.User;
+  quarter: number;
+  period: number;
+  year: number;
+  financial_report: FinancialReport[];
 }
 
 const initialState: FinancialReportState = {
-	users: {
-		id: '',
-		username: '',
-		role: [],
-	},
+  quarter: 3,
+  period: 4,
+  year: 2024,
+  financial_report: [],
 };
 
-export const authSlice = createSlice({
-  name: "auth",
+export const financialReportSlice = createSlice({
+  name: "financialReport",
   initialState,
   reducers: {
-    getDetail: (state, action: PayloadAction<Model.FinancialReport>) => {},
 
-    getList: () => {},
+    loadFinancialData: () => {
 
-    updateLoad: () => {},
+    }
 
-    delete: () => {},
+    
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { getDetail, getList, updateLoad } = authSlice.actions;
-export default authSlice.reducer;
+export const {  } = financialReportSlice.actions;
+export default financialReportSlice.reducer;

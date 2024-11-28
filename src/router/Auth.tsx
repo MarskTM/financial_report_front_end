@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ROUTE } from "@/utils/route";
 
 interface Props {
   children: React.FC;
@@ -14,7 +15,7 @@ const Auth: React.FC<Props> = ({ children: Children }) => {
       Cookies.remove("AccessToken");
       Cookies.remove("RefreshToken");
     } else {
-      navigate("/login");
+      navigate(ROUTE.LOGIN.PATH);
     }
   }, [Cookies.get("AccessToken")]);
 

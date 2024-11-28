@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -11,9 +11,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import * as api from "@/redux/api/auth";
+import * as model from "@/redux/model";
+import { RootState } from "@/redux/Store";
+import { useDispatch, useSelector } from "react-redux";
+
 interface Props {}
 
 const LoginFrom: React.FC<Props> = ({}) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useRef<model.Credentials>({
+    username: "",
+    password: "",
+  });
+
+  const handelSubmit = (e: any) => {
+    e.preventDefault();
+    api.login({ ...user.current }, navigate, dispatch);
+  };
+
   return (
     <Card className="mx-auto max-w-screen-sm w-96 shadow-lg">
       <CardHeader>
@@ -33,6 +50,9 @@ const LoginFrom: React.FC<Props> = ({}) => {
               type="email"
               placeholder=". . . @gmail.com"
               required
+              onChange={(e) => {
+                user.current.username = e.target.value;
+              }}
             />
           </div>
           <div className="grid gap-2">
@@ -47,11 +67,15 @@ const LoginFrom: React.FC<Props> = ({}) => {
               type="password"
               placeholder="*******"
               required
+              onChange={(e) => {
+                user.current.password = e.target.value;
+              }}
             />
           </div>
           <Button
             type="submit"
             className="w-full bg-gradient-to-r from-cyan-400 to-blue-600 hover:scale-105 active:opacity-85 transform transition-transform duration-300"
+            onClick={handelSubmit}
           >
             Đăng Nhập
           </Button>

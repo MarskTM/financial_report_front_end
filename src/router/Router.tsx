@@ -4,6 +4,7 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
+import { ROUTE } from "@/utils/route";
 
 import Role from "./Role";
 import Auth from "./Auth";
@@ -17,12 +18,14 @@ import Creditcard from "../page/creditcard";
 
 const Router: React.FC = () => {
   const router = createBrowserRouter([
-    { path: "/sign-in", element: <Auth children={LoginPage} /> },
-    { path: "/sign-up", element: <RegisterPage /> },
-    { path: "/", element: <Navigate to="/home" replace /> },
+    { path: "/", element: <Navigate to={ROUTE.HOME.PATH} replace /> },
+
+    { path: ROUTE.LOGIN.PATH, element: <Auth children={LoginPage} /> },
+    { path: ROUTE.REGISTER.PATH, element: <RegisterPage /> },
+    
     {
-      path: "/home",
-      element: <Role role={["user", "admin"]} children={HomePage} />,
+      path: ROUTE.HOME.PATH,
+      element: <Role role={ROUTE.HOME.ROLE} children={HomePage} />,
     },
 
     // Child routes
