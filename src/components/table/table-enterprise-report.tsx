@@ -85,7 +85,7 @@ const TableEnterpriseReport: React.FC<Props> = ({}) => {
               <TableHead>Báo Cáo</TableHead>
               <TableHead>Loại</TableHead>
               <TableHead>Trạng Thái</TableHead>
-              <TableHead>Ngày Công Bố</TableHead>
+              <TableHead>Công Bố</TableHead>
               <TableHead className="text-center">Thao Tác</TableHead>
             </TableRow>
           </TableHeader>

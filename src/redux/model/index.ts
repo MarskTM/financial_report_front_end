@@ -53,26 +53,6 @@ export interface BalanceSheetModel {
 	long_term_investments: number;
 	deferred_tax_assets: number;
 	goodwill: number;
-
-	// Nợ phải trả ngắn hạn
-	accounts_payable: number;
-	short_term_debt: number;
-	accrued_liabilities: number;
-	deferred_revenue: number;
-	current_portion_of_long_term_debt: number;
-
-	// Nợ phải trả dài hạn
-	long_term_debt: number;
-	pension_liabilities: number;
-	deferred_tax_liabilities: number;
-	other_long_term_liabilities: number;
-
-	// Vốn chủ sở hữu
-	common_stock: number;
-	retained_earnings: number;
-	additional_paid_in_capital: number;
-	treasury_stock: number;
-	accumulated_other_comprehensive_income: number;
 }
 
 // Kết quả kinh doanh

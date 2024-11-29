@@ -13,18 +13,18 @@ import Header from "./header/header-dashboard";
 export { SidebarMenu, Header };
 
 // ------------------------------ Table Component-------------------------------
-import TableDashboard from "./table/table-dashboard";
+import TableFinancialReportFavorite from './table/table-financial-report-favorite';
 import TableEnterpriseReport from "./table/table-enterprise-report";
 import TableFinancialReport from "./table/table-financial-report";
 import EnterpriseTable from "./table/table-enterprise";
 import TableBalanceSheet from "./table/table-balance-sheet";
 
 export {
-  TableEnterpriseReport,
-  TableFinancialReport,
-  TableDashboard,
-  EnterpriseTable,
-  TableBalanceSheet,
+	TableEnterpriseReport,
+	TableFinancialReport,
+	TableFinancialReportFavorite,
+	EnterpriseTable,
+	TableBalanceSheet,
 };
 
 // ------------------------------ Chart Component-------------------------------
@@ -41,6 +41,7 @@ import CategoryTiding from "./tiding/category-tiding";
 import SubCategoryTiding from "./tiding/sub-category-tiding";
 
 export { TidingCard, DashboardTidings, CategoryTiding, SubCategoryTiding };
+
 // ------------------------------ Content Component-------------------------------
 import StatsCard from "./card/starts-card";
 
@@ -54,3 +55,9 @@ export {
 	SidebarTrending,
 	FinancialReportDetail,
 };
+
+// ------------------------------ Profile Component-------------------------------
+import RelationInfor from "./profile/relation-infor";
+import UserInfor from "./profile/user-infor";
+
+export { RelationInfor, UserInfor };
