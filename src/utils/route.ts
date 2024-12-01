@@ -1,3 +1,5 @@
+import Enterprise from "@/page/enterprise";
+
 export const ROLE = {
   ADMIN: "Admin",
   CLIENT: "Client",
@@ -18,6 +20,32 @@ export const ROUTE = {
     PATH: "/home",
     ROLE: [ROLE.ADMIN, ROLE.CLIENT],
   },
+
+  ENTERPRISE: {
+    PATH: "/enterprise",
+    ROLE: [ROLE.ADMIN, ROLE.CLIENT],
+  },
+
+  ENTERPRISE_DETAIL: {
+    PATH: "/enterprise/detail/{id}",
+    ROLE: [ROLE.ADMIN, ROLE.CLIENT],
+  },
+
+  NEWS: {
+    PATH: "/news",
+    ROLE: [ROLE.ADMIN, ROLE.CLIENT],
+  },
+
+  NEWS_DETAIL: {
+    PATH: "/news/deatail/{id}",
+    ROLE: [ROLE.ADMIN, ROLE.CLIENT],
+  },
+
+  ANALYST: {
+    PATH: "/analyst",
+    ROLE: [ROLE.ADMIN, ROLE.CLIENT],
+  },
+
   PROFILE: {
     PATH: "/profile",
     ROLE: [ROLE.ADMIN, ROLE.CLIENT],

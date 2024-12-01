@@ -15,6 +15,8 @@ import {
   MonitorSmartphone,
 } from "lucide-react";
 import { time } from "console";
+import { ROUTE } from "@/utils/route";
+
 
 type Item = {
   icon: React.ReactNode;
@@ -33,35 +35,35 @@ const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
     {
       icon: <LayoutDashboard className="h-3 w-3" />,
       label: "Tổng Quan",
-      link: "/home",
+      link: ROUTE.HOME.PATH,
       subItems: [],
       isActive: false,
     },
     {
       icon: <Table className="h-4 w-4" />,
       label: "Tài Chính Kinh Doanh",
-      link: "/home/Enterprise",
+      link: ROUTE.ENTERPRISE.PATH,
       subItems: [],
       isActive: false,
     },
     {
       icon: <CreditCard className="h-4 w-4" />,
       label: "Tin Tức",
-      link: "/home/News",
+      link: ROUTE.NEWS.PATH,
       subItems: [],
       isActive: false,
     },
     {
       icon: <Glasses className="h-4 w-4" />,
       label: "Phân Tích & Thống Kê",
-      link: "/home/Analyst",
+      link: ROUTE.ANALYST.PATH,
       subItems: [],
       isActive: false,
     },
     {
       icon: <CreditCard className="h-4 w-4" />,
       label: "Đầu Tư Doanh Nghiệp",
-      link: "/home/Creditcard",
+      link: ROUTE.ENTERPRISE_DETAIL.PATH,
       subItems: [],
       isActive: false,
     },
@@ -157,7 +159,7 @@ const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
         </h2>
         <nav className="space-y-1">
           <Link
-            to="/profile"
+            to={ROUTE.HOME.PATH}
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900"
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
@@ -167,7 +169,7 @@ const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
           </Link>
 
           <Link
-            to="/sign-in"
+            to={ROUTE.LOGIN.PATH}
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900"
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
@@ -177,7 +179,7 @@ const SidebarMenu: React.FC<Props> = ({defaultLink}) => {
           </Link>
 
           <Link
-            to="/sign-up"
+            to={ROUTE.REGISTER.PATH}
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900"
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">

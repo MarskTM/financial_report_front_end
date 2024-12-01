@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/pagination";
 import { Eye, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ROUTE } from "@/utils/route";
 
 const data = [
   {
@@ -163,50 +164,64 @@ const EmterpriseTable: React.FC<Props> = ({}) => {
             {data.map((item, index) => (
               <TableRow key={index} className="h-12">
                 <TableCell>
-                  <span className="font-medium text-primary text-center">
-                    {item.stt}
-                  </span>
+                  <Link to={ROUTE.ENTERPRISE_DETAIL.PATH} className="w-full">
+                    <span className="font-medium text-primary text-center">
+                      {item.stt}
+                    </span>
+                  </Link>
                 </TableCell>
                 <TableCell className="w-64">
-                  <span className="font-medium text-primary">
-                    {item.company}
-                  </span>
+                  <Link to={ROUTE.ENTERPRISE_DETAIL.PATH} className="w-full">
+                    <span className="font-medium text-primary">
+                      {item.company}
+                    </span>
+                  </Link>
                 </TableCell>
                 <TableCell>
-                  <Badge
-                    className={`${getStatusColor(
-                      item.price_type
-                    )} hover:bg-slate-300 backdrop-blur-sm`}
-                  >
-                    {item.code}
-                  </Badge>
+                  <Link to={ROUTE.ENTERPRISE_DETAIL.PATH} className="w-full">
+                    <Badge
+                      className={`${getStatusColor(
+                        item.price_type
+                      )} hover:bg-slate-300 backdrop-blur-sm`}
+                    >
+                      {item.code}
+                    </Badge>
+                  </Link>
                 </TableCell>
                 <TableCell>
-                  <span
-                    className={`font-medium ${getPriceColor(item.price_type)}`}
-                  >
-                    {item.price}
-                  </span>
+                  <Link to={ROUTE.ENTERPRISE_DETAIL.PATH} className="w-full">
+                    <span
+                      className={`font-medium ${getPriceColor(
+                        item.price_type
+                      )}`}
+                    >
+                      {item.price}
+                    </span>
+                  </Link>
                 </TableCell>
                 <TableCell className="w-52">
-                  <Badge className="bg-slate-100 hover:bg-slate-300">
-                    <span className="font-medium text-primary">
-                      {item.type}
-                    </span>
-                  </Badge>
+                  <Link to={ROUTE.ENTERPRISE_DETAIL.PATH} className="w-full">
+                    <Badge className="bg-slate-100 hover:bg-slate-300">
+                      <span className="font-medium text-primary">
+                        {item.type}
+                      </span>
+                    </Badge>
+                  </Link>
                 </TableCell>
                 <TableCell>
-                  <div className="flex flex-row items-center">
-                    <Eye className="h-4 w-4 mr-1" />
-                    <span className="font-medium text-primary text-center">
-                      {item.views}
-                    </span>
-                  </div>
+                  <Link to={ROUTE.ENTERPRISE_DETAIL.PATH} className="w-full">
+                    <div className="flex flex-row items-center">
+                      <Eye className="h-4 w-4 mr-1" />
+                      <span className="font-medium text-primary text-center">
+                        {item.views}
+                      </span>
+                    </div>
+                  </Link>
                 </TableCell>
 
                 <TableCell className="!w-10">
                   <div className="flex justify-center gap-2">
-                    <Link to="">
+                    <Link to={ROUTE.ENTERPRISE_DETAIL.PATH}>
                       <ExternalLink className="h-4 w-4 mr-1" />
                     </Link>
                   </div>
