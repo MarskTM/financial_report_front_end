@@ -61,7 +61,7 @@ const Enterprise: React.FC<Props> = ({}) => {
 									target="_blank"
 								>
 									<Home className="mr-2 h-4 w-4" />
-									Trang chủ
+									Thông Tin Doanh Nghiệp
 								</Link>
 							</Button>
 							{/* <Button variant="outline">

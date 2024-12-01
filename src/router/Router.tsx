@@ -16,6 +16,7 @@ import NewsPage from "@/page/news";
 import Analyst from "../page/analyst";
 import EnterpriseList from "../page/enterprise_list";
 import Profile from "@/page/profile";
+import TidingDetail from "@/page/news/tiding_detail";
 
 const Router: React.FC = () => {
   const router = createBrowserRouter([
@@ -36,10 +37,17 @@ const Router: React.FC = () => {
         <Role role={ROUTE.ENTERPRISE_DETAIL.ROLE} children={Enterprise} />
       ),
     },
+
+
     {
       path: ROUTE.NEWS.PATH,
       element: <Role role={["user", "admin"]} children={NewsPage} />,
     },
+	{
+		path: ROUTE.NEWS_DETAIL.PATH,
+		element: <TidingDetail />,
+	}, 
+
     {
       path: ROUTE.ANALYST.PATH,
       element: <Role role={["user", "admin"]} children={Analyst} />,

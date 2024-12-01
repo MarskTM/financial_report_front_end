@@ -48,6 +48,7 @@ import StatsCard from "./card/starts-card";
 import HistoricalTimeline from "./time-line/historical-time-line";
 import SidebarTrending from "./sidebar/sidebar_trending";
 import FinancialReportDetail from './financial-report/financial-report-detail';
+import DialogSearch from "./search/dialog_search";
 
 export {
 	StatsCard,
