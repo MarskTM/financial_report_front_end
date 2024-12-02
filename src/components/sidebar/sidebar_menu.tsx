@@ -86,13 +86,13 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
 			subItems: [],
 			isActive: false,
 		},
-		{
-			icon: <Glasses className="h-4 w-4" />,
-			label: 'Quản Lý Bảng Biểu',
-			link: ROUTE.ANALYST.PATH,
-			subItems: [],
-			isActive: false,
-		},
+		// {
+		// 	icon: <Glasses className="h-4 w-4" />,
+		// 	label: 'Quản Lý Bảng Biểu',
+		// 	link: ROUTE.ANALYST.PATH,
+		// 	subItems: [],
+		// 	isActive: false,
+		// },
 	]);
 
 	const getItemUI = (

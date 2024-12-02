@@ -17,7 +17,7 @@ const Profile: React.FC<Props> = ({}) => {
 
 			{/* Page Content */}
 			<div className="w-[83%] h-full pt-28 pb-8 ml-72 z-40 flex flex-row space-x-6">
-				<div className="bg-white w-2/5 h-full relative">
+				<div className="bg-white w-1/2 h-full relative">
 					<UserInfor />
 				</div>
 				<div className="bg-white w-3/5 h-full">
