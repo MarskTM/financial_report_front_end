@@ -28,7 +28,6 @@ const Header: React.FC<Props> = ({}) => {
     };
   }, []);
 
-  console.log("Resizing...");
   return (
     <header
       className={`transition delay-150 duration-200 ease-in-out rounded-xl backdrop-blur-xl ${

@@ -1,26 +1,24 @@
-import React from "react";
+import React from 'react';
 import {
-  Header,
-  SidebarMenu,
-  TableEnterpriseReport,
-  HistoricalTimeline,
-  StockChart,
-} from "@/components";
-import { Link } from "react-router-dom";
+	Header,
+	SidebarMenu,
+	TableEnterpriseReport,
+	HistoricalTimeline,
+	StockChart,
+} from '@/components';
+import { Link, Router } from 'react-router-dom';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Home,
-  Settings,
-  Pencil,
-} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+
+import { Home, Settings, Pencil } from 'lucide-react';
+import { ROUTE } from '@/utils/route';
 
 interface Props {}
 
 const Enterprise: React.FC<Props> = ({}) => {
-  return (
+	return (
 		<div className="w-screen h-full bg-slate-100 relative">
 			<div className="w-[83%] fixed pl-2 top-3 left-72 z-50">
 				<Header />
@@ -55,22 +53,17 @@ const Enterprise: React.FC<Props> = ({}) => {
 						</div>
 
 						<div className="flex gap-4">
-							<Button variant="outline" asChild>
-								<Link
-									to="https://bidv.com.vn/vn/trang-chu"
-									target="_blank"
-								>
+							<Button variant="outline" className="bg-slate-400/30" asChild>
+								<Link to={ROUTE.ENTERPRISE_DETAIL.PATH}>
 									<Home className="mr-2 h-4 w-4" />
-									Thông Tin Doanh Nghiệp
+									Hồ Sơ Doanh Nghiệp
 								</Link>
 							</Button>
-							{/* <Button variant="outline">
-                <MessageSquare className="mr-2 h-4 w-4" />
-                Thông tin chi tiết
-              </Button> */}
-							<Button variant="outline">
-								<Settings className="mr-2 h-4 w-4" />
-								Báo cáo tài chính
+							<Button variant="outline" asChild>
+								<Link to={ROUTE.ANALYST.PATH}>
+									<Settings className="mr-2 h-4 w-4" />
+									Thông Tin Tài Chính
+								</Link>
 							</Button>
 						</div>
 					</div>
@@ -207,7 +200,7 @@ const Enterprise: React.FC<Props> = ({}) => {
 				<TableEnterpriseReport />
 			</div>
 		</div>
-  );
+	);
 };
 
 export default Enterprise;

@@ -78,72 +78,74 @@ interface Props {
 
 const TableFinancialReportFavorite: React.FC<Props> = ({ pageName }) => {
 	return (
-    <div className="border-none">
-      <CardHeader>
-        <CardTitle className="text-xl font-bold">Quan Tâm</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Công Ty</TableHead>
-              <TableHead>Báo Cáo</TableHead>
-              <TableHead>Loại</TableHead>
-              <TableHead>Trạng Thái</TableHead>
-              <TableHead>Công Bố</TableHead>
-              {pageName && pageName === "home" && (
-                <TableHead>Thao Tác</TableHead>
-              )}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {reports.map((report, index) => (
-              <TableRow key={index}>
-                <TableCell className="font-medium">{report.company}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-blue-500" />
-                    <span className="font-medium text-primary">
-                      {report.reportName}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Badge variant="secondary">{report.type}</Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge
-                    className={`hover:bg-slate-200 hover:opacity-80 ${getStatusColor(
-                      report.status
-                    )}`}
-                  >
-                    {report.status}
-                  </Badge>
-                </TableCell>
-                <TableCell>{report.publishDate}</TableCell>
-                <TableCell>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
-                      <Eye className="h-4 w-4 mr-1" />
-                      Xem
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Download className="h-4 w-4 mr-1" />
-                      Tải về
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Trash className="h-4 w-4 mr-1" />
-                      Xóa
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </div>
-  );
+		<div className="border-none">
+			<CardHeader>
+				<CardTitle className="text-xl font-bold">Báo cáo phân tích</CardTitle>
+			</CardHeader>
+			<CardContent>
+				<Table>
+					<TableHeader>
+						<TableRow>
+							<TableHead>Công Ty</TableHead>
+							<TableHead>Báo Cáo</TableHead>
+							<TableHead>Loại</TableHead>
+							<TableHead>Trạng Thái</TableHead>
+							<TableHead>Công Bố</TableHead>
+							{pageName && pageName === 'home' && (
+								<TableHead>Thao Tác</TableHead>
+							)}
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{reports.map((report, index) => (
+							<TableRow key={index}>
+								<TableCell className="font-medium">
+									{report.company}
+								</TableCell>
+								<TableCell>
+									<div className="flex items-center gap-2">
+										<FileText className="h-4 w-4 text-blue-500" />
+										<span className="font-medium text-primary">
+											{report.reportName}
+										</span>
+									</div>
+								</TableCell>
+								<TableCell>
+									<Badge variant="secondary">{report.type}</Badge>
+								</TableCell>
+								<TableCell>
+									<Badge
+										className={`hover:bg-slate-200 hover:opacity-80 ${getStatusColor(
+											report.status,
+										)}`}
+									>
+										{report.status}
+									</Badge>
+								</TableCell>
+								<TableCell>{report.publishDate}</TableCell>
+								<TableCell>
+									<div className="flex gap-2">
+										<Button variant="outline" size="sm">
+											<Eye className="h-4 w-4 mr-1" />
+											Xem
+										</Button>
+										<Button variant="outline" size="sm">
+											<Download className="h-4 w-4 mr-1" />
+											Tải về
+										</Button>
+										<Button variant="outline" size="sm">
+											<Trash className="h-4 w-4 mr-1" />
+											Xóa
+										</Button>
+									</div>
+								</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</CardContent>
+		</div>
+	);
 };
 
 export default TableFinancialReportFavorite;

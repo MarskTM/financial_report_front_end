@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Home, Settings } from "lucide-react";
+import { ROUTE } from '@/utils/route';
 
 interface Props {}
 
@@ -25,7 +26,7 @@ const Analyst: React.FC<Props> = ({}) => {
 			</div>
 
 			{/* Page Content */}
-			<div className="w-[83%] h-full pt-28 mb-10 ml-72 pl-2 z-40">
+			<div className="w-[83%] h-full pt-32 mb-10 ml-72 pl-2 z-40">
 				{/* Header */}
 				<div className="mb-8 flex items-center justify-between">
 					<div className="flex items-center gap-4">
@@ -47,18 +48,16 @@ const Analyst: React.FC<Props> = ({}) => {
 
 					<div className="flex gap-4">
 						<Button variant="outline" asChild>
-							<Link to="https://bidv.com.vn/vn/trang-chu" target="_blank">
+							<Link to={ROUTE.ENTERPRISE_DETAIL.PATH}>
 								<Home className="mr-2 h-4 w-4" />
-								Trang chủ
+								Hồ Sơ Doanh Nghiệp
 							</Link>
 						</Button>
-						{/* <Button variant="outline">
-                <MessageSquare className="mr-2 h-4 w-4" />
-                Thông tin chi tiết
-              </Button> */}
-						<Button variant="outline">
-							<Settings className="mr-2 h-4 w-4" />
-							Báo cáo tài chính
+						<Button variant="outline" className="bg-slate-400/30" asChild>
+							<Link to={ROUTE.ANALYST.PATH}>
+								<Settings className="mr-2 h-4 w-4" />
+								Thông Tin Tài Chính
+							</Link>
 						</Button>
 					</div>
 				</div>

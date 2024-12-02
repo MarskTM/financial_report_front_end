@@ -5,6 +5,8 @@ import {
 	TableFinancialReportFavorite,
 	DashboardChartBar,
 	DashboardTidings,
+	EnterpriseTable,
+	SidebarTrending,
 } from '@/components';
 
 //
@@ -138,9 +140,18 @@ const HomePage: React.FC<Props> = ({}) => {
 							</CardContent>
 						</Card>
 					</div>
-
+					<div className="pt-6 flex flex-row justify-between">
+						{/* Main content */}
+						<div className="w-3/4 mr-10">
+							<EnterpriseTable />
+						</div>
+						{/* Sub content */}
+						<div className="w-1/4">
+							<SidebarTrending />
+						</div>
+					</div>
 					<Card>
-						<TableFinancialReportFavorite pageName='home' />
+						<TableFinancialReportFavorite pageName="home" />
 					</Card>
 				</div>
 			</div>

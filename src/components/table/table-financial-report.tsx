@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Select,
 	SelectContent,
@@ -20,6 +20,13 @@ interface FinancialItem {
 	name: string;
 	expanded?: boolean;
 	children?: FinancialItem[];
+}
+
+interface FormFilter {
+	quarter: string;
+	year: string;
+	periods: string;
+	unit: string;
 }
 
 const financialItem: FinancialItem[] = [
@@ -142,8 +149,7 @@ type Props = {
 };
 
 const TableFinancialReport: React.FC<Props> = ({ tabName }) => {
-
-	const [expandedItems, setExpandedItems] = React.useState<Set<string>>(() => {
+	const [expandedItems, setExpandedItems] = useState<Set<string>>(() => {
 		let setExpandedItems = new Set<string>();
 		financialItem?.map((item) => {
 			if (item.expanded) {
@@ -151,6 +157,13 @@ const TableFinancialReport: React.FC<Props> = ({ tabName }) => {
 			}
 		});
 		return setExpandedItems;
+	});
+
+	const [formFilter, setFormFilter] = useState<FormFilter>({
+		quarter: 'q3',
+		year: '2024',
+		periods: '3',
+		unit: 'Tỷ đồng',
 	});
 
 	const toggleItem = (fieldName: string) => {
@@ -161,27 +174,16 @@ const TableFinancialReport: React.FC<Props> = ({ tabName }) => {
 			newExpanded.add(fieldName);
 		}
 		setExpandedItems(newExpanded);
-
-		// setFinancialItem(() => {
-		// 	return financialItem.map((i) => {
-		// 		if (i.field === fieldName) {
-		// 			return { ...i, expanded: !i.expanded };
-		// 		} else {
-		// 			return i;
-		// 		}
-		// 	});
-		// });
 	};
 
 	const renderFinancialItem = (item: FinancialItem, level: number = 0) => {
 		const isExpanded = expandedItems.has(item.field);
 		const hasChildren = item.children && item.children.length > 0;
-		console.log(financialItem);
 
 		return (
 			<React.Fragment key={item.field}>
 				<tr className={cn(level === 0 ? 'font-medium' : '')}>
-					<td className="relative whitespace-nowrap py-4 pl-4 pr-3 text-sm">
+					<td className="relative whitespace-nowrap py-4 pl-4 pr-3 w-96 text-sm">
 						<div
 							className="flex items-center gap-1"
 							style={{ paddingLeft: `${level * 24}px` }}
@@ -205,24 +207,19 @@ const TableFinancialReport: React.FC<Props> = ({ tabName }) => {
 					</td>
 
 					{datatests.map((model) =>
-						Object.entries(model).map(([key, value], index) => (
-							<td
-								key={index}
-								className="whitespace-nowrap px-3 py-4 text-sm text-right"
-							>
-								{item.field === key ? value : '-'}
-							</td>
-						)),
+						Object.entries(model).map(([key, value], index) => {
+							if (item.field === key) {
+								return (
+									<td
+										key={index}
+										className="whitespace-nowrap px-3 py-4 text-sm text-right"
+									>
+										{value || '-'}
+									</td>
+								);
+							}
+						}),
 					)}
-
-					{/* {item.values.map((value, index) => (
-						<td
-							key={index}
-							className="whitespace-nowrap px-3 py-4 text-sm text-right"
-						>
-							{value || '-'}
-						</td>
-					))} */}
 				</tr>
 				{hasChildren &&
 					isExpanded &&
@@ -231,12 +228,21 @@ const TableFinancialReport: React.FC<Props> = ({ tabName }) => {
 		);
 	};
 
+	useEffect(() => {
+		console.log('useEffect - data filter: ' + formFilter.periods);
+	}, [formFilter]);
+
 	return (
 		<div className="space-y-4">
 			<div className="flex flex-wrap items-center gap-4 rounded-lg bg-muted/60 p-4">
 				<div className="flex items-center gap-2">
 					<span className="text-sm font-medium">Kỳ báo cáo</span>
-					<Select defaultValue="q3">
+					<Select
+						defaultValue={formFilter?.quarter}
+						onValueChange={(value: string) => {
+							setFormFilter({ ...formFilter, quarter: value });
+						}}
+					>
 						<SelectTrigger className="w-[120px]">
 							<SelectValue placeholder="Chọn quý" />
 						</SelectTrigger>
@@ -250,7 +256,12 @@ const TableFinancialReport: React.FC<Props> = ({ tabName }) => {
 				</div>
 				<div className="flex items-center gap-2">
 					<span className="text-sm font-medium">Năm</span>
-					<Select defaultValue="2024">
+					<Select
+						defaultValue={formFilter?.year}
+						onValueChange={(value: string) => {
+							setFormFilter({ ...formFilter, year: value });
+						}}
+					>
 						<SelectTrigger className="w-[120px]">
 							<SelectValue placeholder="Chọn năm" />
 						</SelectTrigger>
@@ -263,7 +274,12 @@ const TableFinancialReport: React.FC<Props> = ({ tabName }) => {
 				</div>
 				<div className="flex items-center gap-2">
 					<span className="text-sm font-medium">Số kỳ hiển thị</span>
-					<Select defaultValue="4">
+					<Select
+						defaultValue={formFilter?.periods}
+						onValueChange={(value: string) => {
+							setFormFilter({ ...formFilter, periods: value });
+						}}
+					>
 						<SelectTrigger className="w-[120px]">
 							<SelectValue placeholder="Chọn số kỳ" />
 						</SelectTrigger>
@@ -276,14 +292,19 @@ const TableFinancialReport: React.FC<Props> = ({ tabName }) => {
 				</div>
 				<div className="flex items-center gap-2">
 					<span className="text-sm font-medium">Đơn vị</span>
-					<Select defaultValue="billion">
+					<Select
+						defaultValue={formFilter?.unit}
+						onValueChange={(value: string) => {
+							setFormFilter({ ...formFilter, unit: value });
+						}}
+					>
 						<SelectTrigger className="w-[120px]">
 							<SelectValue placeholder="Chọn đơn vị" />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="million">Triệu đồng</SelectItem>
-							<SelectItem value="billion">Tỷ đồng</SelectItem>
-							<SelectItem value="trillion">Nghìn tỷ</SelectItem>
+							<SelectItem value="Triệu đồng">Triệu đồng</SelectItem>
+							<SelectItem value="Tỷ đồng">Tỷ đồng</SelectItem>
+							<SelectItem value="Nghìn tỷ">Nghìn tỷ</SelectItem>
 						</SelectContent>
 					</Select>
 				</div>
