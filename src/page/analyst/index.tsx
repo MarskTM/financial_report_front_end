@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
 import {
 	Header,
 	SidebarMenu,
 	FinancialReportDetail,
 	HealthyEnterpriseChart,
 } from '@/components';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Home, Settings } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Home, Settings } from 'lucide-react';
 import { ROUTE } from '@/utils/route';
 
 interface Props {}
 
 const Analyst: React.FC<Props> = ({}) => {
-  return (
+	return (
 		<div className="w-screen h-svh bg-slate-100 relative overflow-y-scroll">
 			<div className="w-[83%] fixed top-3 left-72 pl-2 z-50">
 				<Header />
@@ -50,13 +50,13 @@ const Analyst: React.FC<Props> = ({}) => {
 						<Button variant="outline" asChild>
 							<Link to={ROUTE.ENTERPRISE_DETAIL.PATH}>
 								<Home className="mr-2 h-4 w-4" />
-								Hồ Sơ Doanh Nghiệp
+								Hồ sơ doanh nghiệp
 							</Link>
 						</Button>
 						<Button variant="outline" className="bg-slate-400/30" asChild>
 							<Link to={ROUTE.ANALYST.PATH}>
 								<Settings className="mr-2 h-4 w-4" />
-								Thông Tin Tài Chính
+								Chỉ sô tài chính
 							</Link>
 						</Button>
 					</div>
@@ -77,7 +77,7 @@ const Analyst: React.FC<Props> = ({}) => {
 				<div className="w-full h-10"></div>
 			</div>
 		</div>
-  );
+	);
 };
 
 export default Analyst;

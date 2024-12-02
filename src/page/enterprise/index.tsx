@@ -56,13 +56,13 @@ const Enterprise: React.FC<Props> = ({}) => {
 							<Button variant="outline" className="bg-slate-400/30" asChild>
 								<Link to={ROUTE.ENTERPRISE_DETAIL.PATH}>
 									<Home className="mr-2 h-4 w-4" />
-									Hồ Sơ Doanh Nghiệp
+									Hồ sơ doanh nghiệp
 								</Link>
 							</Button>
 							<Button variant="outline" asChild>
 								<Link to={ROUTE.ANALYST.PATH}>
 									<Settings className="mr-2 h-4 w-4" />
-									Thông Tin Tài Chính
+									Chỉ sô tài chính
 								</Link>
 							</Button>
 						</div>
