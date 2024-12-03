@@ -1,11 +1,10 @@
 import { Header, SidebarMenu, TableFinancialExtract } from "@/components";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Upload, Button } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { ReadBalanceSheetData } from "@/utils/common";
 import { BalanceSheetModel } from "@/redux/model/balance_sheet";
-
 
 import { AndroidOutlined, AppleOutlined } from "@ant-design/icons";
 import { Tabs } from "antd";
@@ -21,18 +20,17 @@ const AnalystExtract: React.FC<Props> = ({}) => {
   } | null>(null);
 
   const uploadProps = {
-    beforeUpload: (file: File) => {
+    beforeUpload: async (file: File) => {
       // Cập nhật tên file và ngăn chặn upload tự động
       setFileName(file.name);
+      try {
+        const balanceSheet = await ReadBalanceSheetData(file);
 
-      ReadBalanceSheetData(file)
-        .then((balanceSheet) => {
-          setBalanceSheetData(balanceSheet);
-          console.log("Dữ liệu Balance Sheet:", balanceSheet);
-        })
-        .catch((error) => {
-          console.error("Lỗi khi đọc dữ liệu:", error);
-        });
+        setBalanceSheetData(balanceSheet);
+        console.log("Dữ liệu Balance Sheet:", balanceSheet);
+      } catch (error) {
+        console.error("Lỗi khi đọc dữ liệu:", error);
+      }
 
       return false; // Ngăn upload tự động
     },
@@ -45,24 +43,49 @@ const AnalystExtract: React.FC<Props> = ({}) => {
     {
       key: "balance_sheet",
       label: "Bảng cân đối kế toán",
-      children: <TableFinancialExtract  />,
+      children: <TableFinancialExtract balance={balanceSheetData} />,
     },
     {
       key: "income_statement",
       label: "Báo cáo kết quả kinh doanh",
-      children: <TableFinancialExtract  />,
+      children: <TableFinancialExtract />,
     },
     {
       key: "cash_flow",
       label: "Báo cáo lưu chuyển tiền tệ",
-      children: <TableFinancialExtract  />,
+      children: <TableFinancialExtract />,
     },
     {
       key: "indicators",
       label: "Chỉ số tài chính",
-      children: <TableFinancialExtract  />,
+      children: <TableFinancialExtract />,
     },
   ]);
+
+  useEffect(() => {
+    setTabItems([
+      {
+        key: "balance_sheet",
+        label: "Bảng cân đối kế toán",
+        children: <TableFinancialExtract balance={balanceSheetData} />,
+      },
+      {
+        key: "income_statement",
+        label: "Báo cáo kết quả kinh doanh",
+        children: <TableFinancialExtract />,
+      },
+      {
+        key: "cash_flow",
+        label: "Báo cáo lưu chuyển tiền tệ",
+        children: <TableFinancialExtract />,
+      },
+      {
+        key: "indicators",
+        label: "Chỉ số tài chính",
+        children: <TableFinancialExtract />,
+      },
+    ]);
+  }, [balanceSheetData]);
 
   return (
     <div className="w-screen h-svh bg-slate-100 relative overflow-y-scroll">
@@ -88,7 +111,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
         </div>
 
         <div className="mt-10">
-          <Tabs items={tabItems} defaultActiveKey="balance_sheet" />
+          {<Tabs items={tabItems} defaultActiveKey="balance_sheet" />}
         </div>
       </div>
     </div>
