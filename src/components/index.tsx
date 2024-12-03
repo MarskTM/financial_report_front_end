@@ -18,13 +18,15 @@ import TableEnterpriseReport from "./table/table-enterprise-report";
 import TableFinancialReport from "./table/table-financial-report";
 import EnterpriseTable from "./table/table-enterprise";
 import TableBalanceSheet from "./table/table-balance-sheet";
+import TableFinancialExtract from "./table/table-financial-extract";
 
 export {
-	TableEnterpriseReport,
-	TableFinancialReport,
-	TableFinancialReportFavorite,
-	EnterpriseTable,
-	TableBalanceSheet,
+  TableEnterpriseReport,
+  TableFinancialReport,
+  TableFinancialReportFavorite,
+  EnterpriseTable,
+  TableBalanceSheet,
+  TableFinancialExtract,
 };
 
 // ------------------------------ Chart Component-------------------------------

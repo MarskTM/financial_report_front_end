@@ -9,25 +9,25 @@ export const notify = (type: string, data: string) => {
   switch (type) {
     case "success":
       toast.success(data, {
-        position: "bottom-center",
+        position: "top-right",
         bodyStyle: { ...defaultType },
       });
       break;
     case "error":
       toast.error(data, {
-        position: "bottom-center",
+        position: "top-right",
         bodyStyle: { ...defaultType },
       });
       break;
     case "warning":
       toast.warning(data, {
-        position: "bottom-center",
+        position: "top-right",
         bodyStyle: { ...defaultType },
       });
       break;
     case "info":
       toast.info(data, {
-        position: "bottom-center",
+        position: "top-right",
         bodyStyle: { ...defaultType },
       });
       break;

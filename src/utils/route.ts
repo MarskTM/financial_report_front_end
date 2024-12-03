@@ -45,6 +45,10 @@ export const ROUTE = {
     PATH: "/analyst",
     ROLE: [ROLE.ADMIN, ROLE.CLIENT],
   },
+  ANALYST_EXTRACT: {
+    PATH: "/analyst/extract",
+    ROLE: [ROLE.ADMIN, ROLE.CLIENT],
+  },
 
   PROFILE: {
     PATH: "/profile",

@@ -27,42 +27,42 @@ interface Props {
 const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
 	const navigate = useNavigate();
 	const [menuItems, setMenuItem] = useState<Item[]>([
-		{
-			icon: <LayoutDashboard className="h-3 w-3" />,
-			label: 'Tổng Quan',
-			link: ROUTE.HOME.PATH,
-			subItems: [],
-			isActive: false,
-		},
-		{
-			icon: <Table className="h-4 w-4" />,
-			label: 'Tài Chính Kinh Doanh',
-			link: ROUTE.ENTERPRISE.PATH,
-			subItems: [],
-			isActive: false,
-		},
-		{
-			icon: <CreditCard className="h-4 w-4" />,
-			label: 'Tin Tức',
-			link: ROUTE.NEWS.PATH,
-			subItems: [],
-			isActive: false,
-		},
-		// {
-		// 	icon: <Glasses className="h-4 w-4" />,
-		// 	label: 'Phân Tích & Thống Kê',
-		// 	link: ROUTE.ANALYST.PATH,
-		// 	subItems: [],
-		// 	isActive: false,
-		// },
-		// {
-		// 	icon: <CreditCard className="h-4 w-4" />,
-		// 	label: 'Đầu Tư Doanh Nghiệp',
-		// 	link: ROUTE.ENTERPRISE_DETAIL.PATH,
-		// 	subItems: [],
-		// 	isActive: false,
-		// },
-	]);
+    {
+      icon: <LayoutDashboard className="h-3 w-3" />,
+      label: "Tổng Quan",
+      link: ROUTE.HOME.PATH,
+      subItems: [],
+      isActive: false,
+    },
+    {
+      icon: <Table className="h-4 w-4" />,
+      label: "Tài Chính Kinh Doanh",
+      link: ROUTE.ENTERPRISE.PATH,
+      subItems: [],
+      isActive: false,
+    },
+    {
+      icon: <CreditCard className="h-4 w-4" />,
+      label: "Tin Tức",
+      link: ROUTE.NEWS.PATH,
+      subItems: [],
+      isActive: false,
+    },
+    {
+      icon: <Glasses className="h-4 w-4" />,
+      label: "Phân Tích & Thống Kê",
+      link: ROUTE.ANALYST_EXTRACT.PATH,
+      subItems: [],
+      isActive: false,
+    },
+    // {
+    // 	icon: <CreditCard className="h-4 w-4" />,
+    // 	label: 'Đầu Tư Doanh Nghiệp',
+    // 	link: ROUTE.ENTERPRISE_DETAIL.PATH,
+    // 	subItems: [],
+    // 	isActive: false,
+    // },
+  ]);
 
 	const [adminMenuItems, setAdminMenuItems] = useState<Item[]>([
 		{
