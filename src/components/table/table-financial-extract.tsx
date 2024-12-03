@@ -2,13 +2,9 @@ import {
   BalanceSheetModel,
   FieldBalanceDefinitions,
 } from "@/redux/model/balance_sheet";
-import { CashFlowModel } from "@/redux/model/cash_flow";
-import { IncomeStatementModel } from "@/redux/model/income_statement";
 
-import React, { useState } from "react";
-import { Space, Table, Tag } from "antd";
-import type { ColumnsType } from "antd/es/table";
-import { title } from "process";
+import React from "react";
+import { Table } from "antd";
 
 interface Props {
   balance?: {
