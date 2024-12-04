@@ -15,49 +15,6 @@ function getFieldNameByVietnameseDescription(
   return undefined;
 }
 
-// export function ReadBalanceSheetData(filePath: string): {
-//   [year: string]: BalanceSheetModel;
-// } {
-//   const workbook = XLSX.readFile(filePath);
-//   const sheetName = workbook.SheetNames[0];
-//   const worksheet = workbook.Sheets[sheetName];
-
-//   const sheetData = XLSX.utils.sheet_to_json(worksheet, {
-//     header: 1,
-//   }) as any[][];
-
-//   const years = sheetData[0].slice(1); // Lấy danh sách năm từ dòng đầu tiên, bỏ qua cột đầu
-//   const balanceSheetDataByYear: { [year: string]: BalanceSheetModel } = {};
-
-//   // Khởi tạo đối tượng cho mỗi năm
-//   years.forEach((year: string) => {
-//     balanceSheetDataByYear[year] = {} as BalanceSheetModel;
-//   });
-
-//   for (let i = 8; i < sheetData.length; i++) { // bắt đầu từ dòng số 8
-//     const row = sheetData[i];
-//     const vietnameseDescription = row[0];
-
-//     const fieldName = getFieldNameByVietnameseDescription(
-//       vietnameseDescription
-//     );
-
-//     if (fieldName) {
-//       for (let j = 1; j < row.length; j++) {
-//         const dataValue = row[j];
-//         const parsedValue = parseFloat(dataValue) || 0;
-//         const year = years[j - 1];
-
-//         balanceSheetDataByYear[year][fieldName] = parsedValue;
-//       }
-//     } else {
-//       console.warn(`Không tìm thấy trường cho mô tả: ${vietnameseDescription}`);
-//     }
-//   }
-
-//   return balanceSheetDataByYear;
-// }
-
 export function ReadBalanceSheetData(
   file: File
 ): Promise<{ [year: string]: BalanceSheetModel }> {
@@ -74,21 +31,23 @@ export function ReadBalanceSheetData(
           header: 1,
         }) as any[][];
 
-        const years = sheetData[7].slice(1); // Lấy danh sách năm từ dòng đầu tiên, bỏ qua cột đầu
+        const years = sheetData[3].slice(1); // Lấy danh sách năm từ dòng đầu tiên, bỏ qua cột đầu
         const balanceSheetDataByYear: { [year: string]: BalanceSheetModel } =
           {};
+
+        // console.log(sheetData);
 
         // Khởi tạo đối tượng cho mỗi năm
         years.forEach((year: string) => {
           balanceSheetDataByYear[year] = {} as BalanceSheetModel;
         });
-
+        // console.log(years);
         // const balanceSheetData: BalanceSheetModel = {} as BalanceSheetModel;
 
         for (let i = 0; i < sheetData.length; i++) {
           const row = sheetData[i];
           const vietnameseDescription = row[0];
-          const dataValue = row[1];
+          const id = row[1];
 
           const fieldName = getFieldNameByVietnameseDescription(
             vietnameseDescription
