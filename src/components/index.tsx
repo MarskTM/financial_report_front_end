@@ -18,7 +18,12 @@ import TableEnterpriseReport from "./table/table-enterprise-report";
 import TableFinancialReport from "./table/table-financial-report";
 import EnterpriseTable from "./table/table-enterprise";
 import TableBalanceSheet from "./table/table-balance-sheet";
-import TableFinancialExtract from "./table/table-financial-extract";
+import {
+  TableFinancialExtract,
+  BalanceSheetTable,
+  IncomeStatementTable,
+  CashFlowTable,
+} from "./table/table-financial-extract";
 
 export {
   TableEnterpriseReport,
@@ -26,15 +31,26 @@ export {
   TableFinancialReportFavorite,
   EnterpriseTable,
   TableBalanceSheet,
+
+  // -------------------------------
   TableFinancialExtract,
+  BalanceSheetTable,
+  IncomeStatementTable,
+  CashFlowTable,
 };
 
 // ------------------------------ Chart Component-------------------------------
 import HealthyEnterpriseChart from "./chart/healthy-enterprise-chart";
 import StockChart from "./chart/stock-chart";
 import DashboardChartBar from "./chart/dashboard-chart-bar";
+import FinancialChartOverview from "./chart/financial-chart-overview";
 
-export { HealthyEnterpriseChart, StockChart, DashboardChartBar };
+export {
+  HealthyEnterpriseChart,
+  StockChart,
+  DashboardChartBar,
+  FinancialChartOverview,
+};
 
 // ------------------------------ Tiding Component-------------------------------
 import TidingCard from "./card/enterprise-tidings";
@@ -57,6 +73,7 @@ export {
 	HistoricalTimeline,
 	SidebarTrending,
 	FinancialReportDetail,
+  DialogSearch,
 };
 
 // ------------------------------ Profile Component-------------------------------
