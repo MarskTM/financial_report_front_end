@@ -19,24 +19,26 @@ import TableFinancialReport from "./table/table-financial-report";
 import EnterpriseTable from "./table/table-enterprise";
 import TableBalanceSheet from "./table/table-balance-sheet";
 import {
-  TableFinancialExtract,
-  BalanceSheetTable,
-  IncomeStatementTable,
-  CashFlowTable,
-} from "./table/table-financial-extract";
+	TableFinancialExtract,
+	BalanceSheetTable,
+	IncomeStatementTable,
+	CashFlowTable,
+	FinancialAnalysisTable,
+} from './table/table-financial-extract';
 
 export {
-  TableEnterpriseReport,
-  TableFinancialReport,
-  TableFinancialReportFavorite,
-  EnterpriseTable,
-  TableBalanceSheet,
+	TableEnterpriseReport,
+	TableFinancialReport,
+	TableFinancialReportFavorite,
+	EnterpriseTable,
+	TableBalanceSheet,
 
-  // -------------------------------
-  TableFinancialExtract,
-  BalanceSheetTable,
-  IncomeStatementTable,
-  CashFlowTable,
+	// -------------------------------
+	TableFinancialExtract,
+	BalanceSheetTable,
+	IncomeStatementTable,
+	CashFlowTable,
+	FinancialAnalysisTable,
 };
 
 // ------------------------------ Chart Component-------------------------------

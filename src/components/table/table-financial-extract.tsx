@@ -12,6 +12,10 @@ import {
   FieldIncomeDefinitions,
   IncomeStatementModel,
 } from "@/redux/model/income_statement";
+import {
+	FinancialAnalysisModel,
+	FieldFinancialAnalysisModel,
+} from '@/redux/model/financial_report';
 
 interface Props<T> {
   data?: { [year: string]: T } | null;
@@ -127,4 +131,16 @@ export const IncomeStatementTable = ({
   />
 );
 
-export default IncomeStatementTable;
+export const FinancialAnalysisTable = ({
+	data,
+	maxCol,
+}: {
+	data: { [year: string]: FinancialAnalysisModel } | null;
+	maxCol?: number;
+}) => (
+	<TableFinancialExtract<FinancialAnalysisModel>
+		data={data}
+		fieldDefinitions={FieldFinancialAnalysisModel}
+		maxCol={maxCol}
+	/>
+);
