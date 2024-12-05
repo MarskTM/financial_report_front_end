@@ -3,7 +3,11 @@ import { Header, SidebarMenu, FinancialChartOverview } from '@/components';
 import React, { useEffect, useState } from 'react';
 import { Upload, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { ReadExcelData, CalculateFinancialAnalysis } from '@/utils/common';
+import {
+	ReadExcelData,
+	CalculateFinancialAnalysis,
+	SortByQuarterAndYearASC,
+} from '@/utils/common';
 
 import { BalanceSheetModel } from '@/redux/model/balance_sheet';
 import { CashFlowModel } from '@/redux/model/cash_flow';
@@ -14,7 +18,6 @@ import {
 	BalanceSheetTable,
 	IncomeStatementTable,
 	CashFlowTable,
-	TableFinancialExtract,
 	FinancialAnalysisTable,
 } from '@/components';
 
@@ -26,14 +29,14 @@ interface Props {}
 
 // Stock price map theo từng quý
 const StockPriceMap: { [quarter: string]: number } = {
-  "Q1 2023": 39884.95970441841,
-  "Q2 2023": 39209.58776566245,
-  "Q3 2023": 40603.824651699346,
-  "Q4 2023": 39212.253015420116,
-  "Q1 2024": 49636.4406779661,
-  "Q2 2024": 48162.903225806454,
-  "Q3 2024": 48467.2131147541,
-  "Q4 2024": 47841.0,
+	'Q1 2023': 39884.95970441841,
+	'Q2 2023': 39209.58776566245,
+	'Q3 2023': 40603.824651699346,
+	'Q4 2023': 39212.253015420116,
+	'Q1 2024': 49636.4406779661,
+	'Q2 2024': 48162.903225806454,
+	'Q3 2024': 48467.2131147541,
+	'Q4 2024': 47841.0,
 };
 
 const OutstandingSharesMap: { [year: string]: number } = {
@@ -69,16 +72,22 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 			// Cập nhật tên file và ngăn chặn upload tự động
 			setFileName(file.name);
 			try {
-				const financialReport = await ReadExcelData(file);
+				let financialReport = await ReadExcelData(file);
+				financialReport = {
+					balanceSheet: SortByQuarterAndYearASC(financialReport?.balanceSheet),
+					cashFlow: SortByQuarterAndYearASC(financialReport?.cashFlow),
+					incomeStatement: SortByQuarterAndYearASC(financialReport?.incomeStatement),
+				};
+        setFinancialReportData(financialReport);
 
-				const financialAnalysisData = CalculateFinancialAnalysis(
+				let financialAnalysisData = CalculateFinancialAnalysis(
 					{ ...financialReport },
 					StockPriceMap,
 					OutstandingSharesMap,
 				);
+				financialAnalysisData = SortByQuarterAndYearASC(financialAnalysisData);
+				setFinancialAnalysis(financialAnalysisData);
 
-				setFinancialReportData(financialReport);
-        setFinancialAnalysis(financialAnalysisData);
 				console.log('Dữ liệu Balance Sheet:', financialReport);
 			} catch (error) {
 				console.error('Lỗi khi đọc dữ liệu:', error);

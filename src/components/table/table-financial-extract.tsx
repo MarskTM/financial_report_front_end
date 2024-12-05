@@ -50,7 +50,7 @@ export const TableFinancialExtract = <T,>({
     return row;
   });
 
-  const sortedColumns = Object.keys(data || {}).sort(); // Sắp xếp theo thứ tự tăng dần
+  const sortedColumns = Object.keys(data || {})
   const columns = [
     {
       title: "Chỉ tiêu",

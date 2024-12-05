@@ -292,3 +292,62 @@ export function CalculateFinancialAnalysis(
 
 	return result;
 }
+
+
+export function SortByQuarterAndYearASC<T>(data: { [quarter: string]: T }): {
+	[quarter: string]: T;
+} {
+	const quarterOrder: Record<'Q1' | 'Q2' | 'Q3' | 'Q4', number> = {
+		Q1: 1,
+		Q2: 2,
+		Q3: 3,
+		Q4: 4,
+	};
+
+	// Sắp xếp theo năm trước, sau đó đến quý
+	const sortedEntries = Object.entries(data).sort(([keyA], [keyB]) => {
+		// Tách năm và quý từ các key
+		const [quarterA, yearA] = keyA.split(' ');
+		const [quarterB, yearB] = keyB.split(' ');
+
+		// So sánh năm
+		const yearComparison = parseInt(yearA) - parseInt(yearB);
+		if (yearComparison !== 0) {
+			return yearComparison;
+		}
+
+		// Nếu cùng năm, so sánh thứ tự quý
+		return (
+			quarterOrder[quarterA as 'Q1' | 'Q2' | 'Q3' | 'Q4'] -
+			quarterOrder[quarterB as 'Q1' | 'Q2' | 'Q3' | 'Q4']
+		);
+	});
+
+	// Chuyển mảng đã sắp xếp về lại đối tượng
+	return Object.fromEntries(sortedEntries);
+}
+
+
+export function ConvertCurrency(
+	amount: number,
+	targetUnit: 'trieu' | 'ty' | 'nghin_ty' = 'trieu',
+): string {
+	// Đơn vị chuyển đổi
+	const conversionRates: Record<'trieu' | 'ty' | 'nghin_ty', number> = {
+		trieu: 1_000_000, // 1 triệu = 1,000,000 VND
+		ty: 1_000_000_000, // 1 tỷ = 1,000,000,000 VND
+		nghin_ty: 1_000_000_000_000, // 1 nghìn tỷ = 1,000,000,000,000 VND
+	};
+
+	// Chuyển đổi giá trị
+	const convertedValue = amount / conversionRates[targetUnit];
+
+	// Format kết quả với 2 chữ số thập phân
+	return `${convertedValue.toFixed(2)} ${
+		targetUnit === 'trieu'
+			? 'triệu đồng'
+			: targetUnit === 'ty'
+			? 'tỷ đồng'
+			: 'nghìn tỷ đồng'
+	}`;
+}
