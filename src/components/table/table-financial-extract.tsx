@@ -57,6 +57,7 @@ export const TableFinancialExtract = <T,>({
       dataIndex: "name",
       key: "name",
       fixed: "left" as const,
+      render: (value: string) => <button className="w-80 text-left">{value}</button>,
     },
     ...sortedColumns.slice(-maxColumns).map((quarter) => ({
       title: quarter,
@@ -131,16 +132,16 @@ export const IncomeStatementTable = ({
   />
 );
 
-export const FinancialAnalysisTable = ({
-	data,
-	maxCol,
-}: {
-	data: { [year: string]: FinancialAnalysisModel } | null;
-	maxCol?: number;
-}) => (
-	<TableFinancialExtract<FinancialAnalysisModel>
-		data={data}
-		fieldDefinitions={FieldFinancialAnalysisModel}
-		maxCol={maxCol}
-	/>
-);
+// export const FinancialAnalysisTable = ({
+// 	data,
+// 	maxCol,
+// }: {
+// 	data: { [year: string]: FinancialAnalysisModel } | null;
+// 	maxCol?: number;
+// }) => (
+// 	<TableFinancialExtract<FinancialAnalysisModel>
+// 		data={data}
+// 		fieldDefinitions={FieldFinancialAnalysisModel}
+// 		maxCol={maxCol}
+// 	/>
+// );

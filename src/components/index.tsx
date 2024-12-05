@@ -13,32 +13,32 @@ import Header from "./header/header-dashboard";
 export { SidebarMenu, Header };
 
 // ------------------------------ Table Component-------------------------------
-import TableFinancialReportFavorite from './table/table-financial-report-favorite';
+import TableFinancialReportFavorite from "./table/table-financial-report-favorite";
 import TableEnterpriseReport from "./table/table-enterprise-report";
 import TableFinancialReport from "./table/table-financial-report";
 import EnterpriseTable from "./table/table-enterprise";
 import TableBalanceSheet from "./table/table-balance-sheet";
 import {
-	TableFinancialExtract,
-	BalanceSheetTable,
-	IncomeStatementTable,
-	CashFlowTable,
-	FinancialAnalysisTable,
-} from './table/table-financial-extract';
+  TableFinancialExtract,
+  BalanceSheetTable,
+  IncomeStatementTable,
+  CashFlowTable,
+//   FinancialAnalysisTable,
+} from "./table/table-financial-extract";
 
 export {
-	TableEnterpriseReport,
-	TableFinancialReport,
-	TableFinancialReportFavorite,
-	EnterpriseTable,
-	TableBalanceSheet,
+  TableEnterpriseReport,
+  TableFinancialReport,
+  TableFinancialReportFavorite,
+  EnterpriseTable,
+  TableBalanceSheet,
 
-	// -------------------------------
-	TableFinancialExtract,
-	BalanceSheetTable,
-	IncomeStatementTable,
-	CashFlowTable,
-	FinancialAnalysisTable,
+  // -------------------------------
+  TableFinancialExtract,
+  BalanceSheetTable,
+  IncomeStatementTable,
+  CashFlowTable,
+//   FinancialAnalysisTable,
 };
 
 // ------------------------------ Chart Component-------------------------------
@@ -67,16 +67,22 @@ import StatsCard from "./card/starts-card";
 
 import HistoricalTimeline from "./time-line/historical-time-line";
 import SidebarTrending from "./sidebar/sidebar_trending";
-import FinancialReportDetail from './financial-report/financial-report-detail';
+import FinancialReportDetail from "./financial-report/financial-report-detail";
 import DialogSearch from "./search/dialog_search";
 
 export {
-	StatsCard,
-	HistoricalTimeline,
-	SidebarTrending,
-	FinancialReportDetail,
+  StatsCard,
+  HistoricalTimeline,
+  SidebarTrending,
+  FinancialReportDetail,
   DialogSearch,
 };
+
+// ------------------------------ Analysis Component-------------------------------
+import FinancialExtractAnalysis from "./financial-report/financial-extract-analysis";
+
+export { FinancialExtractAnalysis };
+
 
 // ------------------------------ Profile Component-------------------------------
 import RelationInfor from "./profile/relation-infor";
