@@ -25,7 +25,7 @@ ChartJS.register(
 );
 
 // Hàm trả về biểu đồ
-export default function DividendIndexChart({
+export default function ValuationIndexChart({
   data,
   unit,
 }: {
@@ -35,7 +35,7 @@ export default function DividendIndexChart({
   const chartData = processChartData(data);
 
   return (
-    <div className="mt-12">
+    <div className="mt-5">
       <Chart
         type="bar"
         data={chartData}
@@ -47,7 +47,7 @@ export default function DividendIndexChart({
             },
             title: {
               display: true,
-              text: "BIỂU ĐỒ CHỈ SỐ CỔ TỨC TRÊN MỖI CỔ PHIẾU",
+              text: "BIỂU ĐỒ CHỈ SỐ ĐỊNH GIÁ",
             },
           },
           scales: {
@@ -56,7 +56,7 @@ export default function DividendIndexChart({
               position: "left",
               title: {
                 display: true,
-                text: "P/E",
+                text: unit,
               },
             },
             y1: {
@@ -67,7 +67,7 @@ export default function DividendIndexChart({
               },
               title: {
                 display: true,
-                text: "P/B",
+                text: "Khối lượng lưu hành",
               },
             },
           },
@@ -90,34 +90,51 @@ function processChartData(
 
   // Lấy danh sách năm (labels) và giá trị tương ứng (datasets)
   const labels = Object.keys(data);
-  // Chuyển P/E và P/B về dạng phần trăm bằng cách nhân với 100
-  const peDataset = labels.map((year) =>
-    data[year]?.pe != null ? data[year].pe * 100 : null
-  ); // P/E values in percentage
-  const pbDataset = labels.map((year) =>
-    data[year]?.pb != null ? data[year].pb * 100 : null
-  ); // P/B values in percentage
+
+  const totalAssetData = labels.map((year) =>
+    data[year]?.total_assets != null ? data[year].total_assets : null
+  );
+  const totalLiabilitieData = labels.map((year) =>
+    data[year]?.total_liabilities != null ? data[year].total_liabilities : null
+  );
+  const outstandingShareData = labels.map((year) =>
+    data[year]?.outstanding_shares != null
+      ? data[year].outstanding_shares
+      : null
+  );
 
   return {
     labels,
     datasets: [
       {
-        type: "line",
-        label: "P/E",
-        data: peDataset,
-        borderColor: "#c45850",
-        backgroundColor: "#c45850",
-        tension: 0.4,
-        yAxisID: "y", // Trục y1 sử dụng cho dữ liệu P/E và P/B
+        type: "bar",
+        label: "Tổng tài sản",
+        data: totalAssetData,
+        borderColor: "#8ad7c6",
+        backgroundColor: "#8ad7c6",
+        yAxisID: "y",
+        order: 3,
+      },
+      {
+        type: "bar",
+        label: "Tổng nợ",
+        data: totalLiabilitieData,
+        borderColor: "#6c7b9c",
+        backgroundColor: "#6c7b9c",
+        yAxisID: "y",
+        order: 2,
       },
       {
         type: "line",
-        label: "P/B",
-        data: pbDataset,
-        borderColor: "#e8c3b9",
-        backgroundColor: "#e8c3b9",
-        tension: 0.4,
-        yAxisID: "y1", // Trục y1 sử dụng cho dữ liệu P/E và P/B
+        label: "Khối lượng",
+        data: outstandingShareData,
+        borderColor: "#78c0ff",
+        backgroundColor: "#78c0ff",
+        yAxisID: "y1",
+        order: 1, // Biểu đồ đường được vẽ sau cùng
+        tension: 0.3, // Làm đường cong mềm mại
+        pointRadius: 2, // Tăng kích thước các điểm
+        clip: false, // Ngăn không cho cắt bởi biểu đồ khác
       },
     ],
   };

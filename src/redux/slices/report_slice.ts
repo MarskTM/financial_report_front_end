@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { FinancialReport } from "../model/financial_report";
+import { FinancialReportModel } from "../model/financial_report";
 
 // ------------------------------- Slice ---------------------------------
 export interface FinancialReportState {
   quarter: number;
   period: number;
   year: number;
-  report: FinancialReport  | null;
+  report: FinancialReportModel | null;
 }
 
 const initialState: FinancialReportState = {

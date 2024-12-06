@@ -152,15 +152,15 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 			ConvertFinancialReportData(financialReportData, conversionUnit);
 
 		setTabItems([
-			{
-				key: 'report_chart',
-				label: 'Biểu đồ',
-				children: (
-					<div>
-						<FinancialChartOverview />
-					</div>
-				),
-			},
+			// {
+			// 	key: 'report_chart',
+			// 	label: 'Biểu đồ',
+			// 	children: (
+			// 		<div>
+			// 			<FinancialChartOverview />
+			// 		</div>
+			// 	),
+			// },
 			{
 				key: 'balance_sheet',
 				label: 'Bảng cân đối kế toán',
