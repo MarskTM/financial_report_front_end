@@ -46,8 +46,11 @@ import HealthyEnterpriseChart from "./chart/healthy-enterprise-chart";
 import StockChart from "./chart/stock-chart";
 import DashboardChartBar from "./chart/dashboard-chart-bar";
 import FinancialChartOverview from "./chart/financial-chart-overview";
+import DividendIndexChart from './chart/chart-dividend-index';
 
 export {
+  DividendIndexChart,
+
   HealthyEnterpriseChart,
   StockChart,
   DashboardChartBar,

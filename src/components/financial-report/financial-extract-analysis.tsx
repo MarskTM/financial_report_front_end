@@ -1,31 +1,60 @@
-import React from "react";
+import React, { useState } from 'react';
 import {
-  FinancialAnalysisModel,
-  FieldFinancialAnalysisModel,
-} from "@/redux/model/financial_report";
-import { TableFinancialExtract } from "@/components";
+	FinancialAnalysisModel,
+	FieldFinancialAnalysisModel,
+} from '@/redux/model/financial_report';
+import { TableFinancialExtract, DividendIndexChart } from '@/components';
+import { ConvertFinancialAnalystData } from '@/utils/common';
+
 
 interface Props {
-  data: { [year: string]: FinancialAnalysisModel } | null;
-  maxCol?: number;
+	data: { [year: string]: FinancialAnalysisModel } | null;
+  unit: string;
+	maxCol?: number;
+	quarter?: string;
+	reportYear?: string;
 }
 
-const FinancialExtractAnalysis: React.FC<Props> = ({ data, maxCol }) => {
-  return (
-    <div className="flex flex-row bg-white">
-      <div className="w-1/2 p-2">
-        <TableFinancialExtract<FinancialAnalysisModel>
-          data={data}
-          fieldDefinitions={FieldFinancialAnalysisModel}
-          maxCol={maxCol}
-        />
-      </div>
+const FinancialExtractAnalysis: React.FC<Props> = ({
+	data,
+	maxCol,
+	quarter,
+	reportYear,
+	unit,
+}) => {
 
-      <div className="w-1/2">
+  const conversionUnit =
+		unit === 'Đồng'
+			? 'dong'
+			: unit === 'Triệu đồng'
+			? 'trieu'
+			: unit === 'Tỉ đồng'
+			? 'ty'
+			: 'nghin_ty';
+  let dataWithUnit = data && ConvertFinancialAnalystData(data, conversionUnit);
 
-      </div>
-    </div>
-  );
+	return (
+		<div className="flex flex-row bg-white justify-between ">
+			<div className={`${data != null ? 'w-3/5' : 'w-full'}`}>
+				<TableFinancialExtract<FinancialAnalysisModel>
+					data={dataWithUnit}
+					fieldDefinitions={FieldFinancialAnalysisModel}
+					maxCol={maxCol}
+					quarter={quarter}
+					reportYear={reportYear}
+				/>
+			</div>
+
+			{data != null ? (
+				// Biểu đồ cho nhóm chỉ số định giá
+				<div className="w-2/5 px-10 pt-10">
+					<DividendIndexChart data={data} unit={unit} />
+				</div>
+			) : (
+				<></>
+			)}
+		</div>
+	);
 };
 
 export default FinancialExtractAnalysis;

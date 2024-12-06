@@ -293,7 +293,6 @@ export function CalculateFinancialAnalysis(
 	return result;
 }
 
-
 export function SortByQuarterAndYearASC<T>(data: { [quarter: string]: T }): {
 	[quarter: string]: T;
 } {
@@ -327,13 +326,21 @@ export function SortByQuarterAndYearASC<T>(data: { [quarter: string]: T }): {
 	return Object.fromEntries(sortedEntries);
 }
 
+// ------------------------------------------------------------------------------------------------
+
+type FinancialReportData = {
+	balanceSheet: { [year: string]: BalanceSheetModel };
+	cashFlow: { [year: string]: CashFlowModel };
+	incomeStatement: { [year: string]: IncomeStatementModel };
+};
 
 export function ConvertCurrency(
 	amount: number,
-	targetUnit: 'trieu' | 'ty' | 'nghin_ty' = 'trieu',
-): string {
+	targetUnit: 'dong' | 'trieu' | 'ty' | 'nghin_ty' = 'trieu',
+): number {
 	// Đơn vị chuyển đổi
-	const conversionRates: Record<'trieu' | 'ty' | 'nghin_ty', number> = {
+	const conversionRates: Record<'dong' | 'trieu' | 'ty' | 'nghin_ty', number> = {
+		dong: 1, // VND
 		trieu: 1_000_000, // 1 triệu = 1,000,000 VND
 		ty: 1_000_000_000, // 1 tỷ = 1,000,000,000 VND
 		nghin_ty: 1_000_000_000_000, // 1 nghìn tỷ = 1,000,000,000,000 VND
@@ -342,12 +349,61 @@ export function ConvertCurrency(
 	// Chuyển đổi giá trị
 	const convertedValue = amount / conversionRates[targetUnit];
 
-	// Format kết quả với 2 chữ số thập phân
-	return `${convertedValue.toFixed(2)} ${
-		targetUnit === 'trieu'
-			? 'triệu đồng'
-			: targetUnit === 'ty'
-			? 'tỷ đồng'
-			: 'nghìn tỷ đồng'
-	}`;
+	// Trả về giá trị dạng số
+	return parseFloat(convertedValue.toFixed(2)); // Đảm bảo làm tròn đến 2 chữ số thập phân
+}
+
+/**
+ * Chuyển đổi toàn bộ dữ liệu của một object model bằng cách duyệt qua các trường.
+ */
+export function ConvertModel<T extends Record<string, any>>(
+	data: { [year: string]: T },
+	unit: 'dong' | 'trieu' | 'ty' | 'nghin_ty',
+): { [year: string]: T } {
+	return Object.fromEntries(
+		Object.entries(data).map(([period, fields]) => [
+			period,
+			Object.fromEntries(
+				Object.entries(fields).map(([key, value]) => [
+					key,
+					typeof value === 'number' ? ConvertCurrency(value, unit) : value,
+				]),
+			),
+		]),
+	) as { [year: string]: T };
+}
+
+export function ConvertFinancialReportData(
+	reportData: FinancialReportData,
+	unit: 'dong' | 'trieu' | 'ty' | 'nghin_ty',
+): FinancialReportData {
+	return {
+		balanceSheet: ConvertModel(reportData.balanceSheet, unit),
+		cashFlow: ConvertModel(reportData.cashFlow, unit),
+		incomeStatement: ConvertModel(reportData.incomeStatement, unit),
+	};
+}
+
+
+export function ConvertFinancialAnalystData<T extends Record<string, any>>(
+	data: { [year: string]: T },
+	unit: 'dong' | 'trieu' | 'ty' | 'nghin_ty',
+): { [year: string]: T } {
+	// Danh sách các chỉ số cần chuyển đổi
+	const convertibleFields = ['net_income', 'total_assets', 'total_liabilities'];
+
+	return Object.fromEntries(
+		Object.entries(data).map(([period, fields]) => [
+			period,
+			Object.fromEntries(
+				Object.entries(fields).map(([key, value]) => [
+					key,
+					// Chỉ chuyển đổi nếu key nằm trong danh sách cần chuyển đổi
+					convertibleFields.includes(key) && typeof value === 'number'
+						? ConvertCurrency(value, unit)
+						: value,
+				]),
+			),
+		]),
+	) as { [year: string]: T };
 }
