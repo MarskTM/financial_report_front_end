@@ -48,7 +48,8 @@ const FinancialExtractAnalysis: React.FC<Props> = ({
 			{data != null ? (
 				// Biểu đồ cho nhóm chỉ số định giá
 				<div className="w-2/5 px-10 pt-10">
-					<DividendIndexChart data={data} unit={unit} />
+					<DividendIndexChart data={dataWithUnit} unit={unit} />
+					<DividendIndexChart data={dataWithUnit} unit={unit} />
 				</div>
 			) : (
 				<></>

@@ -1,6 +1,4 @@
-import {
-	FinancialAnalysisModel,
-} from '@/redux/model/financial_report';
+import { FinancialAnalysisModel } from '@/redux/model/financial_report';
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -89,33 +87,25 @@ function processChartData(
 
 	// Lấy danh sách năm (labels) và giá trị tương ứng (datasets)
 	const labels = Object.keys(data);
-	const epsDataset = labels.map((year) => data[year]?.eps ?? null); // EPS values
-	const bvpsDataset = labels.map((year) => data[year]?.bvps ?? null); // BVPS values
-	const peDataset = labels.map((year) => data[year]?.pe ?? null); // P/E values
-	const pbDataset = labels.map((year) => data[year]?.pb ?? null); // P/B values
+	// Chuyển P/E và P/B về dạng phần trăm bằng cách nhân với 100
+	const peDataset = labels.map((year) =>
+		data[year]?.pe != null ? data[year].pe * 100 : null,
+	); // P/E values in percentage
+	const pbDataset = labels.map((year) =>
+		data[year]?.pb != null ? data[year].pb * 100 : null,
+	); // P/B values in percentage
 
 	return {
 		labels,
 		datasets: [
-			{
-				type: 'bar',
-				label: 'EPS',
-				data: epsDataset,
-				backgroundColor: '#3e95cd',
-			},
-			{
-				type: 'bar',
-				label: 'BVPS',
-				data: bvpsDataset,
-				backgroundColor: '#8e5ea2',
-			},
 			{
 				type: 'line',
 				label: 'P/E',
 				data: peDataset,
 				borderColor: '#e8c3b9',
 				backgroundColor: '#e8c3b9',
-				tension: 0.6,
+				tension: 0.4,
+				yAxisID: 'y1', // Trục y1 sử dụng cho dữ liệu P/E và P/B
 			},
 			{
 				type: 'line',
@@ -123,7 +113,8 @@ function processChartData(
 				data: pbDataset,
 				borderColor: '#c45850',
 				backgroundColor: '#c45850',
-				tension: 0.6,
+				tension: 0.4,
+				yAxisID: 'y1', // Trục y1 sử dụng cho dữ liệu P/E và P/B
 			},
 		],
 	};

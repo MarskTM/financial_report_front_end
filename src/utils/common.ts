@@ -390,7 +390,13 @@ export function ConvertFinancialAnalystData<T extends Record<string, any>>(
 	unit: 'dong' | 'trieu' | 'ty' | 'nghin_ty',
 ): { [year: string]: T } {
 	// Danh sách các chỉ số cần chuyển đổi
-	const convertibleFields = ['net_income', 'total_assets', 'total_liabilities'];
+	const convertibleFields = [
+		'net_income',
+		'total_assets',
+		'total_liabilities',
+		'eps',
+		'bvps',
+	];
 
 	return Object.fromEntries(
 		Object.entries(data).map(([period, fields]) => [
