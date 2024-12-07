@@ -54,6 +54,12 @@ export const ROUTE = {
     PATH: "/profile",
     ROLE: [ROLE.ADMIN, ROLE.CLIENT],
   },
+
+  ADMIN_INFO: {
+    PATH: "/home/admin_info",
+    ROLE: [ROLE.ADMIN, ROLE.CLIENT],
+  },
+
   ERROR: {
     PATH: "/error",
   },

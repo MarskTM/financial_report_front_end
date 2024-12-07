@@ -68,7 +68,7 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
 		{
 			icon: <LayoutDashboard className="h-3 w-3" />,
 			label: 'Thông Số Hệ Thống',
-			link: ROUTE.HOME.PATH,
+			link: ROUTE.ADMIN_INFO.PATH,
 			subItems: [],
 			isActive: false,
 		},

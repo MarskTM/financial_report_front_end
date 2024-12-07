@@ -111,54 +111,54 @@ function processChartData(
   ); // NIM (Tỷ lệ thu nhập lãi thuần)
 
   return {
-    labels,
-    datasets: [
-      {
-        type: "bar",
-        label: "ROAA",
-        data: roaData,
-        borderColor: "#ffc94b",
-        backgroundColor: "#ffc94b",
-        yAxisID: "y", 
-        order: 2,
-      },
-      {
-        type: "line",
-        label: "YOEA",
-        data: yoeaData,
-        borderColor: "#bcbfc6",
-        backgroundColor: "#bcbfc6",
-        yAxisID: "y1", 
-        order: 3,
-      },
-      {
-        type: "bar",
-        label: "COF",
-        data: cofData,
-        borderColor: "#ffa0b4",
-        backgroundColor: "#ffa0b4",
-        yAxisID: "y", 
-        order: 4,
-      },
-      {
-        type: "bar",
-        label: "NIM",
-        data: nimData,
-        borderColor: "#e6d9ff",
-        backgroundColor: "#e6d9ff",
-        yAxisID: "y", 
-        order: 5,
-      },
-      {
-        type: "bar",
-        label: "ROEA",
-        data: roeData,
-        borderColor: "#cdebff",
-        backgroundColor: "#cdebff",
-        order: 1,
-        yAxisID: "y", 
-        clip: false, // Ngăn không cho cắt bởi biểu đồ khác
-      },
-    ],
+		labels,
+		datasets: [
+			{
+				type: 'bar',
+				label: 'ROAA',
+				data: roaData,
+				borderColor: '#ffc94b',
+				backgroundColor: '#ffc94b',
+				yAxisID: 'y',
+				order: 5,
+			},
+			{
+				type: 'line',
+				label: 'YOEA',
+				data: yoeaData,
+				borderColor: '#bcbfc6',
+				backgroundColor: '#bcbfc6',
+				yAxisID: 'y1',
+				order: 1,
+				clip: false, // Ngăn không cho cắt bởi biểu đồ khác
+			},
+			{
+				type: 'bar',
+				label: 'COF',
+				data: cofData,
+				borderColor: '#ffa0b4',
+				backgroundColor: '#ffa0b4',
+				yAxisID: 'y',
+				order: 3,
+			},
+			{
+				type: 'bar',
+				label: 'NIM',
+				data: nimData,
+				borderColor: '#e6d9ff',
+				backgroundColor: '#e6d9ff',
+				yAxisID: 'y',
+				order: 4,
+			},
+			{
+				type: 'bar',
+				label: 'ROEA',
+				data: roeData,
+				borderColor: '#cdebff',
+				backgroundColor: '#cdebff',
+				order: 2,
+				yAxisID: 'y',
+			},
+		],
   };
 }

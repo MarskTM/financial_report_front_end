@@ -162,7 +162,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 			// 	),
 			// },
 			{
-				key: 'balance_sheet',
+				key: '1',
 				label: 'Bảng cân đối kế toán',
 				children: (
 					<div>
@@ -174,7 +174,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 				),
 			},
 			{
-				key: 'income_statement',
+				key: '2',
 				label: 'Báo cáo kết quả kinh doanh',
 				children: (
 					<IncomeStatementTable
@@ -184,7 +184,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 				),
 			},
 			{
-				key: 'cash_flow',
+				key: '3',
 				label: 'Báo cáo lưu chuyển tiền tệ',
 				children: (
 					<CashFlowTable
@@ -194,7 +194,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 				),
 			},
 			{
-				key: 'indicators',
+				key: '4',
 				label: 'Chỉ số tài chính',
 				children: (
 					<div>
@@ -209,7 +209,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 				),
 			},
 			{
-				key: 'forecast',
+				key: '5',
 				label: 'Dự Đoán',
 				children: <div></div>,
 			},
@@ -245,7 +245,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 			</div>
 
 			{/* Page Content */}
-			<div className="w-[83%] h-full pt-32 mb-10 ml-72 pl-2 z-40">
+			<div className="w-[83%] h-full pt-28 mb-10 ml-72 pl-2 z-40">
 				<div className="flex flex-row">
 					<Form
 						layout="inline"
@@ -316,7 +316,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 					</Form>
 				</div>
 				<div className="mt-10">
-					{<Tabs items={tabItems} defaultActiveKey="balance_sheet" />}
+					{<Tabs items={tabItems} defaultActiveKey="1" />}
 				</div>
 			</div>
 		</div>
