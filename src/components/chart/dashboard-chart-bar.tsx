@@ -8,7 +8,7 @@ import {
 } from "recharts";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Users, MousePointerClick, DollarSign, Package } from "lucide-react";
+import { Package } from "lucide-react";
 
 const data = [
   { label: "Tài chính", value: 543, color: "", item: ""},

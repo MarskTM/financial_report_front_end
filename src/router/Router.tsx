@@ -19,6 +19,7 @@ import Profile from "@/page/profile";
 import TidingDetail from "@/page/news/tiding_detail";
 import AnalystExtract from "@/page/analyst/analyst_extract";
 import SystemInfor from "@/page/admin/system_infor";
+import SystemCompany from "@/page/admin/system_company";
 
 const Router: React.FC = () => {
   const router = createBrowserRouter([
@@ -71,6 +72,11 @@ const Router: React.FC = () => {
 			path: ROUTE.ADMIN_INFO.PATH,
 			element: <Role role={['admin']} children={SystemInfor} />,
 		},
+
+		{
+            path: ROUTE.ADMIN_COMPANY.PATH,
+            element: <Role role={['admin']} children={SystemCompany} />,
+        },
   ]);
   return <RouterProvider router={router} />;
 };

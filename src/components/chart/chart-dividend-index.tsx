@@ -27,7 +27,6 @@ ChartJS.register(
 // Hàm trả về biểu đồ
 export default function DividendIndexChart({
   data,
-  unit,
 }: {
   data: { [year: string]: FinancialAnalysisModel } | null;
   unit: string;
