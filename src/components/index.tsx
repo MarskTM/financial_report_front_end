@@ -27,22 +27,25 @@ import {
 } from "./table/table-financial-extract";
 import TableSystemAuthor from "./table/table-system-author";
 import TableTidingCrawl from "./table/table-tiding-crawl";
+import TableSystemEnterprise from "./table/table-system-enterprise";
 
 export {
-  TableEnterpriseReport,
-  TableFinancialReport,
-  TableFinancialReportFavorite,
-  EnterpriseTable,
-  TableBalanceSheet,
-  TableSystemAuthor,
+	TableEnterpriseReport,
+	TableFinancialReport,
+	TableFinancialReportFavorite,
+	EnterpriseTable,
+	TableBalanceSheet,
+	TableSystemAuthor,
 
-  // -------------------------------
-  TableFinancialExtract,
-  BalanceSheetTable,
-  IncomeStatementTable,
-  CashFlowTable,
-  //   FinancialAnalysisTable,
-  TableTidingCrawl,
+	// -------------------------------
+	TableFinancialExtract,
+	BalanceSheetTable,
+	IncomeStatementTable,
+	CashFlowTable,
+	TableSystemEnterprise,
+
+	//   FinancialAnalysisTable,
+	TableTidingCrawl,
 };
 
 // ------------------------------ Chart Component-------------------------------

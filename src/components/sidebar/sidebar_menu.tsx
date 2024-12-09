@@ -74,7 +74,7 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
     },
     {
       icon: <Table className="h-4 w-4" />,
-      label: "Quản Lý Doanh Nhiệp",
+      label: "Doanh Nghiệp",
       link: ROUTE.ADMIN_COMPANY.PATH,
       subItems: [],
       isActive: false,
