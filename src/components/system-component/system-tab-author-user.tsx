@@ -14,7 +14,7 @@ const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
 
 type Props = {}
 
-const AuthorUser = (props: Props) => {
+const SystemTabAuthorUser = (props: Props) => {
   return (
     <div>
       <div className="flex flex-row absolute right-2 -top-14">
@@ -39,4 +39,4 @@ const AuthorUser = (props: Props) => {
   );
 }
 
-export default AuthorUser;
+export default SystemTabAuthorUser;

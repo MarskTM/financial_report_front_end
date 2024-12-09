@@ -9,12 +9,18 @@ import type { SelectProps } from "antd";
 const useStyle = createStyles(({ css }) => ({
   customTable: css`
     .ant-table {
+      height: 350px; /* Xét chiều cao cố định của bảng */
       .ant-table-container {
+        height: 100%; /* Đảm bảo container sử dụng toàn bộ chiều cao */
         .ant-table-body,
         .ant-table-content {
           scrollbar-width: thin;
           scrollbar-color: #eaeaea transparent;
           scrollbar-gutter: stable;
+        }
+        ,
+        .ant-pagination {
+          margin-top: auto; /* Đẩy phần phân trang xuống đáy */
         }
       }
     }
@@ -131,7 +137,7 @@ const TableSystemAuthor: React.FC = ({}) => {
         className={styles.customTable}
         columns={columns}
         dataSource={dataSource}
-        pagination={{ pageSize: 50 }}
+        pagination={{ pageSize: 5 }}
         scroll={{ y: 55 * 5 }}
       />
     </div>

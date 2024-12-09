@@ -1,15 +1,19 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { TableFinancialReportFavorite } from '@/components';
+import React from "react";
+import { useForm } from "react-hook-form";
+import {
+  TableFinancialReportFavorite,
+  ProfileNotifyTimeLine,
+} from "@/components";
 
 interface Props {}
 
 const RelationInfor: React.FC<Props> = () => {
-	return (
-		<div>
-			<TableFinancialReportFavorite />
-		</div>
-	);
+  return (
+    <div>
+      <ProfileNotifyTimeLine />
+      <TableFinancialReportFavorite />
+    </div>
+  );
 };
 
 export default RelationInfor;

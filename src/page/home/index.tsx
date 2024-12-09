@@ -151,7 +151,7 @@ const HomePage: React.FC<Props> = ({}) => {
 						</div>
 					</div>
 					<Card>
-						<TableFinancialReportFavorite pageName="home" />
+						<TableFinancialReportFavorite />
 					</Card>
 				</div>
 			</div>

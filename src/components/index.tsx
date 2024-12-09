@@ -30,22 +30,22 @@ import TableTidingCrawl from "./table/table-tiding-crawl";
 import TableSystemEnterprise from "./table/table-system-enterprise";
 
 export {
-	TableEnterpriseReport,
-	TableFinancialReport,
-	TableFinancialReportFavorite,
-	EnterpriseTable,
-	TableBalanceSheet,
-	TableSystemAuthor,
+  TableEnterpriseReport,
+  TableFinancialReport,
+  TableFinancialReportFavorite,
+  EnterpriseTable,
+  TableBalanceSheet,
+  TableSystemAuthor,
 
-	// -------------------------------
-	TableFinancialExtract,
-	BalanceSheetTable,
-	IncomeStatementTable,
-	CashFlowTable,
-	TableSystemEnterprise,
+  // -------------------------------
+  TableFinancialExtract,
+  BalanceSheetTable,
+  IncomeStatementTable,
+  CashFlowTable,
+  TableSystemEnterprise,
 
-	//   FinancialAnalysisTable,
-	TableTidingCrawl,
+  //   FinancialAnalysisTable,
+  TableTidingCrawl,
 };
 
 // ------------------------------ Chart Component-------------------------------
@@ -104,7 +104,22 @@ import UserInfor from "./profile/user-infor";
 
 export { RelationInfor, UserInfor };
 
-// -------------------------------- System Componet --------------------------------
-import AuthorUser from "./system-component/author-user";
+// -------------------------------- Tab System Componet --------------------------------
+import CompanyTabListDetail from "./company/company-tab-list-detail";
+import CompanyTabInsert from "./company/company-tab-insert";
+import SystemTabAuthorUser from "./system-component/system-tab-author-user";
+import SystemTransferNewsApproval from "./system-component/system-transfer-news-approval";
 
-export { AuthorUser };
+export {
+  SystemTabAuthorUser,
+  CompanyTabInsert,
+  CompanyTabListDetail,
+  SystemTransferNewsApproval,
+};
+
+// ------------------------------ Notify Component-------------------------------
+import ProfileNotifyTimeLine from "./notify/profile-notify-timeline";
+
+export { ProfileNotifyTimeLine };
+
+

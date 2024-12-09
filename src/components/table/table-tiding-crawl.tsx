@@ -6,7 +6,7 @@ import { createStyles } from "antd-style";
 const useStyle = createStyles(({ css }) => ({
   customTable: css`
     .ant-table {
-      height: 410px; /* Xét chiều cao cố định của bảng */
+      height: 310px; /* Xét chiều cao cố định của bảng */
       .ant-table-container {
         height: 100%; /* Đảm bảo container sử dụng toàn bộ chiều cao */
         .ant-table-body,
@@ -32,7 +32,7 @@ interface DataProps {
 
 const TableTidingCrawl: React.FC = () => {
   const [data, setData] = useState<DataProps[]>(() => {
-    return Array.from({ length: 23 }).map<DataProps>((_, i) => ({
+    return Array.from({ length: 5 }).map<DataProps>((_, i) => ({
       key: i,
       sourceName: `Source Edward King ${i}`,
       crawlUrl: `https://example.com/source/${i}`,
@@ -121,7 +121,7 @@ const TableTidingCrawl: React.FC = () => {
       <Table<DataProps>
         dataSource={data}
         columns={columns}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 4 }}
         scroll={{ y: 330 }}
         // className="shadow-md h-[460px]"
         className={styles.customTable}

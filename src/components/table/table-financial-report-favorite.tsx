@@ -1,151 +1,171 @@
-import React from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import React, { useState } from "react";
+import { Table, Button, Tooltip } from "antd";
 import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from '@/components/ui/table';
-import { Download, Eye, FileText, Trash } from 'lucide-react';
-import TableFinancialReport from './table-financial-report';
+  EyeOutlined,
+  DownloadOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
+import { createStyles } from "antd-style";
 
-const reports = [
-	{
-		company: 'Công ty CP Vinamilk',
-		reportName: 'Báo cáo tài chính Quý 4/2023',
-		type: 'BCTC Quý',
-		status: 'Chưa xác minh',
-		publishDate: '15/01/2024',
-		pdfUrl: '/sample.pdf',
-	},
-	{
-		company: 'Tập đoàn FPT',
-		reportName: 'Báo cáo thường niên 2023',
-		type: 'BCTN',
-		status: 'Đang xử lý',
-		publishDate: '10/01/2024',
-		pdfUrl: '/sample.pdf',
-	},
-	{
-		company: 'Ngân hàng Vietcombank',
-		reportName: 'Báo cáo tài chính hợp nhất 2023',
-		type: 'BCTC Năm',
-		status: 'Đã xác minh',
-		publishDate: '20/01/2024',
-		pdfUrl: '/sample.pdf',
-	},
-	{
-		company: 'Tập đoàn Hòa Phát',
-		reportName: 'Báo cáo quản trị công ty 2023',
-		type: 'BCQT',
-		status: 'Chờ xác minh',
-		publishDate: '05/01/2024',
-		pdfUrl: '/sample.pdf',
-	},
-	{
-		company: 'Tập đoàn Hòa Phát',
-		reportName: 'Báo cáo chính hợp nhất Quý 3/2023',
-		type: 'BCQT',
-		status: 'Đã xác minh',
-		publishDate: '05/01/2024',
-		pdfUrl: '/sample.pdf',
-	},
-];
+const useStyle = createStyles(({ css }) => ({
+  customTable: css`
+    .ant-table {
+      height: 330px; /* Xét chiều cao cố định của bảng */
+      .ant-table-container {
+        height: 100%; /* Đảm bảo container sử dụng toàn bộ chiều cao */
+        .ant-table-body,
+        .ant-table-content {
+          scrollbar-width: thin;
+          scrollbar-color: #eaeaea transparent;
+          scrollbar-gutter: stable;
+        }
+        ,
+        .ant-pagination {
+          margin-top: auto; /* Đẩy phần phân trang xuống đáy */
+        }
+      }
+    }
+  `,
+}));
 
-const getStatusColor = (status: string) => {
-	switch (status) {
-		case 'Đã xác minh':
-			return 'bg-green-500/15 text-green-600';
-		case 'Đang xử lý':
-			return 'bg-blue-500/15 text-blue-600';
-		case 'Chờ xác minh':
-			return 'bg-yellow-500/15 text-yellow-600';
-		case 'Chưa xác minh':
-			return 'bg-red-500/15 text-red-600';
-		default:
-			return 'bg-gray-500/15 text-gray-600';
-	}
-};
-
-interface Props {
-	pageName?: string;
-	action?: string[];
+interface DocumentRecord {
+  key: string;
+  stt: number;
+  name: string;
+  createdDate: string;
 }
 
-const TableFinancialReportFavorite: React.FC<Props> = ({ pageName }) => {
-	return (
-		<div className="border-none">
-			<CardHeader>
-				<CardTitle className="text-xl font-bold">Báo cáo phân tích</CardTitle>
-			</CardHeader>
-			<CardContent>
-				<Table>
-					<TableHeader>
-						<TableRow>
-							<TableHead>Công Ty</TableHead>
-							<TableHead>Báo Cáo</TableHead>
-							<TableHead>Loại</TableHead>
-							<TableHead>Trạng Thái</TableHead>
-							<TableHead>Công Bố</TableHead>
-							{pageName && pageName === 'home' && (
-								<TableHead>Thao Tác</TableHead>
-							)}
-						</TableRow>
-					</TableHeader>
-					<TableBody>
-						{reports.map((report, index) => (
-							<TableRow key={index}>
-								<TableCell className="font-medium">
-									{report.company}
-								</TableCell>
-								<TableCell>
-									<div className="flex items-center gap-2">
-										<FileText className="h-4 w-4 text-blue-500" />
-										<span className="font-medium text-primary">
-											{report.reportName}
-										</span>
-									</div>
-								</TableCell>
-								<TableCell>
-									<Badge variant="secondary">{report.type}</Badge>
-								</TableCell>
-								<TableCell>
-									<Badge
-										className={`hover:bg-slate-200 hover:opacity-80 ${getStatusColor(
-											report.status,
-										)}`}
-									>
-										{report.status}
-									</Badge>
-								</TableCell>
-								<TableCell>{report.publishDate}</TableCell>
-								<TableCell>
-									<div className="flex gap-2">
-										<Button variant="outline" size="sm">
-											<Eye className="h-4 w-4 mr-1" />
-											Xem
-										</Button>
-										<Button variant="outline" size="sm">
-											<Download className="h-4 w-4 mr-1" />
-											Tải về
-										</Button>
-										<Button variant="outline" size="sm">
-											<Trash className="h-4 w-4 mr-1" />
-											Xóa
-										</Button>
-									</div>
-								</TableCell>
-							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</CardContent>
-		</div>
-	);
+interface Props {}
+
+const TableFinancialReportFavorite: React.FC<Props> = () => {
+  const { styles } = useStyle();
+
+  const [documents, setDocuments] = useState<DocumentRecord[]>([
+    {
+      key: "1",
+      stt: 1,
+      name: "Báo cáo tài chính 2023",
+      createdDate: "2023-12-01",
+    },
+    {
+      key: "2",
+      stt: 2,
+      name: "Kế hoạch phát triển 2024",
+      createdDate: "2023-12-05",
+    },
+    {
+      key: "3",
+      stt: 2,
+      name: "Kế hoạch phát triển 2024",
+      createdDate: "2023-12-05",
+    },
+    {
+      key: "4",
+      stt: 2,
+      name: "Kế hoạch phát triển 2024",
+      createdDate: "2023-12-05",
+    },
+    {
+      key: "5",
+      stt: 2,
+      name: "Kế hoạch phát triển 2024",
+      createdDate: "2023-12-05",
+    },
+    {
+      key: "6",
+      stt: 2,
+      name: "Kế hoạch phát triển 2024",
+      createdDate: "2023-12-05",
+    },
+  ]);
+
+  // Xử lý thao tác "Xóa"
+  const handleDelete = (key: string) => {
+    setDocuments(documents.filter((doc) => doc.key !== key));
+  };
+
+  // Xử lý thao tác "Xem"
+  const handleView = (record: DocumentRecord) => {
+    alert(`Xem tài liệu: ${record.name}`);
+  };
+
+  // Xử lý thao tác "Tải"
+  const handleDownload = (record: DocumentRecord) => {
+    alert(`Tải tài liệu: ${record.name}`);
+  };
+
+  // Cấu hình các cột của bảng
+  const columns = [
+    {
+      title: "STT",
+      dataIndex: "stt",
+      key: "stt",
+      width: "10%",
+      className: "text-left",
+    },
+    {
+      title: "Tên tài liệu",
+      dataIndex: "name",
+      key: "name",
+      className: "text-left",
+    },
+    {
+      title: "Ngày tạo",
+      dataIndex: "createdDate",
+      key: "createdDate",
+      width: "20%",
+      className: "text-left",
+    },
+    {
+      title: "Thao tác",
+      key: "actions",
+      width: "20%",
+      className: "text-center",
+      render: (record: DocumentRecord) => (
+        <div className="flex justify-center gap-2">
+          <Tooltip title="Xem">
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<EyeOutlined />}
+              onClick={() => handleView(record)}
+            />
+          </Tooltip>
+          <Tooltip title="Tải xuống">
+            <Button
+              type="default"
+              shape="circle"
+              icon={<DownloadOutlined />}
+              onClick={() => handleDownload(record)}
+            />
+          </Tooltip>
+          <Tooltip title="Xóa">
+            <Button
+              type="primary"
+              danger
+              shape="circle"
+              icon={<DeleteOutlined />}
+              onClick={() => handleDelete(record.key)}
+            />
+          </Tooltip>
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <div className="p-6 h-[400px] rounded">
+      <h2 className="text-base font-semibold mb-4">Phân tích của tôi</h2>
+      <Table
+        columns={columns}
+        dataSource={documents}
+        rowKey={(record) => record.key}
+        pagination={{ pageSize: 10 }}
+        scroll={{ y: 55 * 5 }}
+        className={styles.customTable}
+      />
+    </div>
+  );
 };
 
 export default TableFinancialReportFavorite;
