@@ -44,7 +44,7 @@ const TimeBasedChart: React.FC<{
         tension: 0.4,
       },
       {
-        label: "Số Lượng Truy Cập",
+        label: "Số Lượng Truy Vấn",
         data: accessData,
         borderColor: "#8e5ea2",
         backgroundColor: "rgba(142, 94, 162, 0.4)",

@@ -7,7 +7,7 @@ import {
 	ReadExcelData,
 	CalculateFinancialAnalysis,
 	SortByQuarterAndYearASC,
-  ConvertModel,
+	ConvertModel,
 	ConvertFinancialReportData,
 } from '@/utils/common';
 
@@ -55,8 +55,12 @@ const OutstandingSharesMap: { [year: string]: number } = {
 
 const quarterOptions = ['Q1', 'Q2', 'Q3', 'Q4'];
 const NumPeriods = [1, 2, 3, 4, 5];
-const UnitConcurrency = ['Đồng', 'Triệu đồng', 'Tỉ đồng'];
+const unitConcurrency = ['Đồng', 'Triệu đồng', 'Tỉ đồng'];
 const reportYears = ['2023', '2024'];
+const systemTypeAnalysis = [
+	'Sử dụng bộ dữ liệu cá nhân',
+	'Sử dụng bộ dữ liệu của hệ thống',
+];
 
 const AnalystExtract: React.FC<Props> = ({}) => {
 	const [fileName, setFileName] = useState<string>('');
@@ -65,6 +69,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 		numPeriods: 4,
 		unitConcurrency: 'Triệu đồng',
 		reportYear: '2024',
+		systemTypeAnalyst: 'Sử dụng bộ dữ liệu cá nhân',
 	});
 
 	const [financialReportData, setFinancialReportData] = useState<{
@@ -210,6 +215,11 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 			},
 			{
 				key: '5',
+				label: 'So Sánh Doanh Nghiệp',
+				children: <div></div>,
+			},
+			{
+				key: '6',
 				label: 'Dự Đoán',
 				children: <div></div>,
 			},
@@ -292,12 +302,28 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 						<Form.Item label="Đơn Vị Tiền Tệ" name="unitConcurrency">
 							<Select
 								placeholder="Chọn đơn vị"
-								defaultValue={UnitConcurrency[1]}
+								defaultValue={unitConcurrency[1]}
 								style={{ width: 120 }}
-								options={UnitConcurrency.map((unit) => ({
+								options={unitConcurrency.map((unit) => ({
 									label: unit,
 									value: unit,
 								}))}
+							/>
+						</Form.Item>
+						<Form.Item label="Dữ liệu" name="systemTypeAnalysis">
+							<Select
+								placeholder="Mô tả bộ dữ liệu"
+								defaultValue={systemTypeAnalysis[0]}
+								style={{ width: 250 }}
+								options={systemTypeAnalysis.map((type) => ({
+									label: type,
+									value: type,
+								}))}
+								onChange={(value) => {
+									if (value === systemTypeAnalysis[1]) {
+                    alert('Lưu ý: Với phương thức này hệ thống sẽ điền dữ liệu của mình vào những quý bị thiếu trong dữ liệu ban đăng tải');
+									};
+								}}
 							/>
 						</Form.Item>
 						<div className="ml-auto w-80 flex flex-row items-center justify-between">

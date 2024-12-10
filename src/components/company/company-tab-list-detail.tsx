@@ -270,6 +270,7 @@ const CompanyTabListDetail: React.FC = () => {
             <div className="flex flex-row">
               <Input
                 placeholder="Tên tài liệu"
+                type="file"
                 value={newDocument.name}
                 onChange={(e) =>
                   setNewDocument((prev) => ({ ...prev, name: e.target.value }))

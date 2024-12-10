@@ -57,15 +57,18 @@ import DividendIndexChart from "./chart/chart-dividend-index";
 import ValuationIndexChart from "./chart/chart-valuation-index";
 import RateIndexGroupChart from "./chart/chart-rate-Index-group";
 import UserActiveChart from "./chart/chart-user-active";
+import DashboardTreeMapChart from "./chart/dashboard-tree-map-chart";
+
 export {
-  DividendIndexChart,
-  ValuationIndexChart,
-  RateIndexGroupChart,
-  HealthyEnterpriseChart,
-  StockChart,
-  DashboardChartBar,
-  FinancialChartOverview,
-  UserActiveChart,
+	DividendIndexChart,
+	ValuationIndexChart,
+	RateIndexGroupChart,
+	HealthyEnterpriseChart,
+	StockChart,
+	DashboardChartBar,
+	FinancialChartOverview,
+	UserActiveChart,
+	DashboardTreeMapChart,
 };
 
 // ------------------------------ Tiding Component-------------------------------
@@ -77,7 +80,6 @@ export { DashboardTidings, CategoryTiding, SubCategoryTiding };
 
 // ------------------------------ Content Component-------------------------------
 import StatsCard from "./card/starts-card";
-import TidingCard from "./card/tiding-card";
 
 import HistoricalTimeline from "./time-line/historical-time-line";
 import SidebarTrending from "./sidebar/sidebar_trending";
@@ -90,7 +92,6 @@ export {
   SidebarTrending,
   FinancialReportDetail,
   DialogSearch,
-  TidingCard,
 };
 
 // ------------------------------ Analysis Component-------------------------------
@@ -119,7 +120,8 @@ export {
 
 // ------------------------------ Notify Component-------------------------------
 import ProfileNotifyTimeLine from "./notify/profile-notify-timeline";
+import SystemNotifyTimeline from "./notify/system-notify-timeline";
 
-export { ProfileNotifyTimeLine };
+export { ProfileNotifyTimeLine, SystemNotifyTimeline };
 
 
