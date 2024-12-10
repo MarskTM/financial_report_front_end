@@ -144,7 +144,8 @@ const TableSystemEnterprise = ({}) => {
             </Button>
           </div>
         }
-        width={1200}
+        width={1400}
+        style={{ marginRight: 200 }}
       >
         {selectedCompany && <CompanyTabListDetail />}
       </Modal>

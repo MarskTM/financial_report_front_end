@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { CompanyTabExtract } from "@/components";
 import {
-  Modal,
+  // Modal,
   Form,
   Input,
   DatePicker,
@@ -18,6 +19,8 @@ import {
 import { Dayjs } from "dayjs"; // Import kiểu dữ liệu Dayjs nếu cần
 
 const { TabPane } = Tabs;
+const { TextArea } = Input;
+
 
 // Data mẫu cho phần "Tài liệu báo cáo"
 interface DocumentRecord {
@@ -106,12 +109,14 @@ const CompanyTabListDetail: React.FC = () => {
   const [boardMembers, setBoardMembers] = useState<
     { avatar: string; name: string; position: string }[]
   >([]);
+
   const [newBoardMember, setNewBoardMember] = useState({
     avatar: "",
     name: "",
     position: "",
     yearStart: "",
   });
+
   const columns = [
     {
       title: "Avatar",
@@ -119,19 +124,20 @@ const CompanyTabListDetail: React.FC = () => {
       render: (text: string) => (
         <img src={text} alt="Avatar" className="w-10 h-10 rounded-full" />
       ),
+      width: 120,
     },
-    { title: "Tên", dataIndex: "name" },
-    { title: "Chức vụ", dataIndex: "position" },
-    { title: "Năm bắt đầu", dataIndex: "yearStart" },
+    { title: "Tên", dataIndex: "name", width: 350 },
+    { title: "Chức vụ", dataIndex: "position", width: 300 },
+    { title: "Năm bắt đầu", dataIndex: "yearStart", width: 180 },
     {
       title: "Thao tác",
       key: "actions",
-      width: "20%",
       render: (_: any, record: any) => (
         <Button type="text" danger icon={<DeleteOutlined />} onClick={() => {}}>
           Xóa
         </Button>
       ),
+      width: 100,
     },
   ];
 
@@ -144,7 +150,7 @@ const CompanyTabListDetail: React.FC = () => {
   };
 
   return (
-    <>
+    <div>
       <Tabs defaultActiveKey="1">
         {/* Mục 1: Thông tin cơ bản */}
         <TabPane tab="Thông tin cơ bản" key="1">
@@ -171,6 +177,18 @@ const CompanyTabListDetail: React.FC = () => {
             </Form.Item>
             <Form.Item label="Gmail công ty">
               <Input placeholder="Nhập Gmail công ty" />
+            </Form.Item>
+            <Form.Item label="Điện thoại công ty">
+              <Input placeholder="Nhập điện thoại công ty" />
+            </Form.Item>
+            <Form.Item label="Website công ty">
+              <Input placeholder="Nhập website công ty" />
+            </Form.Item>
+            <Form.Item label="Giới thiệu về công ty">
+              <TextArea
+                placeholder="Viết một đoạn giới thiệu ngắn về công ty"
+                rows={5}
+              />
             </Form.Item>
           </Form>
         </TabPane>
@@ -232,15 +250,6 @@ const CompanyTabListDetail: React.FC = () => {
               pagination={false}
             />
           </div>
-          {/* <Table
-            columns={[
-              { title: "Avatar", dataIndex: "avatar", key: "avatar" },
-              { title: "Tên", dataIndex: "name", key: "name" },
-              { title: "Chức vụ", dataIndex: "position", key: "position" },
-            ]}
-            dataSource={[]}
-            pagination={false}
-          /> */}
         </TabPane>
 
         {/* Mục 3: Thông tin niêm yết */}
@@ -300,16 +309,22 @@ const CompanyTabListDetail: React.FC = () => {
           />
         </TabPane>
 
-        {/* Mục 5: Dữ liệu cơ bản */}
-        <TabPane tab="Chỉ số tài chính" key="5">
-          <div></div>
+        {/* Mục 5: Dữ liệu tài chính*/}
+        <TabPane tab="Dữ Liệu Tài Chính" key="5">
           <div className="flex justify-between">
-            <Button icon={<UploadOutlined />}>Báo cáo phân tích</Button>
-            
+            {/* <Button icon={<UploadOutlined />}>Báo cáo phân tích</Button> */}
+            <CompanyTabExtract />
+          </div>
+        </TabPane>
+        {/* Mục 5: Dữ liệu cơ bản */}
+        <TabPane tab="Lịch Sử Giá" key="6">
+          <div className="flex justify-between">
+            {/* <Button icon={<UploadOutlined />}>Báo cáo phân tích</Button> */}
+            <CompanyTabExtract />
           </div>
         </TabPane>
       </Tabs>
-    </>
+    </div>
   );
 };
 

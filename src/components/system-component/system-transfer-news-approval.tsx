@@ -297,42 +297,13 @@ const SystemTransferNewsApproval: React.FC = () => {
 				}
 			</Transfer>
 
-			<Modal
-				title="Chi tiết tin tức"
-				visible={isModalVisible}
-				onCancel={() => setIsModalVisible(false)}
-				footer={[
-					<Button key="close" onClick={() => setIsModalVisible(false)}>
-						Đóng
-					</Button>,
-				]}
-			>
-				{selectedNews && (
-					<div>
-						<h3 className="text-lg font-bold mb-2">{selectedNews.title}</h3>
-						<p>
-							<strong>Loại tin tức:</strong> {selectedNews.type}
-						</p>
-						<p>
-							<strong>Ngày tạo:</strong> {selectedNews.createdDate}
-						</p>
-						<p>
-							<strong>Ngày cập nhật:</strong> {selectedNews.updatedDate}
-						</p>
-						<p>
-							<strong>Nội dung:</strong> {selectedNews.content}
-						</p>
-					</div>
-				)}
-			</Modal>
-
 			{/* Hiển thị chi tiết */}
 			<Modal
 				title="Chi tiết bài đọc"
 				// open={isModalOpen}
 				// onOk={handleOk}
-				style={{ marginRight: 50 }}
-				width={1600}
+				style={{ marginRight: 110 }}
+				width={1500}
 				height={600}
 				visible={isModalVisible}
 				onCancel={() => setIsModalVisible(false)}

@@ -108,6 +108,7 @@ export { RelationInfor, UserInfor };
 // -------------------------------- Tab System Componet --------------------------------
 import CompanyTabListDetail from "./company/company-tab-list-detail";
 import CompanyTabInsert from "./company/company-tab-insert";
+import CompanyTabExtract from "./company/company-tab-extract";
 import SystemTabAuthorUser from "./system-component/system-tab-author-user";
 import SystemTransferNewsApproval from "./system-component/system-transfer-news-approval";
 
@@ -116,6 +117,7 @@ export {
   CompanyTabInsert,
   CompanyTabListDetail,
   SystemTransferNewsApproval,
+  CompanyTabExtract,
 };
 
 // ------------------------------ Notify Component-------------------------------

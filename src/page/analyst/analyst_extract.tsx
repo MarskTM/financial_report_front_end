@@ -209,6 +209,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 							maxCol={formValues.numPeriods}
 							quarter={formValues.quarter}
 							reportYear={formValues.reportYear}
+							pageName="user-extract"
 						/>
 					</div>
 				),
@@ -244,7 +245,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 	}, [formValues]);
 
 	return (
-		<div className="w-screen h-svh bg-slate-100 relative overflow-y-scroll">
+		<div className="w-screen min-h-full bg-slate-100 relative overflow-y-scroll">
 			<div className="w-[83%] fixed top-3 left-72 pl-2 z-50">
 				<Header />
 			</div>

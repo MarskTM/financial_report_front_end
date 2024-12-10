@@ -7,7 +7,6 @@ import {
 	DashboardTidings,
 	EnterpriseTable,
 	SidebarTrending,
-	DashboardTreeMapChart,
 } from '@/components';
 
 //
@@ -154,9 +153,6 @@ const HomePage: React.FC<Props> = ({}) => {
 					<Card>
 						<TableFinancialReportFavorite />
 					</Card>
-				</div>
-				<div>
-					<DashboardTreeMapChart />
 				</div>
 			</div>
 		</div>

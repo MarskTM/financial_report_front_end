@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import { ROUTE } from "@/utils/route";
 
+import { Button } from "antd";
+
 type Item = {
   icon: React.ReactNode;
   label: string;
@@ -242,14 +244,13 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
             <span className="text-sm">Đăng Ký</span>
           </Link>
         </nav>
+        {/* Help Section */}
+        <div className="p-4">
+          <Button className=" w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:scale-105 active:opacity-85 transform transition-transform duration-300">
+            Đăng Xuất
+          </Button>
+        </div>
       </div>
-
-      {/* Help Section */}
-      {/* <div className="p-4">
-        <Button className="mt-4 w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:scale-105 active:opacity-85 transform transition-transform duration-300">
-          Đăng Ký Premium
-        </Button>
-      </div> */}
     </div>
   );
 };
