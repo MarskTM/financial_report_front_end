@@ -109,15 +109,18 @@ export { RelationInfor, UserInfor };
 import CompanyTabListDetail from "./company/company-tab-list-detail";
 import CompanyTabInsert from "./company/company-tab-insert";
 import CompanyTabExtract from "./company/company-tab-extract";
+import CompanyTabExtractHistoryPrice from "./company/company-tab-extract-history-price";
+
 import SystemTabAuthorUser from "./system-component/system-tab-author-user";
 import SystemTransferNewsApproval from "./system-component/system-transfer-news-approval";
 
 export {
-  SystemTabAuthorUser,
-  CompanyTabInsert,
-  CompanyTabListDetail,
-  SystemTransferNewsApproval,
-  CompanyTabExtract,
+	SystemTabAuthorUser,
+	CompanyTabInsert,
+	CompanyTabListDetail,
+	SystemTransferNewsApproval,
+	CompanyTabExtract,
+	CompanyTabExtractHistoryPrice,
 };
 
 // ------------------------------ Notify Component-------------------------------

@@ -18,7 +18,7 @@ export interface CompanyFinancialStatements {
   cash_flow: CashFlowModel;
 }
 
-// =========================================================== Model cho thông tin trích xuất từ file excel ==================================================================
+// =========================================================== Model thông tin báo cáo tài chính trích xuất từ file excel ==================================================================
 export const FieldFinancialAnalysisModel: Record<string, string> = {
   // Nhóm chỉ số Định giá
   valuation_index_group: "Nhóm chỉ số Định giá",
@@ -113,3 +113,27 @@ export type FinancialState = {
     [year: string]: IncomeStatementModel;
   };
 };
+
+
+// =========================================================== Model thông tin báo cáo tài chính trích xuất từ file excel ==================================================================
+export interface HistoryStock {
+	date: string; // Ngày
+	openingPrice: number; // Giá mở cửa
+	highestPrice: number; // Giá cao nhất
+	lowestPrice: number; // Giá thấp nhất
+	closingPrice: number; // Giá đóng cửa
+	priceChange: number; // Thay đổi giá
+	percentChange: number; // % Thay đổi
+	volume: number; // Khối lượng
+}
+
+export interface StockDataUI {
+	date: string; // Ngày
+	openingPrice: string; // Giá mở cửa
+	highestPrice: string; // Giá cao nhất
+	lowestPrice: string; // Giá thấp nhất
+	closingPrice: string; // Giá đóng cửa
+	priceChange: string; // Thay đổi giá
+	percentChange: string; // % Thay đổi
+	volume: string; // Khối lượng
+}

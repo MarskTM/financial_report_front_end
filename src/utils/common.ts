@@ -9,6 +9,7 @@ import {
 	IncomeStatementModel,
 } from './../redux/model/income_statement';
 import { FinancialAnalysisModel, FinancialState } from '@/redux/model/financial_report';
+import { HistoryStock, StockDataUI } from './../redux/model/financial_report';
 
 import * as XLSX from 'xlsx';
 
@@ -413,3 +414,68 @@ export function ConvertFinancialAnalystData<T extends Record<string, any>>(
 		]),
 	) as { [year: string]: T };
 }
+
+// ------------------------------- Đọc file excel cho lịch sử giá ---------------------------------
+export const ReadHistoryStockExcelFile = async (file: File): Promise<HistoryStock[]> => {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader();
+		reader.onload = (event) => {
+			const data = new Uint8Array(event.target?.result as ArrayBuffer);
+			const workbook = XLSX.read(data, { type: 'array' });
+			const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+			const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, {
+				header: 1, // Dữ liệu dạng mảng
+				raw: true,
+			});
+
+			const parsedData: HistoryStock[] = jsonData
+				.slice(6) // Bỏ qua tiêu đề (6 dòng đầu)
+				.filter((row: any) => row[0] && new Date(row[0]) > new Date('2023-01-01'))
+				.map((row: any) => ({
+					date: row[0], // Cột A: Ngày
+					openingPrice: parseFloat(row[1]), // Cột B: Giá mở cửa
+					highestPrice: parseFloat(row[2]), // Cột C: Giá cao nhất
+					lowestPrice: parseFloat(row[3]), // Cột D: Giá thấp nhất
+					closingPrice: parseFloat(row[4]), // Cột E: Giá đóng cửa
+					priceChange: parseFloat(row[5]), // Cột F: Thay đổi giá
+					percentChange: parseFloat(row[6]), // Cột G: % Thay đổi
+					volume: parseFloat(row[7]), // Cột H: Khối lượng
+				}));
+			resolve(parsedData);
+		};
+
+		reader.onerror = (error) => reject(error);
+		reader.readAsArrayBuffer(file);
+	});
+};
+
+export const ConvertDBToUIFormat = (data: HistoryStock[]): StockDataUI[] => {
+	return data.map((item) => ({
+		date: item.date,
+		openingPrice: item.openingPrice.toLocaleString('en-US', {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		}),
+		highestPrice: item.highestPrice.toLocaleString('en-US', {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		}),
+		lowestPrice: item.lowestPrice.toLocaleString('en-US', {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		}),
+		closingPrice: item.closingPrice.toLocaleString('en-US', {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		}),
+		priceChange: item.priceChange.toLocaleString('en-US', {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		}),
+		percentChange: item.percentChange.toLocaleString('en-US', {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		}),
+		volume: item.volume.toLocaleString('en-US'),
+	}));
+};
