@@ -15,7 +15,7 @@ export interface StockDataUI {
 	percentChange: string; // % Thay đổi
 	volume: string; // Khối lượng
 }
-
+const places = ['HOSE', 'HNX', 'UPCOM'];
 const unitConcurrency = ['Đồng'];
 const reportYears = ['2022', '2023', '2024'];
 
@@ -118,6 +118,17 @@ const CompanyTabExtractHistoryPrice: React.FC = () => {
 					}}
 					className="w-full bg-slate-300/90 flex flex-row"
 				>
+					<Form.Item label="Dữ liệu trên sàn" name="place">
+						<Select
+							placeholder="Sàn giao dịch"
+							defaultValue={places[0]}
+							style={{ width: 150 }}
+							options={places.map((place) => ({
+								label: place,
+								value: place,
+							}))}
+						/>
+					</Form.Item>
 					<Form.Item label="Năm bắt đầu" name="reportYear">
 						<Select
 							placeholder="Chọn năm"
@@ -133,7 +144,7 @@ const CompanyTabExtractHistoryPrice: React.FC = () => {
 					<Form.Item label="Đơn vị tiền tệ" name="unitConcurrency">
 						<Select
 							placeholder="Chọn đơn vị"
-							defaultValue={unitConcurrency[1]}
+							defaultValue={unitConcurrency[0]}
 							style={{ width: 120 }}
 							options={unitConcurrency.map((unit) => ({
 								label: unit,
