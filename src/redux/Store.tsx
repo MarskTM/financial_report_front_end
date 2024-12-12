@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import financialReportReducer from "./slices/report_slice";
 import authenReducer from "./slices/auth_slice";
+import companyReducer from "./slices/company_slice";
 
 export const store = configureStore({
   reducer: {
-    auth: authenReducer,  
+    auth: authenReducer,
     report: financialReportReducer,
+    company: companyReducer,
   },
 });
 

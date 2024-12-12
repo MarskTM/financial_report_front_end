@@ -6,7 +6,8 @@ export interface CompanyInfo {
   id: number; // ID công ty (dùng để phân biệt các công ty)
   company_name: string; // Tên công ty
   company_code: string; // Mã công ty
-  establishment_date: string | null; // Ngày thành lập (có thể null nếu chưa chọn)
+  tax_code: string; // Mã số thuế
+  establishment_date: Date | null; // Ngày thành lập (có thể null nếu chưa chọn)
   company_type: string; // Loại hình công ty
   company_logo: string | null; // Logo công ty (có thể là File hoặc null)
   company_address: string; // Địa chỉ công ty
@@ -19,7 +20,8 @@ export interface CompanyInfo {
   managements?: CompanyManagements[];
 
   // Mục 3: Thông tin niêm yết
-  first_trading_date: string | null; // Ngày giao dịch đầu tiên
+  market_capitalization: number; // Vốn hóa
+  first_trading_date: Date | null; // Ngày giao dịch đầu tiên
   first_trading_price: number | null; // Giá giao dịch ngày đầu
   initial_listing_volume: number | null; // Khối lượng niêm yết lần đầu
   current_listing_volume: number | null; // Khối lượng niêm yết hiện tại
@@ -33,11 +35,13 @@ export interface CompanyInfo {
 }
 
 // "Thông tin ban lãnh đạo"
-interface CompanyManagements {
+export interface CompanyManagements {
   id: number; // ID ban lãnh đạo
+  compnay_id: number; // ID Công ty
+  avatar: string; // Ảnh đai diện
   name: string; // Tên ban lãnh đạo
   position: string; // Chức vụ
-  date: Date; // ngày bổ nhiệm
+  year_start: Date | null; // ngày bổ nhiệm
 }
 
 // Thông tin các file báo cóa doanh nghiệp công bố
@@ -45,5 +49,5 @@ interface CompanyFiles {
   id: number; //  ID mã tệp
   name: string; // Tên tệp
   path: string; // Đường dẫn
-  date: string; // Ngày đăng
+  year_start: Date | null; // Ngày đăng
 }
