@@ -36,12 +36,12 @@ export interface CompanyInfo {
 
 // "Thông tin ban lãnh đạo"
 export interface CompanyManagements {
-  id: number; // ID ban lãnh đạo
-  compnay_id: number; // ID Công ty
-  avatar: string; // Ảnh đai diện
-  name: string; // Tên ban lãnh đạo
-  position: string; // Chức vụ
-  year_start: Date | null; // ngày bổ nhiệm
+	id: number; // ID ban lãnh đạo
+	company_id: number; // ID Công ty
+	avatar: string; // Ảnh đai diện
+	name: string; // Tên ban lãnh đạo
+	position: string; // Chức vụ
+	year_start: Date | null; // ngày bổ nhiệm
 }
 
 // Thông tin các file báo cóa doanh nghiệp công bố

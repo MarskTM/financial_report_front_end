@@ -13,8 +13,10 @@ const UpsertCompany = async (data: any, dispatch: any) => {
     },
   });
   if (!error && response.status === 200) {
-    dispatch(companySlice.success(response.data.data));
+    dispatch(companySlice.setCompany(response.data.data));
     notify("success", "Cập nhật thành công");
+
+    console.log(response);
   } else {
     console.log("Company fail");
     notify("warning", "Cập nhật thất bại");
@@ -31,7 +33,7 @@ const UpsertCompanyStakeholder = async (data: any, dispatch: any) => {
     },
   });
   if (!error && response.status === 200) {
-    dispatch(companySlice.success(response.data.data));
+    dispatch(companySlice.setStakeHodler(response.data.data));
     notify("success", "Cập nhật thành công");
   } else {
     console.log("Company fail");
