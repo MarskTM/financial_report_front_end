@@ -13,7 +13,7 @@ export interface CompanyInfo {
   company_address: string; // Địa chỉ công ty
   company_email?: string; // Gmail công ty
   company_phone?: string; // Điện thoại công ty
-  company_website?: string; // Website công ty
+  company_website?: string | null; // Website công ty
   company_description?: string; // Giới thiệu về công ty
 
   // Mục 2: Thông tin ban lãnh đạo
@@ -32,6 +32,10 @@ export interface CompanyInfo {
 
   // Mục 5: Thông tin tài chính
   financial_statements?: CompanyFinancialStatements[];
+
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date;
 }
 
 // "Thông tin ban lãnh đạo"

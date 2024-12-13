@@ -1,7 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CompanyTabListDetail } from "@/components";
-import { Table, Button, Modal, Descriptions } from "antd";
+import { Table, Button, Modal, TablePaginationConfig } from "antd";
 import type { TableColumnsType } from "antd";
+import {
+  FilterValue,
+  SorterResult,
+  TableCurrentDataSource,
+} from "antd/es/table/interface";
+import dayjs from "dayjs";
+
+import * as api from "@/redux/api/company";
+import { RootState } from "@/redux/Store";
+import { useDispatch, useSelector } from "react-redux";
+
+import { CompanyInfo } from "@/redux/model/company";
 
 interface Company {
   key: React.Key;
@@ -15,20 +27,27 @@ interface Company {
   website: string;
 }
 
-interface Props {}
-
 const TableSystemEnterprise = ({}) => {
-  const [data] = useState<Company[]>(() => {
-    return Array.from({ length: 14 }).map<Company>((_, i) => ({
-      key: i,
-      stt: i + 1,
-      name: `Công ty ${i + 1}`,
-      stockCode: `CT${i + 1}`,
-      type: i % 2 === 0 ? "Cổ phần" : "TNHH",
-      foundingDate: `2020-01-${i + 1}`,
-      createdAt: `2023-01-${i + 1}`,
-      taxCode: `123456789${i}`,
-      website: `https://company${i + 1}.com`,
+  const dispatch = useDispatch();
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
+  const companies = useSelector(
+    (state: RootState) => state.company.listCompany
+  );
+
+  const [data, setData] = useState<Company[]>(() => {
+    return companies.map<Company>((val, index) => ({
+      key: index,
+      stt: index + 1,
+      name: val.company_name,
+      stockCode: val.company_code,
+      type: val.company_type,
+      foundingDate: dayjs(val.establishment_date).format("DD/MM/YYYY"),
+      createdAt: dayjs(val.created_at).format("DD/MM/YYYY"),
+      taxCode: val.tax_code,
+      website: val.company_website ? val.company_website : "-",
     }));
   });
 
@@ -45,11 +64,45 @@ const TableSystemEnterprise = ({}) => {
     setSelectedCompany(null);
   };
 
-  const handleUpdateCompany = () => {
-	// Update company data here
-	
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    const currentPage = pagination.current || 1; // Đảm bảo giá trị không undefined
+    const pageSize = pagination.pageSize || 10; // Đảm bảo giá trị không undefinedi
+    setCurrentPage(currentPage);
+    setPageSize(pageSize);
+
+    // console.log("Current Page:", currentPage);
+    // console.log("Page Size:", pageSize);
+    // console.log("Filters:", filters);
+    // console.log("Sorter:", sorter);
   };
 
+  const handleUpdateCompany = () => {
+    // Update company data here
+  };
+
+  // Fetch data from API when component mounts
+  useEffect(() => {
+    api.GetAllCompany(dispatch);
+  }, []);
+
+  // 
+  useEffect(() => {
+    setData(
+      companies.map<Company>((val, index) => ({
+        key: index,
+        stt: index + 1,
+        name: val.company_name,
+        stockCode: val.company_code,
+        type: val.company_type,
+        foundingDate: dayjs(val.establishment_date).format("DD/MM/YYYY"),
+        createdAt: dayjs(val.created_at).format("DD/MM/YYYY"),
+        taxCode: val.tax_code,
+        website: val.company_website ? val.company_website : "-",
+      }))
+    );
+  }, [companies]);
+
+  // Mô tả thông tin các cột dữ liệu của bảng danh sách doanh nghiệp
   const columns: TableColumnsType<Company> = [
     {
       title: "STT",
@@ -122,10 +175,15 @@ const TableSystemEnterprise = ({}) => {
       <Table<Company>
         columns={columns}
         dataSource={data}
-        pagination={{ pageSize: 10 }}
+        pagination={{
+          pageSize: pageSize,
+          showSizeChanger: true,
+          pageSizeOptions: ["10", "20", "50", "100"], // Các mốc số bản ghi
+        }}
         onRow={(record) => ({
           onClick: () => handleRowClick(record),
         })}
+        onChange={handleTableChange} // Gắn sự kiện onChange
         rowClassName="cursor-pointer"
       />
 

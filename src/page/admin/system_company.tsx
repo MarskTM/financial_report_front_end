@@ -6,14 +6,8 @@ import {
   CompanyTabInsert,
 } from "@/components";
 
-import type { ConfigProviderProps, RadioChangeEvent, TabsProps } from "antd";
-import { Radio, Tabs } from "antd";
-
-type SizeType = ConfigProviderProps["componentSize"];
-
-const onChange = (key: string) => {
-  console.log(key);
-};
+import type { TabsProps } from "antd";
+import { Tabs } from "antd";
 
 const items: TabsProps["items"] = [
   {
@@ -28,15 +22,7 @@ const items: TabsProps["items"] = [
   },
 ];
 
-type Props = {};
-
-const SystemCompany = (props: Props) => {
-  const [size, setSize] = useState<SizeType>("small");
-
-  const onChange = (e: RadioChangeEvent) => {
-    setSize(e.target.value);
-  };
-
+const SystemCompany = () => {
   return (
     <div className="w-screen h-full bg-slate-100 relative">
       <div className="w-[83%] fixed top-3 left-72 pl-2 z-50">
@@ -49,7 +35,7 @@ const SystemCompany = (props: Props) => {
       </div>
 
       <div className="w-[83%] h-full pt-32 mb-10 ml-72 pl-2 z-40">
-        <Tabs defaultActiveKey="1" type="card" size={size} items={items} />
+        <Tabs defaultActiveKey="1" type="card" size="small" items={items} />
       </div>
     </div>
   );

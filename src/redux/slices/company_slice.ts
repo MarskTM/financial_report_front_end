@@ -33,7 +33,7 @@ export const companySlice = createSlice({
 
 		getListSuccess: (state, action: PayloadAction<CompanyInfo[]>) => {
 			state.is_loading = false;
-			state.listCompany = [...state.listCompany, ...action.payload];
+			state.listCompany = [ ...action.payload];
 		},
 
 		pending: (state) => {

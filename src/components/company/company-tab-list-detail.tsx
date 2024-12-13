@@ -40,7 +40,6 @@ const initialDocuments = [
 ];
 
 const CompanyTabListDetail: React.FC = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [documents, setDocuments] = useState(initialDocuments);
   const [newDocument, setNewDocument] = useState<{
     name: string;
@@ -49,10 +48,6 @@ const CompanyTabListDetail: React.FC = () => {
     name: "",
     date: null,
   });
-
-  const showModal = () => setIsModalVisible(true);
-  const handleOk = () => setIsModalVisible(false);
-  const handleCancel = () => setIsModalVisible(false);
 
   // Xử lý thêm tài liệu
   const handleAddDocument = () => {
@@ -105,11 +100,12 @@ const CompanyTabListDetail: React.FC = () => {
     },
   ];
 
-  // Table columns for board members
+  // Thông tin danh sách thành viên hội đồng quản trị
   const [boardMembers, setBoardMembers] = useState<
     { avatar: string; name: string; position: string }[]
   >([]);
 
+  // Thông tin cho thành viên hội đồng quản trị
   const [newBoardMember, setNewBoardMember] = useState({
     avatar: "",
     name: "",
@@ -150,183 +146,183 @@ const CompanyTabListDetail: React.FC = () => {
   };
 
   return (
-		<div>
-			<Tabs defaultActiveKey="1">
-				{/* Mục 1: Thông tin cơ bản */}
-				<TabPane tab="Thông tin cơ bản" key="1">
-					<Form layout="vertical">
-						<Form.Item label="Tên công ty">
-							<Input placeholder="Nhập tên công ty" />
-						</Form.Item>
-						<Form.Item label="Mã công ty">
-							<Input placeholder="Nhập mã công ty" />
-						</Form.Item>
-						<Form.Item label="Ngày thành lập">
-							<DatePicker className="w-full" />
-						</Form.Item>
-						<Form.Item label="Loại hình công ty">
-							<Input placeholder="Nhập loại hình công ty" />
-						</Form.Item>
-						<Form.Item label="Logo công ty">
-							<Upload name="logo" listType="picture">
-								<Button icon={<UploadOutlined />}>Tải lên</Button>
-							</Upload>
-						</Form.Item>
-						<Form.Item label="Địa chỉ công ty">
-							<Input placeholder="Nhập địa chỉ công ty" />
-						</Form.Item>
-						<Form.Item label="Gmail công ty">
-							<Input placeholder="Nhập Gmail công ty" />
-						</Form.Item>
-						<Form.Item label="Điện thoại công ty">
-							<Input placeholder="Nhập điện thoại công ty" />
-						</Form.Item>
-						<Form.Item label="Website công ty">
-							<Input placeholder="Nhập website công ty" />
-						</Form.Item>
-						<Form.Item label="Giới thiệu về công ty">
-							<TextArea
-								placeholder="Viết một đoạn giới thiệu ngắn về công ty"
-								rows={5}
-							/>
-						</Form.Item>
-					</Form>
-				</TabPane>
+    <div>
+      <Tabs defaultActiveKey="1">
+        {/* Mục 1: Thông tin cơ bản */}
+        <TabPane tab="Thông tin cơ bản" key="1">
+          <Form layout="vertical">
+            <Form.Item label="Tên công ty">
+              <Input placeholder="Nhập tên công ty" />
+            </Form.Item>
+            <Form.Item label="Mã công ty">
+              <Input placeholder="Nhập mã công ty" />
+            </Form.Item>
+            <Form.Item label="Ngày thành lập">
+              <DatePicker className="w-full" />
+            </Form.Item>
+            <Form.Item label="Loại hình công ty">
+              <Input placeholder="Nhập loại hình công ty" />
+            </Form.Item>
+            <Form.Item label="Logo công ty">
+              <Upload name="logo" listType="picture">
+                <Button icon={<UploadOutlined />}>Tải lên</Button>
+              </Upload>
+            </Form.Item>
+            <Form.Item label="Địa chỉ công ty">
+              <Input placeholder="Nhập địa chỉ công ty" />
+            </Form.Item>
+            <Form.Item label="Gmail công ty">
+              <Input placeholder="Nhập Gmail công ty" />
+            </Form.Item>
+            <Form.Item label="Điện thoại công ty">
+              <Input placeholder="Nhập điện thoại công ty" />
+            </Form.Item>
+            <Form.Item label="Website công ty">
+              <Input placeholder="Nhập website công ty" />
+            </Form.Item>
+            <Form.Item label="Giới thiệu về công ty">
+              <TextArea
+                placeholder="Viết một đoạn giới thiệu ngắn về công ty"
+                rows={5}
+              />
+            </Form.Item>
+          </Form>
+        </TabPane>
 
-				{/* Mục 2: Ban lãnh đạo */}
-				<TabPane tab="Ban lãnh đạo" key="2">
-					<div className="space-y-4">
-						<h3 className="text-lg font-semibold">Ban lãnh đạo</h3>
-						<div className="flex items-end gap-4">
-							<Input
-								placeholder="Avatar URL"
-								value={newBoardMember.avatar}
-								onChange={(e) =>
-									setNewBoardMember((prev) => ({
-										...prev,
-										avatar: e.target.value,
-									}))
-								}
-							/>
-							<Input
-								placeholder="Tên"
-								value={newBoardMember.name}
-								onChange={(e) =>
-									setNewBoardMember((prev) => ({
-										...prev,
-										name: e.target.value,
-									}))
-								}
-							/>
-							<Input
-								placeholder="Chức vụ"
-								value={newBoardMember.position}
-								onChange={(e) =>
-									setNewBoardMember((prev) => ({
-										...prev,
-										position: e.target.value,
-									}))
-								}
-							/>
-							<Input
-								placeholder="Năm bắt đầu"
-								value={newBoardMember.yearStart}
-								onChange={(e) =>
-									setNewBoardMember((prev) => ({
-										...prev,
-										yearStart: e.target.value,
-									}))
-								}
-								className="w-1/3"
-							/>
-							<Button type="primary" onClick={handleAddBoardMember}>
-								Thêm
-							</Button>
-						</div>
-						<Table
-							columns={columns}
-							dataSource={boardMembers}
-							rowKey={(record) => `${record.name}-${record.position}`}
-							pagination={false}
-						/>
-					</div>
-				</TabPane>
+        {/* Mục 2: Ban lãnh đạo */}
+        <TabPane tab="Ban lãnh đạo" key="2">
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Ban lãnh đạo</h3>
+            <div className="flex items-end gap-4">
+              <Input
+                placeholder="Avatar URL"
+                value={newBoardMember.avatar}
+                onChange={(e) =>
+                  setNewBoardMember((prev) => ({
+                    ...prev,
+                    avatar: e.target.value,
+                  }))
+                }
+              />
+              <Input
+                placeholder="Tên"
+                value={newBoardMember.name}
+                onChange={(e) =>
+                  setNewBoardMember((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }))
+                }
+              />
+              <Input
+                placeholder="Chức vụ"
+                value={newBoardMember.position}
+                onChange={(e) =>
+                  setNewBoardMember((prev) => ({
+                    ...prev,
+                    position: e.target.value,
+                  }))
+                }
+              />
+              <Input
+                placeholder="Năm bắt đầu"
+                value={newBoardMember.yearStart}
+                onChange={(e) =>
+                  setNewBoardMember((prev) => ({
+                    ...prev,
+                    yearStart: e.target.value,
+                  }))
+                }
+                className="w-1/3"
+              />
+              <Button type="primary" onClick={handleAddBoardMember}>
+                Thêm
+              </Button>
+            </div>
+            <Table
+              columns={columns}
+              dataSource={boardMembers}
+              rowKey={(record) => `${record.name}-${record.position}`}
+              pagination={false}
+            />
+          </div>
+        </TabPane>
 
-				{/* Mục 3: Thông tin niêm yết */}
-				<TabPane tab="Thông tin niêm yết" key="3">
-					<Form layout="vertical">
-						<Form.Item label="Ngày giao dịch đầu tiên">
-							<DatePicker className="w-full" />
-						</Form.Item>
-						<Form.Item label="Giá giao dịch ngày đầu">
-							<Input placeholder="Nhập giá giao dịch ngày đầu" />
-						</Form.Item>
-						<Form.Item label="Khối lượng niêm yết lần đầu">
-							<Input placeholder="Nhập khối lượng niêm yết lần đầu" />
-						</Form.Item>
-						<Form.Item label="Khối lượng niêm yết hiện tại">
-							<Input placeholder="Nhập khối lượng niêm yết hiện tại" />
-						</Form.Item>
-						<Form.Item label="Khối lượng cổ phiếu đang lưu hành">
-							<Input placeholder="Nhập khối lượng cổ phiếu đang lưu hành" />
-						</Form.Item>
-					</Form>
-				</TabPane>
+        {/* Mục 3: Thông tin niêm yết */}
+        <TabPane tab="Thông tin niêm yết" key="3">
+          <Form layout="vertical">
+            <Form.Item label="Ngày giao dịch đầu tiên">
+              <DatePicker className="w-full" />
+            </Form.Item>
+            <Form.Item label="Giá giao dịch ngày đầu">
+              <Input placeholder="Nhập giá giao dịch ngày đầu" />
+            </Form.Item>
+            <Form.Item label="Khối lượng niêm yết lần đầu">
+              <Input placeholder="Nhập khối lượng niêm yết lần đầu" />
+            </Form.Item>
+            <Form.Item label="Khối lượng niêm yết hiện tại">
+              <Input placeholder="Nhập khối lượng niêm yết hiện tại" />
+            </Form.Item>
+            <Form.Item label="Khối lượng cổ phiếu đang lưu hành">
+              <Input placeholder="Nhập khối lượng cổ phiếu đang lưu hành" />
+            </Form.Item>
+          </Form>
+        </TabPane>
 
-				{/* Mục 4: Tài liệu báo cáo */}
-				<TabPane tab="Tài liệu báo cáo" key="4">
-					<div className="mb-4">
-						<div className="flex flex-row">
-							<Input
-								placeholder="Tên tài liệu"
-								type="file"
-								value={newDocument.name}
-								onChange={(e) =>
-									setNewDocument((prev) => ({
-										...prev,
-										name: e.target.value,
-									}))
-								}
-							/>
+        {/* Mục 4: Tài liệu báo cáo */}
+        <TabPane tab="Tài liệu báo cáo" key="4">
+          <div className="mb-4">
+            <div className="flex flex-row">
+              <Input
+                placeholder="Tên tài liệu"
+                type="file"
+                value={newDocument.name}
+                onChange={(e) =>
+                  setNewDocument((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }))
+                }
+              />
 
-							<DatePicker
-								className="ml-2 w-80"
-								onChange={(date) =>
-									setNewDocument((prev) => ({ ...prev, date }))
-								}
-							/>
-							<Button
-								type="primary"
-								icon={<PlusOutlined />}
-								className="ml-2 w-52"
-								onClick={handleAddDocument}
-							>
-								Thêm
-							</Button>
-						</div>
-					</div>
-					<Table
-						columns={documentColumns}
-						dataSource={documents}
-						pagination={false}
-					/>
-				</TabPane>
+              <DatePicker
+                className="ml-2 w-80"
+                onChange={(date) =>
+                  setNewDocument((prev) => ({ ...prev, date }))
+                }
+              />
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                className="ml-2 w-52"
+                onClick={handleAddDocument}
+              >
+                Thêm
+              </Button>
+            </div>
+          </div>
+          <Table
+            columns={documentColumns}
+            dataSource={documents}
+            pagination={false}
+          />
+        </TabPane>
 
-				{/* Mục 5: Dữ liệu tài chính*/}
-				<TabPane tab="Dữ Liệu Tài Chính" key="5">
-					<div className="flex justify-between">
-						{/* <Button icon={<UploadOutlined />}>Báo cáo phân tích</Button> */}
-						<CompanyTabExtract />
-					</div>
-				</TabPane>
-				{/* Mục 5: Dữ liệu cơ bản */}
-				<TabPane tab="Lịch Sử Giá" key="6">
-					<div className="flex justify-between">
-						<CompanyTabExtractHistoryPrice />
-					</div>
-				</TabPane>
-			</Tabs>
-		</div>
+        {/* Mục 5: Dữ liệu tài chính*/}
+        <TabPane tab="Dữ Liệu Tài Chính" key="5">
+          <div className="flex justify-between">
+            {/* <Button icon={<UploadOutlined />}>Báo cáo phân tích</Button> */}
+            <CompanyTabExtract />
+          </div>
+        </TabPane>
+        {/* Mục 5: Dữ liệu cơ bản */}
+        <TabPane tab="Lịch Sử Giá" key="6">
+          <div className="flex justify-between">
+            <CompanyTabExtractHistoryPrice />
+          </div>
+        </TabPane>
+      </Tabs>
+    </div>
   );
 };
 
