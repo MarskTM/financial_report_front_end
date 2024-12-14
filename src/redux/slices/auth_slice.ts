@@ -29,6 +29,10 @@ export const authSlice = createSlice({
       state.users = action.payload;
     },
 
+    loadProfile: (state, action: PayloadAction<Profile>) => {
+      state.profile = action.payload;
+    },
+
     pending: (state) => {
       state.is_fetching = true;
     },
@@ -49,5 +53,5 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { success, pending, failure, clear } = authSlice.actions;
+export const { loadProfile, success, pending, failure, clear } = authSlice.actions;
 export default authSlice.reducer;

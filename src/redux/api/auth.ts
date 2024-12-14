@@ -21,6 +21,7 @@ const login = async (
     Cookies.set("AccessToken", response.data.data.access_token);
     Cookies.set("RefreshToken", response.data.data.refresh_token);
     dispatch(authSlice.success({ ...response.data.data }));
+    dispatch(authSlice.loadProfile(response.data.data.profile));
 
     navigate(ROUTE.HOME.PATH);
     notify("success", "Đăng nhập thành công");

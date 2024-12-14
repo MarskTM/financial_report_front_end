@@ -19,6 +19,7 @@ import { Camera, CalendarIcon, MapPin, Phone } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import dayjs from "dayjs";
 
 import * as api from "@/redux/api/company";
 import { RootState } from "@/redux/Store";
@@ -31,26 +32,22 @@ type Props = {};
 
 const UserInfor: React.FC<Props> = ({}) => {
   const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.auth.users);
 
-  const profile = useSelector((state: RootState) => state.auth.users?.profile);
-
-    if (profile == undefined) {
+  useEffect(() => {
+    if (user.profile == undefined) {
       navigate(ROUTE.LOGIN.PATH);
     }
+  }, []);
 
   const form = useForm({
     defaultValues: {
-      name: "Nguyen Van A",
-      date: new Date("2002-12-01"),
+      name: user?.profile?.first_name + " " + user?.profile?.last_name,
+      date: user?.profile?.birthdate,
       address: "123 Đường ABC, Quận XYZ, Hà Nội",
-      phone: "0987654321",
-      email: "example@gmail.com",
+      phone: user?.profile?.phone,
+      email: user?.profile?.email,
       password: "******",
-      products: [
-        { name: "ipod 2021", rate: 1000, qty: 10, amount: 10000 },
-        { name: "Apple Mackbook", rate: 1500, qty: 10, amount: 150000 },
-        { name: "i phone 12", rate: 885, qty: 10, amount: 8850 },
-      ],
     },
   });
 
@@ -106,7 +103,7 @@ const UserInfor: React.FC<Props> = ({}) => {
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           mode="single"
-                          selected={field.value}
+                          // selected={dayjs(field.value, "dd/mm/yyyy")}
                           onSelect={field.onChange}
                           disabled={(date) =>
                             date > new Date() || date < new Date("1900-01-01")
