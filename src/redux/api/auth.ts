@@ -40,7 +40,6 @@ const refesh = async (navigate: any, dispatch: any) => {
     Cookies.set("AccessToken", response.data.data.access_token);
     Cookies.set("RefreshToken", response.data.data.refresh_token);
     dispatch(authSlice.success({ ...response.data.data }));
-
     notify("success", "Chào mừng quay trở lại");
   } else {
     dispatch(authSlice.failure());

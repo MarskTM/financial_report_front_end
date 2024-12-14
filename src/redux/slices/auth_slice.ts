@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { Profile } from "../model/profile";
 import * as Model from "../model";
 
 // ------------------------------- Slice ---------------------------------
 export interface AuthState {
   is_fetching: boolean;
   users: Model.User;
+  profile: Profile;
 }
 
 const initialState: AuthState = {
@@ -13,8 +15,9 @@ const initialState: AuthState = {
   users: {
     id: "",
     username: "",
-    role: [],
+    role: "",
   },
+  profile: {} as Profile,
 };
 
 export const authSlice = createSlice({
@@ -39,7 +42,7 @@ export const authSlice = createSlice({
       state.users = {
         id: "",
         username: "",
-        role: [],
+        role: "",
       };
     },
   },

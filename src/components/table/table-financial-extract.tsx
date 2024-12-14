@@ -46,9 +46,6 @@ export const TableFinancialExtract = <T,>({
 		return row;
 	});
 
-	// Lọc và sắp xếp cột
-	console.log(period);
-
 	let sortedColumns = [];
 	if (quarter && reportYear) {
 		// Lấy danh sách các cột (keys) từ data và tìm chỉ mục của period

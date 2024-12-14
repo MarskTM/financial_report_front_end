@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { CompanyTabExtract, CompanyTabExtractHistoryPrice } from '@/components';
+import React, { useEffect, useState } from "react";
+import { CompanyTabExtract, CompanyTabExtractHistoryPrice } from "@/components";
 import {
   // Modal,
   Form,
@@ -16,11 +16,15 @@ import {
   DeleteOutlined,
   VerticalAlignBottomOutlined,
 } from "@ant-design/icons";
-import { Dayjs } from "dayjs"; // Import kiểu dữ liệu Dayjs nếu cần
+import dayjs, { Dayjs } from "dayjs"; // Import kiểu dữ liệu Dayjs nếu cần
+import { CompanyInfo, CompanyManagements } from "@/redux/model/company";
+
+import * as api from "@/redux/api/company";
+import { RootState } from "@/redux/Store";
+import { useDispatch, useSelector } from "react-redux";
 
 const { TabPane } = Tabs;
 const { TextArea } = Input;
-
 
 // Data mẫu cho phần "Tài liệu báo cáo"
 interface DocumentRecord {
@@ -40,6 +44,9 @@ const initialDocuments = [
 ];
 
 const CompanyTabListDetail: React.FC = () => {
+  const companyInfo = useSelector((state: RootState) => state.company.company);
+  const [companyDetail, setCompanyDetail] = useState<CompanyInfo>();
+
   const [documents, setDocuments] = useState(initialDocuments);
   const [newDocument, setNewDocument] = useState<{
     name: string;
@@ -100,19 +107,18 @@ const CompanyTabListDetail: React.FC = () => {
     },
   ];
 
-  // Thông tin danh sách thành viên hội đồng quản trị
-  const [boardMembers, setBoardMembers] = useState<
-    { avatar: string; name: string; position: string }[]
-  >([]);
-
-  // Thông tin cho thành viên hội đồng quản trị
-  const [newBoardMember, setNewBoardMember] = useState({
+  // -------------------------------------------------- Hàm xử lý cho thông tin ban lãnh đạo --------------------------------------------------
+  const [boardMembers, setBoardMembers] = useState<CompanyManagements[]>([]);
+  const [newBoardMember, setNewBoardMember] = useState<CompanyManagements>({
+    id: 0,
+    company_id: 0,
     avatar: "",
     name: "",
     position: "",
-    yearStart: "",
+    year_start: null,
   });
 
+  // Table columns for board members
   const columns = [
     {
       title: "Avatar",
@@ -120,16 +126,27 @@ const CompanyTabListDetail: React.FC = () => {
       render: (text: string) => (
         <img src={text} alt="Avatar" className="w-10 h-10 rounded-full" />
       ),
-      width: 120,
+      width: 100,
     },
-    { title: "Tên", dataIndex: "name", width: 350 },
-    { title: "Chức vụ", dataIndex: "position", width: 300 },
-    { title: "Năm bắt đầu", dataIndex: "yearStart", width: 180 },
+    { title: "Tên", dataIndex: "name", width: 220 },
+    { title: "Chức vụ", dataIndex: "position", width: 200 },
     {
-      title: "Thao tác",
-      key: "actions",
-      render: (_: any, record: any) => (
-        <Button type="text" danger icon={<DeleteOutlined />} onClick={() => {}}>
+      title: "Năm bắt đầu",
+      dataIndex: "year_start",
+      width: 150,
+      render: (year_start: Date) => {
+        return year_start ? dayjs(year_start).format("DD/MM/YYYY") : "-";
+      },
+    },
+    {
+      title: "",
+      dataIndex: "",
+      render: (_: any, record: any, index: number) => (
+        <Button
+          type="link"
+          className="w-10"
+          onClick={() => handleDelete(index)} // Gọi hàm xóa với index
+        >
           Xóa
         </Button>
       ),
@@ -141,9 +158,46 @@ const CompanyTabListDetail: React.FC = () => {
   const handleAddBoardMember = () => {
     if (newBoardMember.name && newBoardMember.position) {
       setBoardMembers([...boardMembers, newBoardMember]);
-      setNewBoardMember({ avatar: "", name: "", position: "", yearStart: "" });
+      console.log(newBoardMember);
+      setNewBoardMember(() => ({
+        id: 0,
+        company_id: 0,
+        avatar: "",
+        name: "",
+        position: "",
+        year_start: null,
+      }));
     }
   };
+
+  const handleDelete = (index: number) => {
+    const updatedMembers = boardMembers.filter((_, i) => i !== index); // Loại bỏ thành viên theo index
+    setBoardMembers(updatedMembers);
+  };
+
+  // ------------------------------------- Hàm xử lý cho các input và textarea ----------------------------------------------------------------
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setCompanyDetail((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // ------------------------------------- Hàm xử lý cho DatePicker ---------------------------------------------------------------
+  const handleDateChange = (name: keyof CompanyInfo, date: Dayjs | null) => {
+    setCompanyDetail((prev) => ({
+      ...prev,
+      [name]: date ? date.toISOString() : null,
+    }));
+  };
+
+  useEffect(() => {
+    setCompanyDetail(companyInfo); // Đồng bộ dữ liệu từ Redux
+    setBoardMembers(companyInfo?.company_stakeholder || []); // Lấy dữ liệu ban lãnh dạo
+  }, [companyInfo]);
 
   return (
     <div>
@@ -152,16 +206,42 @@ const CompanyTabListDetail: React.FC = () => {
         <TabPane tab="Thông tin cơ bản" key="1">
           <Form layout="vertical">
             <Form.Item label="Tên công ty">
-              <Input placeholder="Nhập tên công ty" />
+              <Input
+                placeholder="Nhập tên công ty"
+                name="company_name"
+                value={companyDetail?.company_name}
+                onChange={handleInputChange}
+              />
             </Form.Item>
             <Form.Item label="Mã công ty">
-              <Input placeholder="Nhập mã công ty" />
+              <Input
+                placeholder="Nhập mã công ty"
+                name="company_code"
+                value={companyDetail?.company_code}
+                onChange={handleInputChange}
+              />
             </Form.Item>
             <Form.Item label="Ngày thành lập">
-              <DatePicker className="w-full" />
+              <DatePicker
+                className="w-full"
+                name="establishment_date"
+                value={
+                  companyDetail?.establishment_date
+                    ? dayjs(companyDetail.establishment_date)
+                    : null
+                }
+                onChange={(date) =>
+                  handleDateChange("establishment_date", date)
+                }
+              />
             </Form.Item>
             <Form.Item label="Loại hình công ty">
-              <Input placeholder="Nhập loại hình công ty" />
+              <Input
+                placeholder="Nhập loại hình công ty"
+                name="company_type"
+                value={companyDetail?.company_type}
+                onChange={handleInputChange}
+              />
             </Form.Item>
             <Form.Item label="Logo công ty">
               <Upload name="logo" listType="picture">
@@ -169,21 +249,44 @@ const CompanyTabListDetail: React.FC = () => {
               </Upload>
             </Form.Item>
             <Form.Item label="Địa chỉ công ty">
-              <Input placeholder="Nhập địa chỉ công ty" />
+              <Input
+                placeholder="Nhập địa chỉ công ty"
+                name="company_address"
+                value={companyDetail?.company_address}
+                onChange={handleInputChange}
+              />
             </Form.Item>
             <Form.Item label="Gmail công ty">
-              <Input placeholder="Nhập Gmail công ty" />
+              <Input
+                placeholder="Nhập Gmail công ty"
+                name="company_email"
+                value={companyDetail?.company_email}
+                onChange={handleInputChange}
+              />
             </Form.Item>
             <Form.Item label="Điện thoại công ty">
-              <Input placeholder="Nhập điện thoại công ty" />
+              <Input
+                placeholder="Nhập điện thoại công ty"
+                name="company_phone"
+                value={companyDetail?.company_phone}
+                onChange={handleInputChange}
+              />
             </Form.Item>
             <Form.Item label="Website công ty">
-              <Input placeholder="Nhập website công ty" />
+              <Input
+                placeholder="Nhập website công ty"
+                name="company_website"
+                value={companyDetail?.company_website}
+                onChange={handleInputChange}
+              />
             </Form.Item>
             <Form.Item label="Giới thiệu về công ty">
               <TextArea
                 placeholder="Viết một đoạn giới thiệu ngắn về công ty"
                 rows={5}
+                name="company_description"
+                value={companyDetail?.company_description}
+                onChange={handleInputChange}
               />
             </Form.Item>
           </Form>
@@ -224,16 +327,16 @@ const CompanyTabListDetail: React.FC = () => {
                   }))
                 }
               />
-              <Input
+              <DatePicker
+                className="w-1/3"
                 placeholder="Năm bắt đầu"
-                value={newBoardMember.yearStart}
-                onChange={(e) =>
+                value={newBoardMember.year_start}
+                onChange={(date) =>
                   setNewBoardMember((prev) => ({
                     ...prev,
-                    yearStart: e.target.value,
+                    year_start: date, // Chuyển từ moment về Date
                   }))
                 }
-                className="w-1/3"
               />
               <Button type="primary" onClick={handleAddBoardMember}>
                 Thêm
@@ -252,19 +355,50 @@ const CompanyTabListDetail: React.FC = () => {
         <TabPane tab="Thông tin niêm yết" key="3">
           <Form layout="vertical">
             <Form.Item label="Ngày giao dịch đầu tiên">
-              <DatePicker className="w-full" />
+              <DatePicker
+                className="w-full"
+                name="first_trading_date"
+                value={
+                  companyDetail?.first_trading_date
+                    ? dayjs(companyDetail.first_trading_date)
+                    : null
+                }
+                onChange={(date) =>
+                  handleDateChange("first_trading_date", date)
+                }
+              />
             </Form.Item>
             <Form.Item label="Giá giao dịch ngày đầu">
-              <Input placeholder="Nhập giá giao dịch ngày đầu" />
+              <Input
+                placeholder="Nhập giá giao dịch ngày đầu"
+                name="first_trading_price"
+                value={companyDetail?.first_trading_price}
+                onChange={handleInputChange}
+              />
             </Form.Item>
             <Form.Item label="Khối lượng niêm yết lần đầu">
-              <Input placeholder="Nhập khối lượng niêm yết lần đầu" />
+              <Input
+                placeholder="Nhập khối lượng niêm yết lần đầu"
+                name="initial_listing_volume"
+                value={companyDetail?.initial_listing_volume}
+                onChange={handleInputChange}
+              />
             </Form.Item>
             <Form.Item label="Khối lượng niêm yết hiện tại">
-              <Input placeholder="Nhập khối lượng niêm yết hiện tại" />
+              <Input
+                placeholder="Nhập khối lượng niêm yết hiện tại"
+                name="current_listing_volume"
+                value={companyDetail?.current_listing_volume}
+                onChange={handleInputChange}
+              />
             </Form.Item>
             <Form.Item label="Khối lượng cổ phiếu đang lưu hành">
-              <Input placeholder="Nhập khối lượng cổ phiếu đang lưu hành" />
+              <Input
+                placeholder="Nhập khối lượng cổ phiếu đang lưu hành"
+                name="outstanding_shares"
+                value={companyDetail?.outstanding_shares}
+                onChange={handleInputChange}
+              />
             </Form.Item>
           </Form>
         </TabPane>
@@ -315,6 +449,7 @@ const CompanyTabListDetail: React.FC = () => {
             <CompanyTabExtract />
           </div>
         </TabPane>
+
         {/* Mục 5: Dữ liệu cơ bản */}
         <TabPane tab="Lịch Sử Giá" key="6">
           <div className="flex justify-between">

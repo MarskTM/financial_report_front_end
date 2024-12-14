@@ -13,10 +13,11 @@ const UpsertCompany = async (data: any, dispatch: any) => {
     },
   });
   if (!error && response.status === 200) {
-    dispatch(companySlice.setCompany(response.data.data));
+    await dispatch(companySlice.setInsertCompany(response.data.data));
     notify("success", "Cập nhật thành công");
 
     console.log(response);
+    return response.data.data.id;
   } else {
     console.log("Company fail");
     notify("warning", "Cập nhật thất bại");
@@ -46,13 +47,15 @@ const GetAllCompany = async (dispatch: any) => {
   const { response, error }: any = await useCallApi({
     ...api,
     payload: {
-      querySearch: `id > 0`,
       modelType: "companies",
       ignoreAssociation: ["all"],
+      // page: currentPage,
+      // pageSize: pageSize,
+      // isPaginateDB: true,
     },
   });
   if (!error && response.status === 200) {
-    dispatch(companySlice.getListSuccess(response.data.data));
+    dispatch(companySlice.setListSuccess(response.data.data));
     notify("success", "Danh sách doanh nghiệp");
   } else {
     console.log("Company fail");
@@ -60,26 +63,24 @@ const GetAllCompany = async (dispatch: any) => {
   }
 };
 
-const GetCompanyByID = async (dispatch: any, id :number) => {
+const GetCompanyByID = async (dispatch: any, id: number) => {
   const api = APIS_URL.ADVANCE.filter();
   const { response, error }: any = await useCallApi({
     ...api,
     payload: {
       querySearch: `id = ${id}`,
       modelType: "companies",
-      ignoreAssociation: [""],
+      ignoreAssociation: [],
     },
   });
   if (!error && response.status === 200) {
-    dispatch(companySlice.getListSuccess(response.data.data));
+    dispatch(companySlice.setCompany(response.data.data[0]));
     notify("success", "Thông tin doanh nghiệp");
   } else {
     console.log("Company fail");
     notify("warning", "Lấy dữ liệu thất bại");
   }
 };
-
-
 
 export {
   UpsertCompany,
