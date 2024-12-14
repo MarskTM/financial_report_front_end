@@ -479,3 +479,7 @@ export const ConvertDBToUIFormat = (data: HistoryStock[]): StockDataUI[] => {
 		volume: item.volume.toLocaleString('en-US'),
 	}));
 };
+
+export const FormatNumberUI = (number: number): string => {
+	return new Intl.NumberFormat('en-US').format(number);
+};
