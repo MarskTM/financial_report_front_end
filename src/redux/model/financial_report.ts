@@ -13,9 +13,10 @@ export interface CompanyFinancialStatements {
   quarter: number; // Quý báo cáo.
   date: Date; // Ngày công bố báo cáo.
 
-  balance_sheet: BalanceSheetModel;
-  income_statement: IncomeStatementModel;
-  cash_flow: CashFlowModel;
+  balance_sheet?: BalanceSheetModel;
+  income_statement?: IncomeStatementModel;
+  cash_flow?: CashFlowModel;
+  financial_analyst?: FinancialAnalysisModel;
 }
 
 // =========================================================== Model thông tin báo cáo tài chính trích xuất từ file excel ==================================================================
@@ -114,26 +115,25 @@ export type FinancialState = {
   };
 };
 
-
 // =========================================================== Model thông tin báo cáo tài chính trích xuất từ file excel ==================================================================
 export interface HistoryStock {
-	date: string; // Ngày
-	openingPrice: number; // Giá mở cửa
-	highestPrice: number; // Giá cao nhất
-	lowestPrice: number; // Giá thấp nhất
-	closingPrice: number; // Giá đóng cửa
-	priceChange: number; // Thay đổi giá
-	percentChange: number; // % Thay đổi
-	volume: number; // Khối lượng
+  date: string; // Ngày
+  openingPrice: number; // Giá mở cửa
+  highestPrice: number; // Giá cao nhất
+  lowestPrice: number; // Giá thấp nhất
+  closingPrice: number; // Giá đóng cửa
+  priceChange: number; // Thay đổi giá
+  percentChange: number; // % Thay đổi
+  volume: number; // Khối lượng
 }
 
 export interface StockDataUI {
-	date: string; // Ngày
-	openingPrice: string; // Giá mở cửa
-	highestPrice: string; // Giá cao nhất
-	lowestPrice: string; // Giá thấp nhất
-	closingPrice: string; // Giá đóng cửa
-	priceChange: string; // Thay đổi giá
-	percentChange: string; // % Thay đổi
-	volume: string; // Khối lượng
+  date: string; // Ngày
+  openingPrice: string; // Giá mở cửa
+  highestPrice: string; // Giá cao nhất
+  lowestPrice: string; // Giá thấp nhất
+  closingPrice: string; // Giá đóng cửa
+  priceChange: string; // Thay đổi giá
+  percentChange: string; // % Thay đổi
+  volume: string; // Khối lượng
 }

@@ -8,4 +8,9 @@ export interface Profile {
   phone?: string;
   birthdate?: Date | null;
   other_links?: string;
+  address?: string;
+
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date;
 }
