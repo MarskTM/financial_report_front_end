@@ -1,16 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { CompanyFinancialStatements } from "../model/financial_report";
+import { FinancialReportModel } from "../model/financial_report";
 
 // ------------------------------- Slice ---------------------------------
 export interface FinancialReportState {
+  is_fetching: boolean;
   quarter: number;
   period: number;
   year: number;
-  report: CompanyFinancialStatements | null;
+  report: FinancialReportModel | null;
 }
 
 const initialState: FinancialReportState = {
+  is_fetching: false,
   quarter: 3,
   period: 4,
   year: 2024,
@@ -21,19 +23,23 @@ export const financialReportSlice = createSlice({
   name: "financialReport",
   initialState,
   reducers: {
-    loadFinancialData: () => {},
-    extractFinancialData: (
-      state,
-      action: PayloadAction<FinancialReportState>
-    ) => {
-      state.quarter = action.payload.quarter;
-      state.period = action.payload.period;
-      state.year = action.payload.year;
-      state.report = action.payload.report;
+    getHistoryReport: () => {},
+
+    pending: (state) => {
+      state.is_fetching = true;
+    },
+
+    failure: (state) => {
+      state.is_fetching = false;
+    },
+
+    clear: (state) => {
+      state.is_fetching = false;
+      state.report = null;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { extractFinancialData } = financialReportSlice.actions;
+export const { pending, failure, clear } = financialReportSlice.actions;
 export default financialReportSlice.reducer;

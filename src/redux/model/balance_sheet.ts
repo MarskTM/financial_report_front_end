@@ -1,8 +1,8 @@
 export const FieldBalanceDefinitions: Record<string, string> = {
-  total_assets: "TỔNG TÀI SẢN",
+  total_company_assets: "TỔNG TÀI SẢN",
   cash_gold_silver: "Tiền mặt, vàng bạc, đá quý",
-  deposits_at_state_bank: "Tiền gửi tại Ngân hàng nhà nước Việt Nam",
-  deposits_at_credit_institutions:
+  state_bank_deposits: "Tiền gửi tại Ngân hàng nhà nước Việt Nam",
+  credit_institution_deposits:
     "Tiền gửi tại các TCTD khác và cho vay các TCTD khác",
   trading_securities: "Chứng khoán kinh doanh",
   provision_trading_securities: "Dự phòng giảm giá chứng khoán kinh doanh",
@@ -25,8 +25,8 @@ export const FieldBalanceDefinitions: Record<string, string> = {
   intangible_fixed_assets: "Tài sản cố định vô hình",
   investment_properties: "Investment properties",
   other_assets: "Other assets",
-  total_liabilities_and_equity: "NỢ PHẢI TRẢ VÀ VỐN CHỦ SỞ HỮU",
-  total_liabilities: "Tổng nợ phải trả",
+  company_liabilities_and_equity: "NỢ PHẢI TRẢ VÀ VỐN CHỦ SỞ HỮU",
+  company_liabilities: "Tổng nợ phải trả",
   government_debts_and_state_bank: "Các khoản nợ chính phủ và NHNN Việt Nam",
   deposits_and_loans_from_credit_institutions:
     "Tiền gửi và vay các Tổ chức tín dụng khác",
@@ -52,11 +52,11 @@ export const FieldBalanceDefinitions: Record<string, string> = {
 };
 
 export interface BalanceSheetModel {
-  id?: number;
-  total_assets?: number;
+  // id?: number;
+  total_company_assets?: number;
   cash_gold_silver?: number;
-  deposits_at_state_bank?: number;
-  deposits_at_credit_institutions?: number;
+  state_bank_deposits?: number;
+  credit_institution_deposits?: number;
   trading_securities?: number;
   provision_trading_securities?: number;
   derivatives_and_other_financial_assets?: number;
@@ -77,8 +77,8 @@ export interface BalanceSheetModel {
   intangible_fixed_assets?: number;
   investment_properties?: number;
   other_assets?: number;
-  total_liabilities_and_equity?: number;
-  total_liabilities?: number;
+  company_liabilities_and_equity?: number;
+  company_liabilities?: number;
   government_debts_and_state_bank?: number;
   deposits_and_loans_from_credit_institutions?: number;
   customer_deposits?: number;

@@ -1,7 +1,7 @@
 export const FieldIncomeDefinitions: Record<string, string> = {
-  interest_and_similar_income: "Thu nhập lãi và các khoản thu nhập tương tự",
-  interest_and_similar_expenses: "Chi phí lãi và các chi phí tương tự",
-  net_interest_income: "Thu nhập lãi thuần",
+  operating_interest_income: "Thu nhập lãi và các khoản thu nhập tương tự",
+  operating_interest_expenses: "Chi phí lãi và các chi phí tương tự",
+  net_operating_interest_income: "Thu nhập lãi thuần",
   fee_and_commission_income: "Thu nhập từ hoạt động dịch vụ",
   fee_and_commission_expenses: "Chi phí hoạt động dịch vụ",
   net_fee_and_commission_income: "Lãi thuần từ hoạt động dịch vụ",
@@ -35,9 +35,9 @@ export const FieldIncomeDefinitions: Record<string, string> = {
 // Kết quả kinh doanh
 export interface IncomeStatementModel {
   id?: number;
-  interest_and_similar_income?: number;
-  interest_and_similar_expenses?: number;
-  net_interest_income?: number;
+  operating_interest_income?: number;
+  operating_interest_expenses?: number;
+  net_operating_interest_income?: number;
   fee_and_commission_income?: number;
   fee_and_commission_expenses?: number;
   net_fee_and_commission_income?: number;

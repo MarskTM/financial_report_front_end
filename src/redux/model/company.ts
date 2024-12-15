@@ -1,4 +1,4 @@
-import { CompanyFinancialStatements } from "./financial_report";
+import { FinancialReportModel } from "./financial_report";
 
 // Interface định nghĩa thông tin công ty (dạng snake_case)
 export interface CompanyInfo {
@@ -31,7 +31,7 @@ export interface CompanyInfo {
   files?: CompanyFiles[];
 
   // Mục 5: Thông tin tài chính
-  financial_statements?: CompanyFinancialStatements[];
+  financial_statements?: FinancialReportModel[];
 
   created_at?: Date;
   updated_at?: Date;

@@ -17,7 +17,7 @@ export const FieldCashFlowDefinitions: Record<string, string> = {
     "Thanh toán cho nhân viên và nhà cung cấp",
   corporate_income_tax_paid: "Tiền chi nộp thuế thu nhập doanh nghiệp",
   deposits_at_state_bank: "Tiền gửi tại NHNN",
-  increase_decrease_in_deposits_and_loans_to_other_credit_institutions:
+  increase_decrease_in_deposits_and_loans_to_other_credit:
     "(Tăng)/Giảm các khoản tiền gửi và cho vay các tổ chức tín dụng khác",
   increase_decrease_in_trading_securities:
     "(Tăng)/giảm các khoản về kinh doanh chứng khoán",
@@ -87,7 +87,7 @@ export const FieldCashFlowDefinitions: Record<string, string> = {
 };
 
 export interface CashFlowModel {
-  id?: number;
+  // id?: number;
   net_cash_flow_from_operating_activities?: number;
   net_cash_flow_from_operating_activities_before_tax?: number;
   profit_loss_before_changes_in_working_capital?: number;
@@ -100,7 +100,7 @@ export interface CashFlowModel {
   payments_to_employees_and_suppliers?: number;
   corporate_income_tax_paid?: number;
   deposits_at_state_bank?: number;
-  increase_decrease_in_deposits_and_loans_to_other_credit_institutions?: number;
+  increase_decrease_in_deposits_and_loans_to_other_credit?: number;
   increase_decrease_in_trading_securities?: number;
   increase_decrease_in_derivatives_and_other_financial_assets?: number;
   increase_decrease_in_loans_to_customers?: number;
