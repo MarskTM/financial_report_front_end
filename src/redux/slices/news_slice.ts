@@ -1,24 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import * as Model from "../model";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import * as Model from '../model';
 
 // ------------------------------- Slice ---------------------------------
 export interface NewsState {
-  list: Model.News[],
+	list: Model.TidingModel[];
 }
 
 const initialState: NewsState = {
-    list: [],
+	list: [],
 };
 
 export const newsSlice = createSlice({
-  name: "auth",
-  initialState,
-  reducers: {
-    getNews: (state) => {},
-    updateNews: (state, payload: PayloadAction) => {},
-    removeNews: (state, payload: PayloadAction) => {},
-  },
+	name: 'auth',
+	initialState,
+	reducers: {
+		getNews: (state) => {},
+		updateNews: (state, payload: PayloadAction) => {},
+		removeNews: (state, payload: PayloadAction) => {},
+	},
 });
 
 // Action creators are generated for each case reducer function

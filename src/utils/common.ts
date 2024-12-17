@@ -20,7 +20,6 @@ import {
 import { HistoryStock, StockDataUI } from "./../redux/model/financial_report";
 
 import * as XLSX from "xlsx";
-import { Key } from "lucide-react";
 
 // ====================================== Trích xuất data excel =========================================
 export function ReadExcelData(file: File): Promise<{
@@ -63,11 +62,7 @@ export function ReadExcelData(file: File): Promise<{
           const financialReportData = colNames.map<FinancialReportModel>(
             (colName) => {
               const reportData: FinancialReportModel = {
-                media_id: 0,
-                name: "",
-                category: "user-report",
                 quarter: colName,
-                date: new Date(),
                 ...balanceSheetData[colName],
                 ...cashFlowData[colName],
                 ...incomeStatementData[colName],

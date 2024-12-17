@@ -1,25 +1,19 @@
-import { Profile } from "../model/profile";
+export * from '../model/financial_report';
+
+export * from '../model/balance_sheet';
+export * from '../model/cash_flow';
+export * from '../model/income_statement';
+
+export * from '../model/user';
+export * from '../model/profile';
+
+export * from '../model/company';
+
+export * from '../model/tiding';
+export * from '../model/document';
+
 // ------------------------------- Authentication model ---------------------------
-export interface User {
-  id: string;
-  username: string;
-  role: string;
-  
-  profile?: Profile;
-}
-
-
 export interface Credentials {
 	username: string;
 	password: string;
 }
-
-// -------------------------------- News Model --------------------------------
-export interface News {
-	id: string;
-	title: string;
-	content: string;
-	author: string;
-	createdAt: Date;
-}
-

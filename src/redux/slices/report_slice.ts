@@ -1,45 +1,49 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { FinancialReportModel } from "../model/financial_report";
+import { createSlice } from '@reduxjs/toolkit';
+import { UserReport, CompanyReport } from '../model';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 // ------------------------------- Slice ---------------------------------
 export interface FinancialReportState {
-  is_fetching: boolean;
-  quarter: number;
-  period: number;
-  year: number;
-  report: FinancialReportModel | null;
+	is_fetching: boolean;
+  userReport: UserReport | null;
+	historyReport: UserReport[] | null;
+	compnayReport: CompanyReport | null;
 }
 
 const initialState: FinancialReportState = {
-  is_fetching: false,
-  quarter: 3,
-  period: 4,
-  year: 2024,
-  report: null,
+	is_fetching: false,
+	historyReport: null,
+	compnayReport: null,
+  userReport: null,
 };
 
 export const financialReportSlice = createSlice({
-  name: "financialReport",
-  initialState,
-  reducers: {
-    getHistoryReport: () => {},
-
-    pending: (state) => {
-      state.is_fetching = true;
+	name: 'financialReport',
+	initialState,
+	reducers: {
+		responeUpsert: (state, payload: PayloadAction<UserReport>) => {
+      state.userReport = payload.payload
     },
 
-    failure: (state) => {
-      state.is_fetching = false;
-    },
+		getHistoryReport: () => {},
 
-    clear: (state) => {
-      state.is_fetching = false;
-      state.report = null;
-    },
-  },
+		pending: (state) => {
+			state.is_fetching = true;
+		},
+
+		finished: (state) => {
+			state.is_fetching = false;
+		},
+
+		clear: (state) => {
+			state.is_fetching = false;
+			state.historyReport = null;
+			state.compnayReport = null;
+		},
+	},
 });
 
 // Action creators are generated for each case reducer function
-export const { pending, failure, clear } = financialReportSlice.actions;
+export const { responeUpsert, getHistoryReport, pending, finished, clear } =
+	financialReportSlice.actions;
 export default financialReportSlice.reducer;

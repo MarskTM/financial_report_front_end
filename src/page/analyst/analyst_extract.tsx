@@ -88,16 +88,16 @@ const AnalystExtract: React.FC<Props> = ({}) => {
   // ----------------------------------------------------------------
   const [reportData, setReportData] = useState<FinancialReportModel[]>();
 
-  const [financialReportData, setFinancialReportData] = useState<{
-    balanceSheet: {
-      [year: string]: BalanceSheetModel;
-    };
-    cashFlow: {
-      [year: string]: CashFlowModel;
-    };
-    incomeStatement: {
-      [year: string]: IncomeStatementModel;
-    };
+  const [financialReportDataDraw, setFinancialReportDataDraw] = useState<{
+		balanceSheet: {
+			[year: string]: BalanceSheetModel;
+		};
+		cashFlow: {
+			[year: string]: CashFlowModel;
+		};
+		incomeStatement: {
+			[year: string]: IncomeStatementModel;
+		};
   } | null>(null);
 
   const [financialAnalysis, setFinancialAnalysis] = useState<{
@@ -117,7 +117,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
         };
 
         setReportData(dataSheet.financialReport);
-        setFinancialReportData(dataDraw);
+        setFinancialReportDataDraw(dataDraw);
 
         let financialAnalysisData = CalculateFinancialAnalysis(
           { ...dataDraw },
@@ -140,94 +140,94 @@ const AnalystExtract: React.FC<Props> = ({}) => {
   };
 
   useEffect(() => {
-    const conversionUnit =
-      formValues.unitConcurrency === "Đồng"
-        ? "dong"
-        : formValues.unitConcurrency === "Triệu đồng"
-        ? "trieu"
-        : formValues.unitConcurrency === "Tỉ đồng"
-        ? "ty"
-        : "nghin_ty";
+		const conversionUnit =
+			formValues.unitConcurrency === 'Đồng'
+				? 'dong'
+				: formValues.unitConcurrency === 'Triệu đồng'
+				? 'trieu'
+				: formValues.unitConcurrency === 'Tỉ đồng'
+				? 'ty'
+				: 'nghin_ty';
 
-    let data =
-      financialReportData &&
-      ConvertFinancialReportData(financialReportData, conversionUnit);
+		let data =
+			financialReportDataDraw &&
+			ConvertFinancialReportData(financialReportDataDraw, conversionUnit);
 
-    setTabItems([
-      // {
-      // 	key: 'report_chart',
-      // 	label: 'Biểu đồ',
-      // 	children: (
-      // 		<div>
-      // 			<FinancialChartOverview />
-      // 		</div>
-      // 	),
-      // },
-      {
-        key: "1",
-        label: "Bảng cân đối kế toán",
-        children: (
-          <div>
-            <BalanceSheetTable
-              data={data?.balanceSheet ?? null}
-              maxCol={formValues.numPeriods}
-            />
-          </div>
-        ),
-      },
-      {
-        key: "2",
-        label: "Báo cáo kết quả kinh doanh",
-        children: (
-          <IncomeStatementTable
-            data={data?.incomeStatement ?? null}
-            maxCol={formValues.numPeriods}
-          />
-        ),
-      },
-      {
-        key: "3",
-        label: "Báo cáo lưu chuyển tiền tệ",
-        children: (
-          <CashFlowTable
-            data={data?.cashFlow ?? null}
-            maxCol={formValues.numPeriods}
-          />
-        ),
-      },
-      {
-        key: "4",
-        label: "Chỉ số tài chính",
-        children: (
-          <div>
-            <FinancialExtractAnalysis
-              data={financialAnalysis}
-              unit={formValues.unitConcurrency}
-              maxCol={formValues.numPeriods}
-              quarter={formValues.quarter}
-              reportYear={formValues.reportYear}
-              pageName="user-extract"
-            />
-          </div>
-        ),
-      },
-      {
-        key: "5",
-        label: "So Sánh Doanh Nghiệp",
-        children: <div></div>,
-      },
-      {
-        key: "6",
-        label: "Dự Đoán",
-        children: <div></div>,
-      },
-    ]);
-  }, [financialReportData, formValues]);
+		setTabItems([
+			// {
+			// 	key: 'report_chart',
+			// 	label: 'Biểu đồ',
+			// 	children: (
+			// 		<div>
+			// 			<FinancialChartOverview />
+			// 		</div>
+			// 	),
+			// },
+			{
+				key: '1',
+				label: 'Bảng cân đối kế toán',
+				children: (
+					<div>
+						<BalanceSheetTable
+							data={data?.balanceSheet ?? null}
+							maxCol={formValues.numPeriods}
+						/>
+					</div>
+				),
+			},
+			{
+				key: '2',
+				label: 'Báo cáo kết quả kinh doanh',
+				children: (
+					<IncomeStatementTable
+						data={data?.incomeStatement ?? null}
+						maxCol={formValues.numPeriods}
+					/>
+				),
+			},
+			{
+				key: '3',
+				label: 'Báo cáo lưu chuyển tiền tệ',
+				children: (
+					<CashFlowTable
+						data={data?.cashFlow ?? null}
+						maxCol={formValues.numPeriods}
+					/>
+				),
+			},
+			{
+				key: '4',
+				label: 'Chỉ số tài chính',
+				children: (
+					<div>
+						<FinancialExtractAnalysis
+							data={financialAnalysis}
+							unit={formValues.unitConcurrency}
+							maxCol={formValues.numPeriods}
+							quarter={formValues.quarter}
+							reportYear={formValues.reportYear}
+							pageName="user-extract"
+						/>
+					</div>
+				),
+			},
+			// {
+			//   key: "5",
+			//   label: "So Sánh Doanh Nghiệp",
+			//   children: <div></div>,
+			// },
+			// {
+			//   key: "6",
+			//   label: "Dự Đoán",
+			//   children: <div></div>,
+			// },
+		]);
+  }, [financialReportDataDraw, formValues]);
 
   const handelSaveToHistory = () => {
-    if (financialReportData === null) {
-      notify("warning", "Vui lòng cung cấp dữ liệu phân tích của bạn!");
-    }
+    if (reportData === undefined || !reportData) {
+		notify('warning', 'Vui lòng cung cấp dữ liệu phân tích của bạn!');
+	}
     console.log("handel save to history: ", reportData);
   };
 
