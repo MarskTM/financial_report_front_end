@@ -11,7 +11,10 @@ import {
 import { BalanceSheetModel } from "@/redux/model/balance_sheet";
 import { CashFlowModel } from "@/redux/model/cash_flow";
 import { IncomeStatementModel } from "@/redux/model/income_statement";
-import { FinancialAnalysisModel } from "@/redux/model/financial_report";
+import {
+  FinancialAnalysisModel,
+  FinancialState,
+} from "@/redux/model/financial_report";
 
 import {
   BalanceSheetTable,
@@ -64,17 +67,8 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
     reportYear: "2024",
   });
 
-  const [financialReportData, setFinancialReportData] = useState<{
-    balanceSheet: {
-      [year: string]: BalanceSheetModel;
-    };
-    cashFlow: {
-      [year: string]: CashFlowModel;
-    };
-    incomeStatement: {
-      [year: string]: IncomeStatementModel;
-    };
-  } | null>(null);
+  const [financialReportDataDraw, setFinancialReportDataDraw] =
+    useState<FinancialState | null>(null);
 
   const [financialAnalysis, setFinancialAnalysis] = useState<{
     [year: string]: FinancialAnalysisModel;
@@ -90,7 +84,7 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
   };
 
   const handelSaveToHistory = () => {
-    if (financialReportData === null) {
+    if (financialReportDataDraw === null) {
       console.log("handel save to history");
       notify("warning", "Vui lòng cung cấp dữ liệu phân tích của bạn!");
     }
@@ -101,29 +95,27 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
       // Cập nhật tên file và ngăn chặn upload tự động
       setFileName(file.name);
       try {
-        let financialReport = await ReadExcelData(file);
-        financialReport = {
-          balanceSheet: SortByQuarterAndYearASC(financialReport?.balanceSheet),
-          cashFlow: SortByQuarterAndYearASC(financialReport?.cashFlow),
-          incomeStatement: SortByQuarterAndYearASC(
-            financialReport?.incomeStatement
-          ),
+        let dataSheet = await ReadExcelData(file);
+        const dataDraw = {
+          balanceSheet: SortByQuarterAndYearASC(dataSheet?.balanceSheet),
+          cashFlow: SortByQuarterAndYearASC(dataSheet?.cashFlow),
+          incomeStatement: SortByQuarterAndYearASC(dataSheet?.incomeStatement),
         };
 
         // Tính toán với đơn vị Triệu đồng
         //  ConvertFinancialReportData(financialReport, 'trieu');
 
-        setFinancialReportData(financialReport);
+        setFinancialReportDataDraw(dataDraw);
 
         let financialAnalysisData = CalculateFinancialAnalysis(
-          { ...financialReport },
+          { ...dataDraw },
           StockPriceMap,
           OutstandingSharesMap
         );
         financialAnalysisData = SortByQuarterAndYearASC(financialAnalysisData);
         setFinancialAnalysis(financialAnalysisData);
 
-        console.log("Dữ liệu Balance Sheet:", financialReport);
+        console.log("Dữ liệu Balance Sheet:", dataDraw);
       } catch (error) {
         console.error("Lỗi khi đọc dữ liệu:", error);
       }
@@ -145,8 +137,8 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
         : "nghin_ty";
 
     let data =
-      financialReportData &&
-      ConvertFinancialReportData(financialReportData, conversionUnit);
+      financialReportDataDraw &&
+      ConvertFinancialReportData(financialReportDataDraw, conversionUnit);
 
     setTabItems([
       {
@@ -198,7 +190,7 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
         ),
       },
     ]);
-  }, [financialReportData, formValues]);
+  }, [financialReportDataDraw, formValues]);
 
   useEffect(() => {
     console.log(formValues);

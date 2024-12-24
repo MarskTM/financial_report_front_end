@@ -12,7 +12,6 @@ export interface User {
 export interface UserReport {
 	id?: number;
 	profile_id?: number;
-	report_id?: number;
 	document_id?: number;
 
 	name?: string;

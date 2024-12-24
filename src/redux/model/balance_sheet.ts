@@ -25,7 +25,7 @@ export const FieldBalanceDefinitions: Record<string, string> = {
   intangible_fixed_assets: "Tài sản cố định vô hình",
   investment_properties: "Investment properties",
   other_assets: "Other assets",
-  company_liabilities_and_equity: "NỢ PHẢI TRẢ VÀ VỐN CHỦ SỞ HỮU",
+  total_liabilities_and_equity: "NỢ PHẢI TRẢ VÀ VỐN CHỦ SỞ HỮU",
   company_liabilities: "Tổng nợ phải trả",
   government_debts_and_state_bank: "Các khoản nợ chính phủ và NHNN Việt Nam",
   deposits_and_loans_from_credit_institutions:
@@ -77,7 +77,7 @@ export interface BalanceSheetModel {
   intangible_fixed_assets?: number;
   investment_properties?: number;
   other_assets?: number;
-  company_liabilities_and_equity?: number;
+  total_liabilities_and_equity?: number;
   company_liabilities?: number;
   government_debts_and_state_bank?: number;
   deposits_and_loans_from_credit_institutions?: number;
