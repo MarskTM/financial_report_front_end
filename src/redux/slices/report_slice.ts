@@ -36,7 +36,9 @@ export const financialReportSlice = createSlice({
       state.userReport.reports = payload.payload || [];
     },
 
-    getHistoryReport: () => {},
+    getHistoryReport: (state, payload: PayloadAction<UserReport[]>) => {
+      state.historyReport = payload.payload;
+    },
 
     pending: (state) => {
       state.is_fetching = true;

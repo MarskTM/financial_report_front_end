@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Button, Tooltip } from "antd";
 import {
   EyeOutlined,
   DownloadOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+
+import * as api from "@/redux/api/profile";
+import { RootState } from "@/redux/Store";
+import { useDispatch, useSelector } from "react-redux";
+
 import { createStyles } from "antd-style";
 
 const useStyle = createStyles(({ css }) => ({
@@ -32,52 +37,29 @@ interface DocumentRecord {
   key: string;
   stt: number;
   name: string;
-  createdDate: string;
+  createdDate: Date;
 }
 
 interface Props {}
 
 const TableFinancialReportFavorite: React.FC<Props> = () => {
   const { styles } = useStyle();
+  const dispatch = useDispatch();
+  const history = useSelector((state: RootState) => state.report.historyReport);
+  console.log("Documents:", history);
 
-  const [documents, setDocuments] = useState<DocumentRecord[]>([
-    {
-      key: "1",
-      stt: 1,
-      name: "Báo cáo tài chính 2023",
-      createdDate: "2023-12-01",
-    },
-    {
-      key: "2",
-      stt: 2,
-      name: "Kế hoạch phát triển 2024",
-      createdDate: "2023-12-05",
-    },
-    {
-      key: "3",
-      stt: 2,
-      name: "Kế hoạch phát triển 2024",
-      createdDate: "2023-12-05",
-    },
-    {
-      key: "4",
-      stt: 2,
-      name: "Kế hoạch phát triển 2024",
-      createdDate: "2023-12-05",
-    },
-    {
-      key: "5",
-      stt: 2,
-      name: "Kế hoạch phát triển 2024",
-      createdDate: "2023-12-05",
-    },
-    {
-      key: "6",
-      stt: 2,
-      name: "Kế hoạch phát triển 2024",
-      createdDate: "2023-12-05",
-    },
-  ]);
+  const [documents, setDocuments] = useState<DocumentRecord[]>([]);
+
+  useEffect(() => {
+    setDocuments(
+      history.map<DocumentRecord>((val) => ({
+        key: `${val.id}` || "",
+        stt: documents.length + 1,
+        name: val.name || "-",
+        createdDate: val.created_at || new Date(),
+      }))
+    );
+  }, [history]);
 
   // Xử lý thao tác "Xóa"
   const handleDelete = (key: string) => {

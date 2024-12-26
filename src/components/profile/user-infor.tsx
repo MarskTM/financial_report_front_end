@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Form,
@@ -26,6 +26,7 @@ import dayjs, { Dayjs } from "dayjs";
 
 import * as api from "@/redux/api/profile"; // Giả sử bạn có API để cập nhật thông tin người dùng
 import { Profile } from "@/redux/model/profile";
+import { refesh } from "@/redux/api/auth";
 
 type FormValues = {
   name: string;
@@ -44,10 +45,11 @@ const UserInfor: React.FC<Props> = ({}) => {
   const user = useSelector((state: RootState) => state.auth.users);
 
   useEffect(() => {
-    if (!user.profile) {
-      navigate(ROUTE.LOGIN.PATH);
+    if (user.profile === undefined) {
+      refesh(navigate, dispatch); // Gọi hàm refresh
+      console.log("User profile is undefined, refreshing...");
     }
-  }, [user.profile, navigate]);
+  }, [user]);
 
   const {
     control,

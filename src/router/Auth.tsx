@@ -4,24 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE } from "@/utils/route";
 
 interface Props {
-  children: React.FC;
+  children: React.ReactNode;
 }
 
 const Auth: React.FC<Props> = ({ children: Children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (Cookies.get("AccessToken") === undefined) {
+    const accessToken = Cookies.get("AccessToken");
+
+    if (!accessToken) {
+      // Nếu không có AccessToken, xóa token và điều hướng về trang đăng nhập
       Cookies.remove("AccessToken");
       Cookies.remove("RefreshToken");
-    } else {
       navigate(ROUTE.LOGIN.PATH);
-    }
-  }, [Cookies.get("AccessToken")]);
+    } 
+  }, [navigate]);
 
   return (
     <div className="w-full h-full">
-      <Children />
+      {Children}
     </div>
   );
 };

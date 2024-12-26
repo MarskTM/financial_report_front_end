@@ -1,7 +1,9 @@
+import { Profile } from './../model/profile';
 import { APIS_URL } from "@/utils/api";
 import { useCallApi } from "./api-call";
 import { notify } from "@/utils/toast";
 import * as reportSlice from "@/redux/slices/report_slice";
+
 
 const UpsertUserReport = async (data: any, dispatch: any) => {
   const api = APIS_URL.BASIC.upsert();
@@ -43,5 +45,7 @@ const UpsertReportData = async (data: any, dispatch: any) => {
     notify("warning", "Cập nhật báo cáo thất bại");
   }
 };
+
+
 
 export { UpsertUserReport, UpsertReportData };

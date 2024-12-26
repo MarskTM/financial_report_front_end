@@ -60,15 +60,15 @@ import UserActiveChart from "./chart/chart-user-active";
 import DashboardTreeMapChart from "./chart/dashboard-tree-map-chart";
 
 export {
-	DividendIndexChart,
-	ValuationIndexChart,
-	RateIndexGroupChart,
-	HealthyEnterpriseChart,
-	StockChart,
-	DashboardChartBar,
-	FinancialChartOverview,
-	UserActiveChart,
-	DashboardTreeMapChart,
+  DividendIndexChart,
+  ValuationIndexChart,
+  RateIndexGroupChart,
+  HealthyEnterpriseChart,
+  StockChart,
+  DashboardChartBar,
+  FinancialChartOverview,
+  UserActiveChart,
+  DashboardTreeMapChart,
 };
 
 // ------------------------------ Tiding Component-------------------------------
@@ -115,12 +115,12 @@ import SystemTabAuthorUser from "./system-component/system-tab-author-user";
 import SystemTransferNewsApproval from "./system-component/system-transfer-news-approval";
 
 export {
-	SystemTabAuthorUser,
-	CompanyTabInsert,
-	CompanyTabListDetail,
-	SystemTransferNewsApproval,
-	CompanyTabExtract,
-	CompanyTabExtractHistoryPrice,
+  SystemTabAuthorUser,
+  CompanyTabInsert,
+  CompanyTabListDetail,
+  SystemTransferNewsApproval,
+  CompanyTabExtract,
+  CompanyTabExtractHistoryPrice,
 };
 
 // ------------------------------ Notify Component-------------------------------
@@ -128,5 +128,3 @@ import ProfileNotifyTimeLine from "./notify/profile-notify-timeline";
 import SystemNotifyTimeline from "./notify/system-notify-timeline";
 
 export { ProfileNotifyTimeLine, SystemNotifyTimeline };
-
-
