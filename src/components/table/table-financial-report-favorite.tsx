@@ -45,20 +45,28 @@ interface Props {}
 const TableFinancialReportFavorite: React.FC<Props> = () => {
   const { styles } = useStyle();
   const dispatch = useDispatch();
+  const profile = useSelector((state: RootState) => state.auth.profile);
   const history = useSelector((state: RootState) => state.report.historyReport);
+  const [documents, setDocuments] = useState<DocumentRecord[]>([]);
   console.log("Documents:", history);
 
-  const [documents, setDocuments] = useState<DocumentRecord[]>([]);
+  useEffect(() => {
+    if (profile.id) {
+      api.GetUserHistoryReport(profile.id, dispatch);
+    }
+  }, [profile.id, dispatch]); // Replace with your actual API call to fetch data
 
   useEffect(() => {
-    setDocuments(
-      history.map<DocumentRecord>((val) => ({
-        key: `${val.id}` || "",
-        stt: documents.length + 1,
-        name: val.name || "-",
-        createdDate: val.created_at || new Date(),
-      }))
-    );
+    if (history.length > 0) {
+      setDocuments(
+        history.map<DocumentRecord>((val) => ({
+          key: `${val.id}` || "",
+          stt: documents.length + 1,
+          name: val.name || "-",
+          createdDate: val.created_at || new Date(),
+        }))
+      );
+    }
   }, [history]);
 
   // Xử lý thao tác "Xóa"

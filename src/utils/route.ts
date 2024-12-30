@@ -27,7 +27,7 @@ export const ROUTE = {
   },
 
   ENTERPRISE_DETAIL: {
-    PATH: "/enterprise/detail/{id}",
+    PATH: "/enterprise/detail/:id",
     ROLE: [ROLE.ADMIN, ROLE.CLIENT],
   },
 
@@ -37,7 +37,7 @@ export const ROUTE = {
   },
 
   NEWS_DETAIL: {
-    PATH: "/news/deatail/{id}",
+    PATH: "/news/deatail/:id",
     ROLE: [ROLE.ADMIN, ROLE.CLIENT],
   },
 

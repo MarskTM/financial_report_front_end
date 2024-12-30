@@ -28,6 +28,9 @@ import {
 import TableSystemAuthor from "./table/table-system-author";
 import TableTidingCrawl from "./table/table-tiding-crawl";
 import TableSystemEnterprise from "./table/table-system-enterprise";
+import TableClientEnterprise from "./table/table-client-enterprise";
+import TableIndustryData from "./table/table-industry-data";
+import ChartUserIndustryLine from "./chart/chart-user-industry-line"
 
 export {
   TableEnterpriseReport,
@@ -36,16 +39,18 @@ export {
   EnterpriseTable,
   TableBalanceSheet,
   TableSystemAuthor,
-
+  TableIndustryData,
   // -------------------------------
   TableFinancialExtract,
   BalanceSheetTable,
   IncomeStatementTable,
   CashFlowTable,
   TableSystemEnterprise,
+  TableClientEnterprise,
 
   //   FinancialAnalysisTable,
   TableTidingCrawl,
+  ChartUserIndustryLine,
 };
 
 // ------------------------------ Chart Component-------------------------------

@@ -2,8 +2,9 @@ import React from "react";
 import {
   Header,
   SidebarMenu,
-  EnterpriseTable,
-  SidebarTrending,
+  TableClientEnterprise,
+  TableIndustryData,
+  ChartUserIndustryLine,
 } from "@/components";
 interface Props {}
 
@@ -20,15 +21,25 @@ const EnterpriseList: React.FC<Props> = ({}) => {
       </div>
 
       {/* Page Content */}
-      <div className="w-[83%] h-full pt-32 pl-2 ml-72 z-40 lg:mr-14 flex flex-row justify-between">
+      <div className="w-[83%] h-full pt-32 pl-2 ml-72 z-40 lg:mr-14 flex flex-col">
         {/* Main content */}
-        <div className="w-3/4 mr-10">
-          <EnterpriseTable />
+
+        <div className="w-full mb-10 gap-5 flex flex-row items-start justify-between">
+          <div className="w-1/2 bg-white h-[100%]">
+            <TableIndustryData />
+          </div>
+          <div className="w-1/2 bg-white h-[100%]">
+            <ChartUserIndustryLine />
+          </div>
+        </div>
+
+        <div className="w-full mr-10">
+          <TableClientEnterprise />
         </div>
         {/* Sub content */}
-        <div className="w-1/4">
+        {/* <div className="w-full">
           <SidebarTrending />
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -14,8 +14,7 @@ import { CompanyInfo, CompanyManagements } from "@/redux/model/company";
 import dayjs from "dayjs";
 
 import * as api from "@/redux/api/company";
-import { RootState } from "@/redux/Store";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -131,6 +130,9 @@ const CompanyTabInsert: React.FC<Props> = ({}) => {
 
       // Gọi hàm UpsertCompanyStakeholder
       await api.UpsertCompanyStakeholder(stakeholdersWithCompanyId, dispatch);
+
+      //  reload lại trang
+      window.location.reload();
 
     } catch (err) {
       console.error("Error:", err);

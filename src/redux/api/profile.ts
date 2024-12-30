@@ -25,23 +25,24 @@ const UpsertProfile = async (data: any, dispatch: any) => {
   }
 };
 
-const GetUserHistoryReport = async (dispatch: any) => {
-  const profileID = useSelector((state: any) => state.user.profile.id);
+const GetUserHistoryReport = async (profieId: number, dispatch: any) => {
   const api = APIS_URL.ADVANCE.filter();
   const { response, error }: any = await useCallApi({
     ...api,
     payload: {
       modelType: "userReports",
-      querySearch: `profile_id = ${profileID}`,
+      querySearch: `profile_id = ${profieId}`,
       ignoreAssociation: ["all"],
     },
   });
   if (!error && response.status === 200) {
-    console.log("reports history:", response.data.data);
     await dispatch(reportSlice.getHistoryReport(response.data.data));
-    return response.data.data;
+    console.log("reports history:", response.data.data);
+    notify("success", "Lịch sử phân tích");
+    // return response.data.data;
   } else {
     console.log("Company fail");
+    notify("warning", "Lịch sử phân tích");
   }
 };
 

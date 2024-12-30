@@ -25,8 +25,9 @@ import { ROUTE } from "@/utils/route";
 import dayjs, { Dayjs } from "dayjs";
 
 import * as api from "@/redux/api/profile"; // Giả sử bạn có API để cập nhật thông tin người dùng
-import { Profile } from "@/redux/model/profile";
 import { refesh } from "@/redux/api/auth";
+import { Profile } from "@/redux/model/profile";
+import * as Model from "@/redux/model";
 
 type FormValues = {
   name: string;
@@ -40,16 +41,9 @@ type FormValues = {
 type Props = {};
 
 const UserInfor: React.FC<Props> = ({}) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth.users);
-
-  useEffect(() => {
-    if (user.profile === undefined) {
-      refesh(navigate, dispatch); // Gọi hàm refresh
-      console.log("User profile is undefined, refreshing...");
-    }
-  }, [user]);
 
   const {
     control,
@@ -63,7 +57,7 @@ const UserInfor: React.FC<Props> = ({}) => {
         : "",
       date: user?.profile?.birthdate
         ? dayjs(user.profile.birthdate)
-        : dayjs(user.profile?.created_at),
+        : dayjs(user?.profile?.created_at),
       address: user?.profile?.address || "123 Đường ABC, Quận XYZ, Hà Nội",
       phone: user?.profile?.phone || "",
       email: user?.profile?.email || "",
@@ -83,7 +77,7 @@ const UserInfor: React.FC<Props> = ({}) => {
       const last_name = nameParts.slice(1).join(" ") || ""; // Gộp tất cả các phần tử còn lại
 
       const profileData: Profile = {
-        id: user.profile?.id,
+        id: user?.profile?.id,
         first_name: first_name,
         last_name: last_name,
         birthdate: birthdate,
@@ -102,6 +96,27 @@ const UserInfor: React.FC<Props> = ({}) => {
       message.error("Đã xảy ra lỗi khi cập nhật thông tin.");
     }
   };
+
+  useEffect(() => {
+    if (user.profile) {
+      setValue(
+        "name",
+        `${user.profile.first_name} ${user.profile.last_name}` || ""
+      );
+      setValue(
+        "date",
+        user.profile.birthdate
+          ? dayjs(user.profile.birthdate)
+          : dayjs(user.profile.created_at)
+      );
+      setValue(
+        "address",
+        user.profile.address || "123 Đường ABC, Quận XYZ, Hà Nội"
+      );
+      setValue("phone", user.profile.phone || "");
+      setValue("email", user.profile.email || "");
+    }
+  }, [user]);
 
   return (
     <div className="w-full h-full mx-auto p-4">

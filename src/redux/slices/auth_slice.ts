@@ -30,7 +30,10 @@ export const authSlice = createSlice({
 		},
 
 		loadProfile: (state, action: PayloadAction<Profile>) => {
-			state.profile = action.payload;
+			state.profile = {
+				...state.profile,
+                ...action.payload,
+			};
 		},
 
 		pending: (state) => {
