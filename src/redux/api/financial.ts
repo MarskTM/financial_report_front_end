@@ -1,9 +1,7 @@
-import { Profile } from './../model/profile';
 import { APIS_URL } from "@/utils/api";
 import { useCallApi } from "./api-call";
 import { notify } from "@/utils/toast";
 import * as reportSlice from "@/redux/slices/report_slice";
-
 
 const UpsertUserReport = async (data: any, dispatch: any) => {
   const api = APIS_URL.BASIC.upsert();
@@ -16,6 +14,27 @@ const UpsertUserReport = async (data: any, dispatch: any) => {
   });
   if (!error && response.status === 200) {
     await dispatch(reportSlice.upsertUserReport(response.data.data));
+    notify("success", "Cập nhật thành công");
+
+    console.log(response);
+    return response.data.data.id;
+  } else {
+    console.log("Company fail");
+    notify("warning", "Cập nhật thất bại");
+  }
+};
+
+const UpsertCompanyReport = async (data: any, dispatch: any) => {
+  const api = APIS_URL.BASIC.upsert();
+  const { response, error }: any = await useCallApi({
+    ...api,
+    payload: {
+      modelType: "companyReports",
+      data: data,
+    },
+  });
+  if (!error && response.status === 200) {
+    await dispatch(reportSlice.upsertCompanyReport(response.data.data));
     notify("success", "Cập nhật thành công");
 
     console.log(response);
@@ -46,6 +65,54 @@ const UpsertReportData = async (data: any, dispatch: any) => {
   }
 };
 
+const GetUserReport = async (id: number, dispatch: any) => {
+  const api = APIS_URL.ADVANCE.filter();
+  const { response, error }: any = await useCallApi({
+    ...api,
+    payload: {
+      modelType: "userReports",
+      querySearch: `company_id = ${id}`,
+      ignoreAssociation: [""],
+    },
+  });
+  if (!error && response.status === 200) {
+    await dispatch(reportSlice.upsertCompanyReport(response.data.data));
+    console.log("reports history:", response.data.data);
+    notify("success", "Lịch sử phân tích");
+    // return response.data.data;
+  } else {
+    console.log("Company fail");
+    notify("warning", "Lịch sử phân tích");
+  }
+};
 
+const GetCompanyReportData = async (dispatch: any, id: number) => {
+  const api = APIS_URL.ADVANCE.filter();
+  const { response, error }: any = await useCallApi({
+    ...api,
+    payload: {
+      modelType: "companyReports",
+      querySearch: `company_id = ${id}`,
+      ignoreAssociation: [],
+    },
+  });
+  if (!error && response.status === 200) {
+    await dispatch(
+      reportSlice.upsertCompanyReport(response.data.data[0])
+    );
+    // console.log("reports history:", response.data.data[0]);
+    notify("success", "Lịch sử phân tích");
+    // return response.data.data;
+  } else {
+    console.log("Company fail");
+    notify("warning", "Lịch sử phân tích");
+  }
+};
 
-export { UpsertUserReport, UpsertReportData };
+export {
+  UpsertUserReport,
+  UpsertReportData,
+  UpsertCompanyReport,
+  GetCompanyReportData,
+  GetUserReport,
+ };

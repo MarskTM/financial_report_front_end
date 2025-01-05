@@ -8,10 +8,12 @@ import { FormatNumberUI } from "@/utils/common";
 import dayjs from "dayjs";
 
 import * as api from "@/redux/api/company";
+import * as reportApi from "@/redux/api/financial";
+
 import { RootState } from "@/redux/Store";
 import { useDispatch, useSelector } from "react-redux";
 import * as companySlice from "@/redux/slices/company_slice";
-// import { CompanyInfo } from "@/redux/model/company";
+import * as reportSlice from "@/redux/slices/report_slice";
 
 interface Company {
   key: React.Key;
@@ -27,7 +29,8 @@ interface Company {
   website: string;
 }
 
-const TableSystemEnterprise = ({}) => {
+const 
+TableSystemEnterprise = ({}) => {
   const dispatch = useDispatch();
 
   const [pagination, setPagination] = useState({
@@ -64,13 +67,16 @@ const TableSystemEnterprise = ({}) => {
     setSelectedCompany(record);
 
     await api.GetCompanyByID(dispatch, record.id);
+    await reportApi.GetCompanyReportData(dispatch, record.id);
     setIsModalOpen(true);
   };
 
-  const handleModalClose = () => {
+  const handleModalClose = async () => {
+    dispatch(companySlice.clearCompany());
+    dispatch(reportSlice.clear());
+
     setIsModalOpen(false);
     setSelectedCompany(null);
-    dispatch(companySlice.clearCompany());
   };
 
   const handleTableChange = (pagination: TablePaginationConfig) => {

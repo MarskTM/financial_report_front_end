@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Upload, Button, Select, Form } from "antd";
-import { SaveFilled, UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined } from "@ant-design/icons";
 import {
   ReadExcelData,
   CalculateFinancialAnalysis,
@@ -8,14 +8,12 @@ import {
   ConvertFinancialReportData,
 } from "@/utils/common";
 
-import { BalanceSheetModel } from "@/redux/model/balance_sheet";
-import { CashFlowModel } from "@/redux/model/cash_flow";
-import { IncomeStatementModel } from "@/redux/model/income_statement";
 import {
   FinancialAnalysisModel,
   FinancialState,
+  FinancialReportModel,
 } from "@/redux/model/financial_report";
-
+import { CompanyReport } from "@/redux/model/company";
 import {
   BalanceSheetTable,
   IncomeStatementTable,
@@ -24,9 +22,15 @@ import {
 } from "@/components";
 
 import { Tabs } from "antd";
-// import { CSS } from "@dnd-kit/utilities";
-import type { TabsProps } from "antd";
 import { notify } from "@/utils/toast";
+import type { TabsProps } from "antd";
+
+import * as api from "@/redux/api/financial";
+import { RootState } from "@/redux/Store";
+import { useSelector, useDispatch } from "react-redux";
+import * as reportSlice from "@/redux/slices/report_slice";
+
+import { ProcessFinancialReports } from "@/utils/common";
 
 interface Props {}
 
@@ -59,6 +63,16 @@ const unitConcurrency = ["Đồng", "Triệu đồng", "Tỉ đồng"];
 const reportYears = ["2023", "2024"];
 
 const CompanyTabExtract: React.FC<Props> = ({}) => {
+  const dispatch = useDispatch();
+  const companyInfo = useSelector((state: RootState) => state.company.company);
+  const companyReportID = companyInfo.Company_report?.id || 0;
+  const isClearReportData = useSelector(
+    (state: RootState) => state.report.is_clear_data
+  );
+  const companyReportData = useSelector(
+    (state: RootState) => state.report.compnayReport
+  );
+
   const [fileName, setFileName] = useState<string>("");
   const [formValues, setFormValues] = useState({
     quarter: "Q1",
@@ -66,6 +80,9 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
     unitConcurrency: "Triệu đồng",
     reportYear: "2024",
   });
+
+  // ----------------------------------------------------------------
+  const [reportData, setReportData] = useState<FinancialReportModel[]>();
 
   const [financialReportDataDraw, setFinancialReportDataDraw] =
     useState<FinancialState | null>(null);
@@ -83,10 +100,42 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
     });
   };
 
-  const handelSaveToHistory = () => {
-    if (financialReportDataDraw === null) {
-      console.log("handel save to history");
+  console.log("companyInfo: ", companyInfo);
+  console.log(
+    "companyInfo.Company_report: ",
+    companyInfo.Company_report
+  );
+  const handelSaveToHistory = async () => {
+    if (reportData === undefined || !reportData) {
       notify("warning", "Vui lòng cung cấp dữ liệu phân tích của bạn!");
+      return;
+    }
+    // console.log("companyInfo.Company_report?.id: ",companyInfo?.Company_report);
+    try {
+      const companyReport: CompanyReport = {
+        id: companyInfo?.Company_report?.id,
+        company_id: companyInfo.id,
+        name: fileName,
+        category: "company_reports",
+        date: new Date(),
+      };
+      const companyReportID = await api.UpsertCompanyReport(
+        companyReport,
+        dispatch
+      );
+
+      const mapReportData = reportData?.map((report) => {
+        return {
+          ...report,
+          company_report_id: companyReportID,
+        };
+      });
+
+      await api.UpsertReportData(mapReportData, dispatch);
+
+      console.log("handel save to history: ", reportData);
+    } catch (err) {
+      console.error("Lỗi khi lưu trữ báo cáo:", err);
     }
   };
 
@@ -105,6 +154,7 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
         // Tính toán với đơn vị Triệu đồng
         //  ConvertFinancialReportData(financialReport, 'trieu');
 
+        setReportData(dataSheet.financialReport);
         setFinancialReportDataDraw(dataDraw);
 
         let financialAnalysisData = CalculateFinancialAnalysis(
@@ -139,6 +189,11 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
     let data =
       financialReportDataDraw &&
       ConvertFinancialReportData(financialReportDataDraw, conversionUnit);
+
+    if (isClearReportData) {
+      setFinancialReportDataDraw(null);
+      dispatch(reportSlice.finished());
+    }
 
     setTabItems([
       {
@@ -190,11 +245,29 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
         ),
       },
     ]);
-  }, [financialReportDataDraw, formValues]);
+  }, [
+    financialReportDataDraw,
+    financialAnalysis,
+    formValues,
+    isClearReportData,
+  ]);
 
   useEffect(() => {
-    console.log(formValues);
-  }, [formValues]);
+    let listReportData = companyReportData?.reports
+      ? companyReportData.reports
+      : [];
+    let currentCompanyReportDataDraw = ProcessFinancialReports(listReportData);
+    // console.log(
+    //   "currentCompanyReportDataDraw.Ananlyst: ",
+    //   currentCompanyReportDataDraw.financialAnalyst
+    // );
+    // console.log("currentCompanyReportDataDraw: ", currentCompanyReportDataDraw);
+    setReportData(companyReportData?.reports || []);
+    setFinancialReportDataDraw({
+      ...currentCompanyReportDataDraw,
+    } as FinancialState);
+    setFinancialAnalysis(currentCompanyReportDataDraw.financialAnalyst);
+  }, [companyReportData]);
 
   return (
     <div className="w-screen min-h-full bg-slate-100 relative overflow-y-scroll">

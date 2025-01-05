@@ -5,6 +5,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 // ------------------------------- Slice ---------------------------------
 export interface FinancialReportState {
   is_fetching: boolean;
+  is_clear_data: boolean;
   userReport: UserReport;
   historyReport: UserReport[];
   compnayReport: CompanyReport;
@@ -12,6 +13,7 @@ export interface FinancialReportState {
 
 const initialState: FinancialReportState = {
   is_fetching: false,
+  is_clear_data: false,
   historyReport: [],
   compnayReport: {},
   userReport: {
@@ -25,6 +27,10 @@ export const financialReportSlice = createSlice({
   name: "financialReport",
   initialState,
   reducers: {
+    upsertCompanyReport: (state, payload: PayloadAction<CompanyReport>) => {
+      state.compnayReport = payload.payload;
+    },
+
     upsertUserReport: (state, payload: PayloadAction<UserReport>) => {
       state.userReport = payload.payload;
     },
@@ -46,10 +52,12 @@ export const financialReportSlice = createSlice({
 
     finished: (state) => {
       state.is_fetching = false;
+      state.is_clear_data = false;
     },
 
     clear: (state) => {
-      state.is_fetching = false;
+      state.is_fetching = true;
+      state.is_clear_data = true;
       state.historyReport = [];
       state.compnayReport = {};
     },
@@ -58,6 +66,7 @@ export const financialReportSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  upsertCompanyReport,
   upsertUserReport,
   upsertUserReportData,
   getHistoryReport,

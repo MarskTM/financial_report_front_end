@@ -34,6 +34,9 @@ export interface CompanyInfo {
 	// Mục 5: Thông tin tài chính
 	financial_statements?: FinancialReportModel[];
 
+	// Mục 6: Thông tin chỉ số tài chính
+	Company_report?: CompanyReport;
+
 	created_at?: Date;
 	updated_at?: Date;
 	deleted_at?: Date;

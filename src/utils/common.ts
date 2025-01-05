@@ -522,3 +522,57 @@ export const ConvertDBToUIFormat = (data: HistoryStock[]): StockDataUI[] => {
 export const FormatNumberUI = (number: number): string => {
   return new Intl.NumberFormat("en-US").format(number);
 };
+
+
+
+// Hàm xử lý dữ liệu
+export function ProcessFinancialReports(reports: FinancialReportModel[]) {
+  const result = {
+    balanceSheet: {} as { [quarter: string]: BalanceSheetModel },
+    cashFlow: {} as { [quarter: string]: CashFlowModel },
+    incomeStatement: {} as { [quarter: string]: IncomeStatementModel },
+    financialAnalyst: {} as { [quarter: string]: FinancialAnalysisModel },
+  };
+
+  reports.forEach((report) => {
+    const quarter = report.quarter; // Lấy giá trị 'quarter' từ báo cáo
+
+    // Kiểm tra nếu 'quarter' có giá trị, sau đó tiến hành xử lý dữ liệu
+    if (quarter) {
+      // Process balanceSheet
+      if (!result.balanceSheet[quarter]) {
+        result.balanceSheet[quarter] = {} as BalanceSheetModel;
+      }
+      result.balanceSheet[quarter] = {
+        ...result.balanceSheet[quarter],
+        ...report,
+      };
+
+      // Process cashFlow
+      if (!result.cashFlow[quarter]) {
+        result.cashFlow[quarter] = {} as CashFlowModel;
+      }
+      result.cashFlow[quarter] = { ...result.cashFlow[quarter], ...report };
+
+      // Process incomeStatement
+      if (!result.incomeStatement[quarter]) {
+        result.incomeStatement[quarter] = {} as IncomeStatementModel;
+      }
+      result.incomeStatement[quarter] = {
+        ...result.incomeStatement[quarter],
+        ...report,
+      };
+
+      // Process financialAnalyst
+      if (!result.financialAnalyst[quarter]) {
+        result.financialAnalyst[quarter] = {} as FinancialAnalysisModel;
+      }
+      result.financialAnalyst[quarter] = {
+        ...result.financialAnalyst[quarter],
+        ...report,
+      };
+    }
+  });
+
+  return result;
+}

@@ -23,7 +23,7 @@ import SystemCompany from "@/page/admin/system_company";
 
 const Router: React.FC = () => {
   const router = createBrowserRouter([
-    { path: "/", element: <Navigate to={ROUTE.HOME.PATH} replace /> },
+    { path: "/", element: <Navigate to={ROUTE.LOGIN.PATH} replace /> },
 
     { path: ROUTE.LOGIN.PATH, element: <Auth children={<LoginPage />} /> },
     { path: ROUTE.REGISTER.PATH, element: <RegisterPage /> },
