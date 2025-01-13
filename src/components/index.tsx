@@ -80,8 +80,14 @@ export {
 import DashboardTidings from "./tiding/dashboard-tidings";
 import CategoryTiding from "./tiding/category-tiding";
 import SubCategoryTiding from "./tiding/sub-category-tiding";
+import TidingFormInsert from "./form/tiding-form-insert"; 
 
-export { DashboardTidings, CategoryTiding, SubCategoryTiding };
+export {
+  DashboardTidings,
+  CategoryTiding,
+  SubCategoryTiding,
+  TidingFormInsert,
+};
 
 // ------------------------------ Content Component-------------------------------
 import StatsCard from "./card/starts-card";
