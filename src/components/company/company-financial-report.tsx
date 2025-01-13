@@ -62,17 +62,13 @@ const NumPeriods = [1, 2, 3, 4, 5];
 const unitConcurrency = ["Đồng", "Triệu đồng", "Tỉ đồng"];
 const reportYears = ["2023", "2024"];
 
-const CompanyTabExtract: React.FC<Props> = ({}) => {
+const CompanyFinancialReport: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const companyInfo = useSelector((state: RootState) => state.company.company);
-  const isClearReportData = useSelector(
-    (state: RootState) => state.report.is_clear_data
-  );
   const companyReportData = useSelector(
     (state: RootState) => state.report.compnayReport
   );
 
-  const [fileName, setFileName] = useState<string>("");
   const [formValues, setFormValues] = useState({
     quarter: "Q1",
     numPeriods: 4,
@@ -100,80 +96,7 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
   };
 
   console.log("companyInfo: ", companyInfo);
-  console.log(
-    "companyInfo.Company_report: ",
-    companyInfo.Company_report
-  );
-  const handelSaveToHistory = async () => {
-    if (reportData === undefined || !reportData) {
-      notify("warning", "Vui lòng cung cấp dữ liệu phân tích của bạn!");
-      return;
-    }
-    // console.log("companyInfo.Company_report?.id: ",companyInfo?.Company_report);
-    try {
-      const companyReport: CompanyReport = {
-        id: companyInfo?.Company_report?.id,
-        company_id: companyInfo.id,
-        name: fileName,
-        category: "company_reports",
-        date: new Date(),
-      };
-      const companyReportID = await api.UpsertCompanyReport(
-        companyReport,
-        dispatch
-      );
-
-      const mapReportData = reportData?.map((report) => {
-        return {
-          ...report,
-          company_report_id: companyReportID,
-        };
-      });
-
-      await api.UpsertReportData(mapReportData, dispatch);
-
-      console.log("handel save to history: ", reportData);
-    } catch (err) {
-      console.error("Lỗi khi lưu trữ báo cáo:", err);
-    }
-  };
-
-  const uploadProps = {
-    beforeUpload: async (file: File) => {
-      // Cập nhật tên file và ngăn chặn upload tự động
-      setFileName(file.name);
-      try {
-        let dataSheet = await ReadExcelData(file);
-        const dataDraw = {
-          balanceSheet: SortByQuarterAndYearASC(dataSheet?.balanceSheet),
-          cashFlow: SortByQuarterAndYearASC(dataSheet?.cashFlow),
-          incomeStatement: SortByQuarterAndYearASC(dataSheet?.incomeStatement),
-        };
-
-        // Tính toán với đơn vị Triệu đồng
-        //  ConvertFinancialReportData(financialReport, 'trieu');
-
-        setReportData(dataSheet.financialReport);
-        setFinancialReportDataDraw(dataDraw);
-
-        let financialAnalysisData = CalculateFinancialAnalysis(
-          { ...dataDraw },
-          StockPriceMap,
-          OutstandingSharesMap
-        );
-        financialAnalysisData = SortByQuarterAndYearASC(financialAnalysisData);
-        setFinancialAnalysis(financialAnalysisData);
-
-        console.log("Dữ liệu Balance Sheet:", dataDraw);
-      } catch (error) {
-        console.error("Lỗi khi đọc dữ liệu:", error);
-      }
-
-      return false; // Ngăn upload tự động
-    },
-
-    showUploadList: false, // Ẩn danh sách file upload
-  };
+  console.log("companyInfo.Company_report: ", companyInfo.Company_report);
 
   useEffect(() => {
     const conversionUnit =
@@ -188,11 +111,6 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
     let data =
       financialReportDataDraw &&
       ConvertFinancialReportData(financialReportDataDraw, conversionUnit);
-
-    if (isClearReportData) {
-      setFinancialReportDataDraw(null);
-      dispatch(reportSlice.finished());
-    }
 
     setTabItems([
       {
@@ -244,12 +162,7 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
         ),
       },
     ]);
-  }, [
-    financialReportDataDraw,
-    financialAnalysis,
-    formValues,
-    isClearReportData,
-  ]);
+  }, [financialReportDataDraw, financialAnalysis, formValues]);
 
   useEffect(() => {
     let listReportData = companyReportData?.reports
@@ -269,7 +182,7 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
   }, [companyReportData]);
 
   return (
-    <div className="w-screen min-h-full bg-slate-100 relative overflow-y-scroll">
+    <div className="w-full min-h-full bg-slate-100 relative overflow-y-scroll">
       {/* Page Content */}
       <div className="h-full z-40">
         <div className="flex flex-row">
@@ -326,7 +239,7 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
                 }))}
               />
             </Form.Item>
-            <div className="ml-auto w-80 flex flex-row items-center justify-between">
+            {/* <div className="ml-auto w-80 flex flex-row items-center justify-between">
               <Upload {...uploadProps}>
                 <Button icon={<UploadOutlined />} className="w-48">
                   <span className="direction-rtl block truncate">
@@ -338,7 +251,7 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
               <Button type="primary" onClick={handelSaveToHistory}>
                 Lưu Phân Tích
               </Button>
-            </div>
+            </div> */}
           </Form>
         </div>
         <div className="mt-10">
@@ -349,6 +262,4 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
   );
 };
 
-export default CompanyTabExtract;
-
-// =================================================================
+export default CompanyFinancialReport;

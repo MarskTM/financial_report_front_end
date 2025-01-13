@@ -8,6 +8,8 @@ import { FormatNumberUI } from "@/utils/common";
 import dayjs from "dayjs";
 
 import * as api from "@/redux/api/company";
+import * as reportApi from "@/redux/api/financial";
+
 import { RootState } from "@/redux/Store";
 import { useDispatch, useSelector } from "react-redux";
 import * as companySlice from "@/redux/slices/company_slice";
@@ -19,7 +21,6 @@ import { createStyles } from "antd-style";
 const useStyle = createStyles(({ css }) => ({
   customTable: css`
     .ant-table {
-
       .ant-table-container {
         height: 100%; /* Đảm bảo container sử dụng toàn bộ chiều cao */
         .ant-table-body,
@@ -91,6 +92,7 @@ const TableClientEnterprise = ({}) => {
     setSelectedCompany(record);
 
     await api.GetCompanyByID(dispatch, record.id);
+    await reportApi.GetCompanyReportData(dispatch, record.id);
 
     const detailPath = ROUTE.ENTERPRISE_DETAIL.PATH.replace(
       ":id",

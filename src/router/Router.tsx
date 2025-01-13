@@ -20,6 +20,7 @@ import TidingDetail from "@/page/news/tiding_detail";
 import AnalystExtract from "@/page/analyst/analyst_extract";
 import SystemInfor from "@/page/admin/system_infor";
 import SystemCompany from "@/page/admin/system_company";
+import EnterpriseTabReport from "@/page/enterprise/enterprise_tab_report"
 
 const Router: React.FC = () => {
   const router = createBrowserRouter([
@@ -52,7 +53,9 @@ const Router: React.FC = () => {
 
     {
       path: ROUTE.ANALYST.PATH,
-      element: <Role roles={["user", "admin"]} children={Analyst} />,
+      element: (
+        <Role roles={["user", "admin"]} children={EnterpriseTabReport} />
+      ),
     },
     {
       path: ROUTE.ANALYST_EXTRACT.PATH,

@@ -115,6 +115,7 @@ import CompanyTabListDetail from "./company/company-tab-list-detail";
 import CompanyTabInsert from "./company/company-tab-insert";
 import CompanyTabExtract from "./company/company-tab-extract";
 import CompanyTabExtractHistoryPrice from "./company/company-tab-extract-history-price";
+import CompanyFinancialReport from "./company/company-financial-report";
 
 import SystemTabAuthorUser from "./system-component/system-tab-author-user";
 import SystemTransferNewsApproval from "./system-component/system-transfer-news-approval";
@@ -126,6 +127,7 @@ export {
   SystemTransferNewsApproval,
   CompanyTabExtract,
   CompanyTabExtractHistoryPrice,
+  CompanyFinancialReport,
 };
 
 // ------------------------------ Notify Component-------------------------------
