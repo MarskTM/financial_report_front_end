@@ -14,13 +14,13 @@ const UpsertCompany = async (data: any, dispatch: any) => {
   });
   if (!error && response.status === 200) {
     await dispatch(companySlice.setInsertCompany(response.data.data));
-    notify("success", "Cập nhật thành công");
+    // notify("success", "Cập nhật thành công");
 
     console.log(response);
     return response.data.data.id;
   } else {
     console.log("Company fail");
-    notify("warning", "Cập nhật thất bại");
+    // notify("warning", "Cập nhật thất bại");
   }
 };
 
@@ -35,10 +35,10 @@ const UpsertCompanyStakeholder = async (data: any, dispatch: any) => {
   });
   if (!error && response.status === 200) {
     dispatch(companySlice.setStakeHodler(response.data.data));
-    notify("success", "Cập nhật thành công");
+    // notify("success", "Cập nhật thành công");
   } else {
     console.log("Company fail");
-    notify("warning", "Cập nhật thất bại");
+    // notify("warning", "Cập nhật thất bại");
   }
 };
 
@@ -56,10 +56,10 @@ const GetAllCompany = async (dispatch: any) => {
   });
   if (!error && response.status === 200) {
     dispatch(companySlice.setListSuccess(response.data.data));
-    notify("success", "Danh sách doanh nghiệp");
+    // notify("success", "Danh sách doanh nghiệp");
   } else {
     console.log("Company fail");
-    notify("warning", "Lấy dữ liệu thất bại");
+    // notify("warning", "Lấy dữ liệu thất bại");
   }
 };
 
@@ -75,10 +75,10 @@ const GetCompanyByID = async (dispatch: any, id: number) => {
   });
   if (!error && response.status === 200) {
     dispatch(companySlice.setCompany(response.data.data[0]));
-    notify("success", "Thông tin doanh nghiệp");
+    // notify("success", "Thông tin doanh nghiệp");
   } else {
     console.log("Company fail");
-    notify("warning", "Lấy dữ liệu thất bại");
+    // notify("warning", "Lấy dữ liệu thất bại");
   }
 };
 

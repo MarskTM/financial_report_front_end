@@ -78,11 +78,11 @@ const GetUserReport = async (id: number, dispatch: any) => {
   if (!error && response.status === 200) {
     await dispatch(reportSlice.upsertCompanyReport(response.data.data));
     console.log("reports history:", response.data.data);
-    notify("success", "Lịch sử phân tích");
+    // notify("success", "Lịch sử phân tích");
     // return response.data.data;
   } else {
     console.log("Company fail");
-    notify("warning", "Lịch sử phân tích");
+    // notify("warning", "Lịch sử phân tích");
   }
 };
 
@@ -100,12 +100,12 @@ const GetCompanyReportData = async (dispatch: any, id: number) => {
     await dispatch(
       reportSlice.upsertCompanyReport(response.data.data[0])
     );
-    // console.log("reports history:", response.data.data[0]);
-    notify("success", "Lịch sử phân tích");
+    console.log("reports history:", response.data.data[0]);
+    // notify("success", "Lịch sử phân tích");
     // return response.data.data;
   } else {
     console.log("Company fail");
-    notify("warning", "Lịch sử phân tích");
+    // notify("warning", "Lịch sử phân tích");
   }
 };
 

@@ -16,12 +16,12 @@ const UpsertProfile = async (data: any, dispatch: any) => {
   });
   if (!error && response.status === 200) {
     await dispatch(dispatch(authSlice.loadProfile(response.data.data.profile)));
-    notify("success", "Cập nhật thành công");
+    // notify("success", "Cập nhật thành công");
 
     console.log(response);
     return response.data.data.id;
   } else {
-    notify("warning", "Cập nhật thất bại");
+    // notify("warning", "Cập nhật thất bại");
   }
 };
 
@@ -38,11 +38,11 @@ const GetUserHistoryReport = async (profieId: number, dispatch: any) => {
   if (!error && response.status === 200) {
     await dispatch(reportSlice.getHistoryReport(response.data.data));
     console.log("reports history:", response.data.data);
-    notify("success", "Lịch sử phân tích");
+    // notify("success", "Lịch sử phân tích");
     // return response.data.data;
   } else {
     console.log("Company fail");
-    notify("warning", "Lịch sử phân tích");
+    // notify("warning", "Lịch sử phân tích");
   }
 };
 

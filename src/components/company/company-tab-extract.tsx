@@ -100,10 +100,7 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
   };
 
   console.log("companyInfo: ", companyInfo);
-  console.log(
-    "companyInfo.Company_report: ",
-    companyInfo.Company_report
-  );
+  console.log("companyInfo.Company_report: ", companyInfo.Company_report);
   const handelSaveToHistory = async () => {
     if (reportData === undefined || !reportData) {
       notify("warning", "Vui lòng cung cấp dữ liệu phân tích của bạn!");
@@ -149,11 +146,6 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
           cashFlow: SortByQuarterAndYearASC(dataSheet?.cashFlow),
           incomeStatement: SortByQuarterAndYearASC(dataSheet?.incomeStatement),
         };
-
-        // Tính toán với đơn vị Triệu đồng
-        //  ConvertFinancialReportData(financialReport, 'trieu');
-
-        setReportData(dataSheet.financialReport);
         setFinancialReportDataDraw(dataDraw);
 
         let financialAnalysisData = CalculateFinancialAnalysis(
@@ -164,7 +156,20 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
         financialAnalysisData = SortByQuarterAndYearASC(financialAnalysisData);
         setFinancialAnalysis(financialAnalysisData);
 
-        console.log("Dữ liệu Balance Sheet:", dataDraw);
+        // Thêm dữ liệu của fiancialAnalysis vào để lưu
+        let newFinancialReport = dataSheet.financialReport
+          .filter((report) => report.quarter != undefined) // Lọc các phần tử hợp lệ
+          .map<FinancialReportModel>((report) => {
+            const newData: FinancialReportModel = {
+              ...report,
+              ...(financialAnalysisData[report.quarter!] || {}), // Đảm bảo không có undefined
+            };
+            return newData;
+          });
+
+        setReportData(newFinancialReport);
+
+        console.log("Dữ liệu Balance Sheet:", newFinancialReport);
       } catch (error) {
         console.error("Lỗi khi đọc dữ liệu:", error);
       }
@@ -256,11 +261,11 @@ const CompanyTabExtract: React.FC<Props> = ({}) => {
       ? companyReportData.reports
       : [];
     let currentCompanyReportDataDraw = ProcessFinancialReports(listReportData);
-    // console.log(
-    //   "currentCompanyReportDataDraw.Ananlyst: ",
-    //   currentCompanyReportDataDraw.financialAnalyst
-    // );
-    // console.log("currentCompanyReportDataDraw: ", currentCompanyReportDataDraw);
+    console.log(
+      "currentCompanyReportDataDraw.Ananlyst: ",
+      currentCompanyReportDataDraw.financialAnalyst
+    );
+    console.log("currentCompanyReportDataDraw: ", currentCompanyReportDataDraw);
     setReportData(companyReportData?.reports || []);
     setFinancialReportDataDraw({
       ...currentCompanyReportDataDraw,
