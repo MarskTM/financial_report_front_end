@@ -1,6 +1,6 @@
 import { APIS_URL } from "@/utils/api";
 import { useCallApi } from "./api-call";
-import { notify } from "@/utils/toast";
+// import { notify } from "@/utils/toast";
 import * as companySlice from "@/redux/slices/company_slice";
 
 const UpsertCompany = async (data: any, dispatch: any) => {

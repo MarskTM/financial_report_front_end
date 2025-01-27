@@ -52,4 +52,19 @@ const refesh = async (navigate: any, dispatch: any) => {
   }
 };
 
-export { login, refesh };
+const GetListUser = async (dispatch: any) => {
+  // dispatch(authSlice.pending());
+  const api = APIS_URL.AUTH.getListUsers();
+  const { response, error }: any = await useCallApi({
+    ...api,
+  });
+  if (!error && response.status === 200) {
+    dispatch(authSlice.loadSystemUsers(response.data.data));
+    // notify("success", "Làm mới thành công");
+  } else {
+    notify("error", "Làm mới thất bại");
+  }
+};
+
+
+export { login, refesh, GetListUser };

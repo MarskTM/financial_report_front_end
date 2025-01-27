@@ -54,6 +54,12 @@ export const APIS_URL = {
       method: "POST",
       headers: HEADERS.header(),
     }),
+
+    getListUsers: () => ({
+      endPoint: "/users/all",
+      method: "GET",
+      headers: HEADERS.headerToken(),
+    })
   },
 
   USER: {

@@ -1,18 +1,14 @@
 import React, { useState } from "react";
-import { TidingFormInsert } from "@/components";
-
+import { CloseOutlined } from "@ant-design/icons";
+import { Card, Form, Typography, Select } from "antd";
+import { Transfer, Modal, Table, Button } from "antd";
+import { Input, Tooltip, Space, Tag, Checkbox } from "antd";
 import {
-  Transfer,
-  Modal,
-  Table,
-  Button,
-  Input,
-  Tooltip,
-  Space,
-  Tag,
-  Checkbox,
-} from "antd";
-import { EyeOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
+  EyeOutlined,
+  DeleteOutlined,
+  SearchOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 import type { TransferDirection } from "antd/es/transfer";
 import { createStyles } from "antd-style";
 
@@ -37,35 +33,11 @@ const useStyle = createStyles(({ css }) => ({
   `,
 }));
 
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { TidingModel, TidingItem } from "@/redux/model/tiding";
 
-const { TextArea } = Input;
-const markdown = `A paragraph with *emphasis* and **strong importance**.
-
-> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
-
-* Lists
-* [ ] todo
-* [x] done
-
-A table:
-
-| a | b |
-| - | - |
-`;
-
-interface NewsItem {
-  key: string;
-  title: string;
-  type: string;
-  createdDate: string;
-  updatedDate: string;
-  content: string;
-}
 
 const SystemTransferNewsApproval: React.FC = () => {
-  const initialNews: NewsItem[] = [
+  const initialNews: TidingItem[] = [
     {
       key: "1",
       title: "Tin tức 1",
@@ -132,9 +104,10 @@ const SystemTransferNewsApproval: React.FC = () => {
     },
   ];
 
-  const [sourceData, setSourceData] = useState<NewsItem[]>(initialNews);
+  const [tiding, setTiding] = useState<TidingModel>({} as TidingModel);
+  const [sourceData, setSourceData] = useState<TidingItem[]>(initialNews);
   const [targetKeys, setTargetKeys] = useState<React.Key[]>([]);
-  const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
+  const [selectedNews, setSelectedNews] = useState<TidingItem | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const { styles } = useStyle();
@@ -151,7 +124,7 @@ const SystemTransferNewsApproval: React.FC = () => {
     }
   };
 
-  const handleViewDetails = (news: NewsItem) => {
+  const handleViewDetails = (news: TidingItem) => {
     setSelectedNews(news);
     setIsModalVisible(true);
   };
@@ -161,13 +134,13 @@ const SystemTransferNewsApproval: React.FC = () => {
     setTargetKeys(targetKeys.filter((targetKey) => targetKey !== key));
   };
 
-  const filterData = (data: NewsItem[]) =>
+  const filterData = (data: TidingItem[]) =>
     data.filter((item) =>
       item.title.toLowerCase().includes(searchValue.toLowerCase())
     );
 
   const renderTable = (
-    data: NewsItem[],
+    data: TidingItem[],
     isTarget: boolean,
     isPublish: boolean
   ) => (
@@ -178,10 +151,15 @@ const SystemTransferNewsApproval: React.FC = () => {
           prefix={<SearchOutlined />}
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          className="mb-3 rounded-none border-none"
+          className="mb-3 rounded-r-md rounded-l-none border-none"
         />
         {!isPublish && (
-          <Button key="close" onClick={() => setIsModalVisible(true)}>
+          <Button
+            key="close"
+            onClick={() => setIsModalVisible(true)}
+            className="mx-2"
+          >
+            <EditOutlined />
             Thêm mới
           </Button>
         )}
@@ -194,7 +172,7 @@ const SystemTransferNewsApproval: React.FC = () => {
           {
             title: "",
             dataIndex: "key",
-            render: (_: any, record: NewsItem) => (
+            render: (_: any, record: TidingItem) => (
               <Checkbox
                 checked={isTarget ? targetKeys.includes(record.key) : false}
                 onChange={() => {
@@ -215,7 +193,7 @@ const SystemTransferNewsApproval: React.FC = () => {
             title: "Stt",
             dataIndex: "key",
             render: (_: string, __: any, index: number) => index + 1,
-            width: 50,
+            width: 60,
           },
           {
             title: "Tiêu đề",
@@ -233,7 +211,7 @@ const SystemTransferNewsApproval: React.FC = () => {
           },
           {
             title: "Thao tác",
-            render: (record: NewsItem) => (
+            render: (record: TidingItem) => (
               <Space>
                 <Tooltip title="Xem chi tiết">
                   <Button
@@ -267,6 +245,21 @@ const SystemTransferNewsApproval: React.FC = () => {
       />
     </div>
   );
+
+  // --------------------------------- modal handel -------------------------------
+  const [form] = Form.useForm();
+
+
+  const handelUpdateTidings = async () => {
+    console.log(`New tidings: `, tiding);
+  }
+
+  const handelFormValueChanged = (changedValues: any, allValues: any) => {
+    console.log("SubTitle:", changedValues.sub_title);
+    setTiding((prev) => {
+      return { ...prev, body: JSON.stringify(allValues, null, 2) };
+    });
+  };
 
   return (
     <div className="p-6 bg-white">
@@ -305,11 +298,7 @@ const SystemTransferNewsApproval: React.FC = () => {
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={[
-          <Button
-            key="close"
-            onClick={() => setIsModalVisible(false)}
-            className="mx-2"
-          >
+          <Button key="close" onClick={handelUpdateTidings} className="mx-2">
             Cập nhật
           </Button>,
           <Button key="close" onClick={() => setIsModalVisible(false)}>
@@ -319,11 +308,148 @@ const SystemTransferNewsApproval: React.FC = () => {
       >
         <div className="flex flex-row justify-between">
           <div className="w-1/2 mr-4">
-            <TidingFormInsert />
+            <div className="py-5 border-t-2">
+              <h1 className="text-md font-semibold">Tiêu Đề Chính</h1>
+              <Input
+                size="large"
+                placeholder=""
+                required
+                onChange={(e) => {
+                  setTiding((prev) => {
+                    return { ...prev, title: e.target.value };
+                  });
+                }}
+              />
+
+              <h1 className="text-md font-semibold mt-4 mb-1">Phân loại tin</h1>
+              <Select
+                defaultValue="economy"
+                style={{ width: `25%` }}
+                onChange={(value) => {
+                  setTiding((prev) => {
+                    return { ...prev, category: value };
+                  });
+                }}
+                options={[
+                  { value: "economy", label: "Kinh tế" },
+                  { value: "society", label: "Xã hội" },
+                  { value: "macro", label: "Vĩ mô" },
+                ]}
+              />
+            </div>
+            <Form
+              labelCol={{ span: 3 }}
+              wrapperCol={{ span: 20 }}
+              form={form}
+              name="dynamic_form_complex"
+              // style={{ maxWidth: 600 }}
+              autoComplete="off"
+              initialValues={{ items: [{}] }}
+              onValuesChange={handelFormValueChanged}
+            >
+              <Form.List name="items">
+                {(fields, { add, remove }) => (
+                  <div
+                    style={{
+                      display: "flex",
+                      rowGap: 16,
+                      flexDirection: "column",
+                    }}
+                  >
+                    {fields.map((field) => (
+                      <Card
+                        size="small"
+                        title={`Nội dung ${field.name + 1}`}
+                        key={field.key}
+                        extra={
+                          <CloseOutlined
+                            onClick={() => {
+                              remove(field.name);
+                            }}
+                          />
+                        }
+                      >
+                        <Form.Item name={[field.name, "sub_title"]} label="Tiêu đề">
+                          <Input />
+                        </Form.Item>
+                        <Form.Item
+                          label="Nội dung"
+                          name={[field.name, "content"]}
+                        >
+                          <Input.TextArea rows={4} />
+                        </Form.Item>
+
+                        {/* Nest Form.List */}
+                        <Form.Item label="Đính kèm">
+                          <Form.List name={[field.name, "list"]}>
+                            {(subFields, subOpt) => (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  rowGap: 16,
+                                }}
+                              >
+                                {subFields.map((subField) => (
+                                  <div
+                                    key={subField.key}
+                                    className="flex flex-row gap-x-5"
+                                  >
+                                    <Form.Item
+                                      noStyle
+                                      name={[subField.name, "image"]}
+                                    >
+                                      <Input placeholder="Link ảnh" />
+                                    </Form.Item>
+
+                                    <CloseOutlined
+                                      onClick={() => {
+                                        subOpt.remove(subField.name);
+                                      }}
+                                    />
+                                  </div>
+                                ))}
+                                <div className="flex flex-row gap-6">
+                                  <Button
+                                    type="dashed"
+                                    onClick={() => subOpt.add()}
+                                    block
+                                  >
+                                    + ảnh minh họa
+                                  </Button>
+                                  {/* <Button
+                              type="dashed"
+                              onClick={() => subOpt.add()}
+                              block
+                            >
+                              + nội dung
+                            </Button> */}
+                                </div>
+                              </div>
+                            )}
+                          </Form.List>
+                        </Form.Item>
+                      </Card>
+                    ))}
+
+                    <Button type="dashed" onClick={() => add()} block>
+                      + Thêm nội dung
+                    </Button>
+                  </div>
+                )}
+              </Form.List>
+
+              <Form.Item noStyle shouldUpdate>
+                {() => (
+                  <Typography>
+                    <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
+                  </Typography>
+                )}
+              </Form.Item>
+            </Form>
           </div>
           <div className="w-1/2 -mt-6">
             <h1 className="font-bold border-b-2">Preview</h1>
-            <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
           </div>
         </div>
       </Modal>

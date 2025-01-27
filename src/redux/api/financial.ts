@@ -94,6 +94,7 @@ const GetCompanyReportData = async (dispatch: any, id: number) => {
       modelType: "companyReports",
       querySearch: `company_id = ${id}`,
       ignoreAssociation: [],
+      sort: "desc",
     },
   });
   if (!error && response.status === 200) {

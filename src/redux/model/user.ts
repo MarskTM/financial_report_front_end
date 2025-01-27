@@ -1,27 +1,35 @@
-import { Profile, FinancialReportModel, DocumentModel } from '../model';
+import { Profile, FinancialReportModel, DocumentModel } from "../model";
 
 // ------------------------------- Authentication model ---------------------------
 export interface User {
-	id?: number;
-	username: string;
-	role: string;
+  id?: number;
+  username: string;
+  role: string;
 
-	profile?: Profile;
+  profile?: Profile;
 }
 
 export interface UserReport {
-	id?: number;
-	profile_id?: number;
-	document_id?: number;
+  id?: number;
+  profile_id?: number;
+  document_id?: number;
 
-	name?: string;
-	category?: string;
-	date?: Date;
+  name?: string;
+  category?: string;
+  date?: Date;
 
-	reports?: FinancialReportModel[];
-	document?: DocumentModel;
+  reports?: FinancialReportModel[];
+  document?: DocumentModel;
 
-	created_at?: Date;
-	updated_at?: Date;
-	deleted_at?: Date;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date;
+}
+
+export interface UserSystemInfo {
+  id: number;
+  username: string;
+  role: string;
+  fullname: string;
+  is_banned: boolean;
 }

@@ -25,7 +25,6 @@ import {
   CashFlowTable,
   //   FinancialAnalysisTable,
 } from "./table/table-financial-extract";
-import TableSystemAuthor from "./table/table-system-author";
 import TableTidingCrawl from "./table/table-tiding-crawl";
 import TableSystemEnterprise from "./table/table-system-enterprise";
 import TableClientEnterprise from "./table/table-client-enterprise";
@@ -38,7 +37,6 @@ export {
   TableFinancialReportFavorite,
   EnterpriseTable,
   TableBalanceSheet,
-  TableSystemAuthor,
   TableIndustryData,
   // -------------------------------
   TableFinancialExtract,
@@ -80,13 +78,11 @@ export {
 import DashboardTidings from "./tiding/dashboard-tidings";
 import CategoryTiding from "./tiding/category-tiding";
 import SubCategoryTiding from "./tiding/sub-category-tiding";
-import TidingFormInsert from "./form/tiding-form-insert"; 
 
 export {
   DashboardTidings,
   CategoryTiding,
   SubCategoryTiding,
-  TidingFormInsert,
 };
 
 // ------------------------------ Content Component-------------------------------
