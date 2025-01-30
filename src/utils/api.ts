@@ -1,5 +1,7 @@
+import { UpdateUserState } from "@/redux/api/auth";
 import Cookies from "js-cookie";
 
+// ---------------------------- Handel Request With Authen Token -------------------------------------
 export const HEADERS = {
   header: () => ({
     accept: "application/json",
@@ -15,7 +17,9 @@ export const HEADERS = {
   headerRefesh: () => ({
     accept: "application/json",
     "Content-Type": "application/json; charset=UTF-8",
-    authorization: `Bearer ${Cookies.get("AccessToken")};${Cookies.get("RefreshToken")}`,
+    authorization: `Bearer ${Cookies.get("AccessToken")};${Cookies.get(
+      "RefreshToken"
+    )}`,
   }),
 
   file_header: () => ({
@@ -23,6 +27,7 @@ export const HEADERS = {
   }),
 };
 
+// --------------------------------- Declare Backend Router End-Point -------------------------------
 export const APIS_URL = {
   AUTH: {
     login: () => ({
@@ -59,7 +64,19 @@ export const APIS_URL = {
       endPoint: "/users/all",
       method: "GET",
       headers: HEADERS.headerToken(),
-    })
+    }),
+
+    updateUserState: () => ({
+      endPoint: "/users/update-state",
+      method: "PUT",
+      headers: HEADERS.headerToken(),
+    }),
+
+    updateUserRoles: () => ({
+      endPoint: "/users/update-role",
+      method: "PUT",
+      headers: HEADERS.headerToken(),
+    }),
   },
 
   USER: {

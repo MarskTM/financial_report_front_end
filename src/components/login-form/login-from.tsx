@@ -13,8 +13,7 @@ import { Label } from "@/components/ui/label";
 
 import * as api from "@/redux/api/auth";
 import * as model from "@/redux/model";
-import { RootState } from "@/redux/Store";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 interface Props {}
 

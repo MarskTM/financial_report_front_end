@@ -66,5 +66,33 @@ const GetListUser = async (dispatch: any) => {
   }
 };
 
+const UpdateUserState = async (userId: number, state: boolean) => {
 
-export { login, refesh, GetListUser };
+  const api = APIS_URL.AUTH.updateUserState()
+  const { response, error }: any = await useCallApi({
+    ...api,
+    payload: { id: userId, isActive: state },
+  });
+
+  if (!error && response.status === 200) {
+    notify("success", "Cập nhật thành công");
+  } else {
+    notify("error", "Cập nhật thất bại");
+  }
+}
+
+const UpdateUserRoles = async (data: any) => {
+  const api = APIS_URL.AUTH.updateUserRoles()
+  const { response, error }: any = await useCallApi({
+   ...api,
+    payload: data,
+  });
+
+  if (!error && response.status === 200) {
+    notify("success", "Cập nhật thành công");
+  } else {
+    notify("error", "Cập nhật thất bại");
+  }
+}
+
+export { login, refesh, GetListUser, UpdateUserState, UpdateUserRoles };

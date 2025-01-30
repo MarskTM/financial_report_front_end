@@ -11,11 +11,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import logoImgPlaceholder from "@/assets/logo/logo_img_placeholder.png";
+
+// ---------------------------- Declare Constain -----------------------------------
 interface Props {}
 
+// -------------------------------- Main Component -----------------------------------
 const SignUpForm: React.FC<Props> = ({}) => {
+  // 1. variables
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
+  // 2. handlers
   // Hàm xử lý khi người dùng chọn một file
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -26,6 +31,9 @@ const SignUpForm: React.FC<Props> = ({}) => {
     }
   };
 
+  // 3. effects
+
+  // 4. render
   return (
     <Card className="mx-auto h-[600px] max-w-[980px] shadow-lg px-16">
       <CardHeader className="mb-5">
@@ -136,6 +144,7 @@ const SignUpForm: React.FC<Props> = ({}) => {
             <Button
               type="submit"
               className="w-full bg-gradient-to-r from-sky-600 to-blue-900 hover:scale-105 active:opacity-85 transform transition-transform duration-300"
+              
             >
               Đăng Ký
             </Button>
