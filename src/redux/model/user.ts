@@ -33,3 +33,17 @@ export interface UserSystemInfo {
   fullname: string;
   is_banned: boolean;
 }
+
+// ------------------------------- Authentication model ---------------------------
+export interface Credentials {
+	username: string;
+	password: string;
+}
+
+export interface Register {
+  username: string;
+  password: string;
+  fullname: string;
+  address: string;
+  phone: string;
+}

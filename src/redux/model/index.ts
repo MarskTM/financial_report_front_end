@@ -12,8 +12,3 @@ export * from '../model/company';
 export * from '../model/tiding';
 export * from '../model/document';
 
-// ------------------------------- Authentication model ---------------------------
-export interface Credentials {
-	username: string;
-	password: string;
-}

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -8,10 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
+// import { Label, Button } from "@/components/ui/label";
+import { Button, Form, Input } from "antd";
 import logoImgPlaceholder from "@/assets/logo/logo_img_placeholder.png";
 
+import * as model from "@/redux/model";
 // ---------------------------- Declare Constain -----------------------------------
 interface Props {}
 
@@ -19,6 +20,23 @@ interface Props {}
 const SignUpForm: React.FC<Props> = ({}) => {
   // 1. variables
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const newUser = useRef<model.Register>({} as model.Register);
+
+  const layout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 },
+  };
+
+  const validateMessages = {
+    required: "${label} is required!",
+    types: {
+      email: "${label} is not a valid email!",
+      number: "${label} is not a valid number!",
+    },
+    number: {
+      range: "${label} must be between ${min} and ${max}",
+    },
+  };
 
   // 2. handlers
   // Hàm xử lý khi người dùng chọn một file
@@ -35,121 +53,119 @@ const SignUpForm: React.FC<Props> = ({}) => {
 
   // 4. render
   return (
-    <Card className="mx-auto h-[600px] max-w-[980px] shadow-lg px-16">
-      <CardHeader className="mb-5">
-        <CardTitle className="text-2xl bg-gradient-to-r from-sky-800 to-blue-900 bg-clip-text text-transparent">
+    <div className="mx-auto h-[600px] max-w-[980px] shadow-lg px-16">
+      <div className="mb-5">
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-sky-800 to-blue-900 bg-clip-text text-transparent">
           Đăng Ký Tài Khoản
-        </CardTitle>
-        <CardDescription>
+        </h1>
+        <p>
           Vui lòng điền thông tin vào biểu mẫu sau để tao mới tài khoản trong hệ
           thống.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="grid gap-4 grid-cols-12">
-          <div className="grid gap-2 row-span-1 col-span-4 col-start-2">
-            <div className="flex items-center">
-              <Label htmlFor="email">Email:</Label>
-            </div>
+        </p>
+      </div>
+      <div>
+        <Form
+          {...layout}
+          layout="vertical"
+          validateMessages={validateMessages}
+          className="flex flex-col"
+        >
+          {/* 1. Thông tin tài khoản */}
+          <Form.Item className="flex flex-col" label="Email:">
             <Input
               id="email"
               type="email"
               placeholder="m@example.com"
               required
+              onChange={(e) => {
+                newUser.current.username = e.target.value;
+              }}
             />
-          </div>
-          <div className="grid gap-2 row-span-1 col-span-3">
-            <div className="flex items-center">
-              <Label htmlFor="password">Password:</Label>
-            </div>
+          </Form.Item>
+          <Form.Item label="Password:" className="flex flex-col">
             <Input
               id="password"
               type="password"
               placeholder="*******"
               required
+              onChange={(e) => {
+                newUser.current.password = e.target.value;
+              }}
             />
+          </Form.Item>
+
+          {/* 2. Thông tin người dùng */}
+          <div className="flex flex-row">
+            <Form.Item label="Họ tên:">
+              <Input
+                id="firstName"
+                type="text"
+                placeholder="Nguyen Van A"
+                required
+                onChange={(e) => {
+                  newUser.current.fullname = e.target.value;
+                }}
+              />
+            </Form.Item>
+
+            <Form.Item label="Sdt:" className="">
+              <Input
+                id="lastName"
+                type="text"
+                placeholder="VD. 09819030555"
+                required
+                onChange={(e) => {
+                  newUser.current.phone = e.target.value;
+                }}
+              />
+            </Form.Item>
           </div>
 
-          <div className="grid gap-y-2 gap-x-1 col-start-2 col-span-3 row-start-2 row-span-1 mt-8">
-            <div className="flex items-center">
-              <Label htmlFor="firstName">Họ tên:</Label>
-            </div>
-            <Input
-              id="firstName"
-              type="text"
-              placeholder="Nguyen Van A"
-              required
-            />
-          </div>
-
-          <div className="grid gap-y-2 gap-x-1 col-span-3 row-start-2 row-span-1 mt-8 mx-2">
-            <div className="flex items-center">
-              <Label htmlFor="lastName">Sdt:</Label>
-            </div>
-            <Input
-              id="lastName"
-              type="text"
-              placeholder="VD. 09819030555"
-              required
-            />
-          </div>
-
-          <div className="grid gap-y-2 gap-x-1 col-start-2 col-span-6 row-start-3 row-span-1">
-            <div className="flex items-center">
-              <Label htmlFor="address">Địa chỉ liên hệ:</Label>
-            </div>
+          <Form.Item label="Địa chỉ liên hệ:">
             <Input
               id="address"
               type="text"
               placeholder="P. Nguyễn Trác, Yên Nghĩa, Hà Đông, Hà Nội"
+              onChange={(e) => {
+                newUser.current.address = e.target.value;
+              }}
             />
-          </div>
+          </Form.Item>
 
-          <div className="grid col-start-9 col-span-3 row-start-1 row-span-3 pl-10 mt-8">
-            <div className="w-full flex items-center mb-2">
-              <Label htmlFor="avata" className="m-auto !mt-0 leading-4">
-                Ảnh đại diện:
-              </Label>
-            </div>
+          <Form.Item label="Ảnh đại diện:">
+            {previewUrl ? (
+              <div className="w-full flex items-center h-36 mb-4">
+                <img
+                  src={previewUrl}
+                  alt="Preview"
+                  className="m-auto w-32 h-36 mb-4 rounded-md"
+                />
+              </div>
+            ) : (
+              <div className="w-full flex items-center h-36 mb-4">
+                <img
+                  src={logoImgPlaceholder}
+                  alt="Preview"
+                  className="m-auto w-32 h-36 mb-4 rounded-md bg-zinc-100"
+                />
+              </div>
+            )}
 
-            <div>
-              {previewUrl ? (
-                <div className="w-full flex items-center h-36 mb-4">
-                  <img
-                    src={previewUrl}
-                    alt="Preview"
-                    className="m-auto w-32 h-36 mb-4 rounded-md"
-                  />
-                </div>
-              ) : (
-                <div className="w-full flex items-center h-36 mb-4">
-                  <img
-                    src={logoImgPlaceholder}
-                    alt="Preview"
-                    className="m-auto w-32 h-36 mb-4 rounded-md bg-zinc-100"
-                  />
-                </div>
-              )}
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="w-28 mx-auto pl-[15px]"
+            />
+          </Form.Item>
 
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="w-28 mx-auto pl-[15px]"
-              />
-            </div>
-          </div>
-
-          <div className="grid gap-y-2 gap-x-1 col-start-5 col-span-4 row-start-5 row-span-1">
-            <Button
-              type="submit"
-              className="w-full bg-gradient-to-r from-sky-600 to-blue-900 hover:scale-105 active:opacity-85 transform transition-transform duration-300"
-              
-            >
+          <Form.Item label={null}>
+            <Button className="w-full bg-gradient-to-r from-sky-600 to-blue-900 hover:scale-105 active:opacity-85 transform transition-transform duration-300">
               Đăng Ký
             </Button>
-          </div>
-        </div>
+          </Form.Item>
+        </Form>
+
         <div className="mt-7 text-end text-sm">
           Bạn đã có tài khoản?{" "}
           <Link
@@ -174,8 +190,8 @@ const SignUpForm: React.FC<Props> = ({}) => {
             </Link>{" "}
           </p>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 
