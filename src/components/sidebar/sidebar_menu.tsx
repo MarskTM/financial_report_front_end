@@ -14,7 +14,9 @@ import {
 import { ROUTE } from "@/utils/route";
 
 import { Button } from "antd";
+import Cookies from "js-cookie";
 
+// ---------------------------- Declare Constain -----------------------------------
 type Item = {
   icon: React.ReactNode;
   label: string;
@@ -26,7 +28,10 @@ type Item = {
 interface Props {
   defaultLink: string;
 }
+
+// -------------------------------- Main Component -----------------------------------
 const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
+  // 1. variables
   const navigate = useNavigate();
   const [menuItems, setMenuItem] = useState<Item[]>([
     {
@@ -93,6 +98,7 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
     return baseStyle;
   };
 
+  // 2. handlers
   const handleBeforeNavigate = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     currentItem: Item
@@ -119,6 +125,13 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
     navigate(currentItem.link);
   };
 
+  const handleLogout = () => {
+    Cookies.remove("AccessToken");
+    Cookies.remove("RefreshToken");
+    navigate(ROUTE.LOGIN.PATH);
+  };
+
+  // 3. effects
   useEffect(() => {
     setMenuItem((items) =>
       items.map((i) =>
@@ -133,10 +146,10 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
     };
   }, []);
 
+  // 4. render
   return (
     <div className="w-[95%] h-full bg-white opacity-95 rounded-xl flex flex-col shadow-2xl backdrop-blur-sm">
-      {/* =====================================================  Main Navigation =========================================================== */}
-      {/* Brand */}
+      {/* ===============================  Main Navigation ================================== */}
       <div className="px-6 py-5">
         <Link to="/" className="flex items-center gap-2 font-semibold">
           <MonitorSmartphone className="h-6 w-6" />
@@ -172,7 +185,7 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
         ))}
       </nav>
 
-      {/* ===================================================== Admin Navigation =========================================================== */}
+      {/* ============================= Admin Navigation ============================== */}
       <div className="p-4">
         <h2 className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
           Quản Trị Viên
@@ -207,7 +220,7 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
         </nav>
       </div>
 
-      {/* ===================================================== Account Pages =========================================================== */}
+      {/* ============================ Account Pages ========================================== */}
       <div className="p-4">
         <h2 className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
           Cài Đặt
@@ -246,7 +259,10 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
         </nav>
         {/* Help Section */}
         <div className="p-4">
-          <Button className=" w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:scale-105 active:opacity-85 transform transition-transform duration-300">
+          <Button
+            className=" w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:scale-105 active:opacity-85 transform transition-transform duration-300"
+            onClick={handleLogout}
+          >
             Đăng Xuất
           </Button>
         </div>

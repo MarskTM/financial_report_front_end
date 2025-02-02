@@ -47,8 +47,30 @@ const refesh = async (navigate: any, dispatch: any) => {
     dispatch(authSlice.failure());
     Cookies.remove("AccessToken");
     Cookies.remove("RefreshToken");
-    navigate(ROUTE.LOGIN.PATH)
+    navigate(ROUTE.LOGIN.PATH);
     notify("error", "Làm mới thất bại");
+  }
+};
+
+const register = async (navigate: any, dispatch: any, payload: any) => {
+  dispatch(authSlice.pending());
+  const api = APIS_URL.AUTH.register();
+  const { response, error }: any = await useCallApi({
+    ...api,
+    payload: payload,
+  });
+  if (!error && response.status === 200) {
+    Cookies.set("AccessToken", response.data.data.access_token);
+    Cookies.set("RefreshToken", response.data.data.refresh_token);
+    dispatch(authSlice.success({ ...response.data.data }));
+    dispatch(authSlice.loadProfile(response.data.data.profile));
+    navigate(ROUTE.HOME.PATH);
+    // notify("success", "Chào mừng quay trở lại");
+  } else {
+    dispatch(authSlice.failure());
+    Cookies.remove("AccessToken");
+    Cookies.remove("RefreshToken");
+    notify("error", "Đăng nhập thất bại");
   }
 };
 
@@ -67,8 +89,7 @@ const GetListUser = async (dispatch: any) => {
 };
 
 const UpdateUserState = async (userId: number, state: boolean) => {
-
-  const api = APIS_URL.AUTH.updateUserState()
+  const api = APIS_URL.AUTH.updateUserState();
   const { response, error }: any = await useCallApi({
     ...api,
     payload: { id: userId, isActive: state },
@@ -79,12 +100,12 @@ const UpdateUserState = async (userId: number, state: boolean) => {
   } else {
     notify("error", "Cập nhật thất bại");
   }
-}
+};
 
 const UpdateUserRoles = async (data: any) => {
-  const api = APIS_URL.AUTH.updateUserRoles()
+  const api = APIS_URL.AUTH.updateUserRoles();
   const { response, error }: any = await useCallApi({
-   ...api,
+    ...api,
     payload: data,
   });
 
@@ -93,6 +114,13 @@ const UpdateUserRoles = async (data: any) => {
   } else {
     notify("error", "Cập nhật thất bại");
   }
-}
+};
 
-export { login, refesh, GetListUser, UpdateUserState, UpdateUserRoles };
+export {
+  login,
+  refesh,
+  register,
+  GetListUser,
+  UpdateUserState,
+  UpdateUserRoles,
+};
