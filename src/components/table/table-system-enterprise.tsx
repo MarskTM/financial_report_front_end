@@ -176,10 +176,12 @@ const TableSystemEnterprise = ({}) => {
     console.log("Update Company:", dataUpdate);
     if (dataUpdate.id && dataUpdate.id > 0) {
       await api.UpsertCompany(dataUpdate, dispatch);
+      
+
       await api.GetAllCompany(dispatch);
 
+      setUpdateCompany(defaultDataUpdate);
       setIsModalOpen(false);
-
     } else {
       notify("warning", "Cập nhật thất bại");
     }
