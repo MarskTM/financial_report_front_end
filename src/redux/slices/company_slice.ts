@@ -1,7 +1,7 @@
 import { CompanyInfo, CompanyManagements } from "@/redux/model/company";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-// import * as Model from "../model";
+import * as Model from "../model";
 
 // ------------------------------- Slice ---------------------------------
 export interface CompanyState {
@@ -16,8 +16,12 @@ const initialState: CompanyState = {
   is_loading: false,
   tab_key: "1",
   listCompany: [],
+  insertCompany: {
+    Company_report: {} as Model.CompanyReport,
+  } as CompanyInfo,
+
+  // --------------------------------- Thông tin chi tiết của doanh nghiệp
   company: {} as CompanyInfo,
-  insertCompany: {} as CompanyInfo,
 };
 
 export const companySlice = createSlice({

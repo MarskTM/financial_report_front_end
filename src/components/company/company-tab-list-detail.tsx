@@ -18,10 +18,8 @@ import {
 } from "@ant-design/icons";
 import dayjs, { Dayjs } from "dayjs"; // Import kiểu dữ liệu Dayjs nếu cần
 import { CompanyInfo, CompanyManagements } from "@/redux/model/company";
-
-import * as api from "@/redux/api/company";
 import { RootState } from "@/redux/Store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const { TabPane } = Tabs;
 const { TextArea } = Input;
@@ -43,10 +41,16 @@ const initialDocuments = [
   },
 ];
 
-const CompanyTabListDetail: React.FC = () => {
+interface Props {
+  setUpdateCompany: React.Dispatch<React.SetStateAction<CompanyInfo>>;
+}
+
+const CompanyTabListDetail: React.FC<Props> = ({ setUpdateCompany }) => {
+  // 1. variables
   const companyInfo = useSelector((state: RootState) => state.company.company);
   const [companyDetail, setCompanyDetail] = useState<CompanyInfo>();
 
+  // -------------------------------------- thông tin tài liệu liên quan------------------------------------
   const [documents, setDocuments] = useState(initialDocuments);
   const [newDocument, setNewDocument] = useState<{
     name: string;
@@ -56,28 +60,7 @@ const CompanyTabListDetail: React.FC = () => {
     date: null,
   });
 
-  // Xử lý thêm tài liệu
-  const handleAddDocument = () => {
-    if (newDocument.name && newDocument.date) {
-      setDocuments([
-        ...documents,
-        {
-          key: (documents.length + 1).toString(),
-          stt: documents.length + 1,
-          name: newDocument.name,
-          date: newDocument.date?.format("YYYY-MM-DD"),
-        },
-      ]);
-      setNewDocument({ name: "", date: null });
-    }
-  };
-
-  // Xóa tài liệu
-  const handleDeleteDocument = (key: string) => {
-    setDocuments(documents.filter((doc) => doc.key !== key));
-  };
-
-  // Columns cho bảng tài liệu báo cáo
+  // Thông tin cột danh sách tài liệu
   const documentColumns = [
     { title: "STT", dataIndex: "stt", key: "stt", width: 100 },
     { title: "Tên tài liệu", dataIndex: "name", key: "name", width: 600 },
@@ -107,7 +90,7 @@ const CompanyTabListDetail: React.FC = () => {
     },
   ];
 
-  // -------------------------------------------------- Hàm xử lý cho thông tin ban lãnh đạo --------------------------------------------------
+  // -------------------------------------- thông tin ban lãnh đạo ------------------------------------------
   const [boardMembers, setBoardMembers] = useState<CompanyManagements[]>([]);
   const [newBoardMember, setNewBoardMember] = useState<CompanyManagements>({
     id: 0,
@@ -118,7 +101,7 @@ const CompanyTabListDetail: React.FC = () => {
     year_start: null,
   });
 
-  // Table columns for board members
+  // Thông tin cột danh sách ban lãnh đạo
   const columns = [
     {
       title: "Avatar",
@@ -154,7 +137,28 @@ const CompanyTabListDetail: React.FC = () => {
     },
   ];
 
-  // Handle adding a new board member
+  // 2. Handler
+  // -------------------------------------- tài liệu liên quan------------------------------------
+  const handleAddDocument = () => {
+    if (newDocument.name && newDocument.date) {
+      setDocuments([
+        ...documents,
+        {
+          key: (documents.length + 1).toString(),
+          stt: documents.length + 1,
+          name: newDocument.name,
+          date: newDocument.date?.format("YYYY-MM-DD"),
+        },
+      ]);
+      setNewDocument({ name: "", date: null });
+    }
+  };
+
+  const handleDeleteDocument = (key: string) => {
+    setDocuments(documents.filter((doc) => doc.key !== key));
+  };
+
+  // -------------------------------------- ban lãnh đạo ------------------------------------------
   const handleAddBoardMember = () => {
     if (newBoardMember.name && newBoardMember.position) {
       setBoardMembers([...boardMembers, newBoardMember]);
@@ -184,6 +188,12 @@ const CompanyTabListDetail: React.FC = () => {
       ...prev,
       [name]: value,
     }));
+
+    // Cập nhật dữ liệu lên component cha
+    setUpdateCompany((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   // ------------------------------------- Hàm xử lý cho DatePicker ---------------------------------------------------------------
@@ -192,13 +202,27 @@ const CompanyTabListDetail: React.FC = () => {
       ...prev,
       [name]: date ? date.toISOString() : null,
     }));
+
+    // Cập nhật dữ liệu lên component cha
+    setUpdateCompany((prev) => ({
+      ...prev,
+      [name]: date ? date.toISOString() : null,
+    }));
   };
 
+  // 3. Effects
   useEffect(() => {
     setCompanyDetail(companyInfo); // Đồng bộ dữ liệu từ Redux
+    setUpdateCompany((prev) => {
+      return {
+        ...prev,
+        id: companyInfo.id || 0,
+      };
+    });
     setBoardMembers(companyInfo?.company_stakeholder || []); // Lấy dữ liệu ban lãnh dạo
   }, [companyInfo]);
 
+  // 4. Render
   return (
     <div>
       <Tabs defaultActiveKey="1">
