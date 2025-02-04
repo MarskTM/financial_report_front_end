@@ -7,6 +7,7 @@ export interface FinancialReportState {
   is_fetching: boolean;
   is_clear_data: boolean;
   userReport: UserReport;
+  
   historyReport: UserReport[];
   compnayReport: CompanyReport;
 }

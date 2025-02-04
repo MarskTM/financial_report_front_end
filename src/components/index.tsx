@@ -29,7 +29,7 @@ import TableTidingCrawl from "./table/table-tiding-crawl";
 import TableSystemEnterprise from "./table/table-system-enterprise";
 import TableClientEnterprise from "./table/table-client-enterprise";
 import TableIndustryData from "./table/table-industry-data";
-import ChartUserIndustryLine from "./chart/chart-user-industry-line"
+import ChartUserIndustryLine from "./chart/chart-user-industry-line";
 
 export {
   TableEnterpriseReport,
@@ -79,11 +79,7 @@ import DashboardTidings from "./tiding/dashboard-tidings";
 import CategoryTiding from "./tiding/category-tiding";
 import SubCategoryTiding from "./tiding/sub-category-tiding";
 
-export {
-  DashboardTidings,
-  CategoryTiding,
-  SubCategoryTiding,
-};
+export { DashboardTidings, CategoryTiding, SubCategoryTiding };
 
 // ------------------------------ Content Component-------------------------------
 import StatsCard from "./card/starts-card";
@@ -107,10 +103,11 @@ import FinancialExtractAnalysis from "./financial-report/financial-extract-analy
 export { FinancialExtractAnalysis };
 
 // ------------------------------ Profile Component-------------------------------
+import CompanyFinancialHistoryReport from "./company/company-financial-history-report";
 import RelationInfor from "./profile/relation-infor";
 import UserInfor from "./profile/user-infor";
 
-export { RelationInfor, UserInfor };
+export { RelationInfor, UserInfor, CompanyFinancialHistoryReport };
 
 // -------------------------------- Tab System Componet --------------------------------
 import CompanyTabListDetail from "./company/company-tab-list-detail";

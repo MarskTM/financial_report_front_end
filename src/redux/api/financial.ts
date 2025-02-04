@@ -71,13 +71,13 @@ const GetUserReport = async (id: number, dispatch: any) => {
     ...api,
     payload: {
       modelType: "userReports",
-      querySearch: `company_id = ${id}`,
-      ignoreAssociation: [""],
+      querySearch: `id = ${id}`,
+      ignoreAssociation: [],
     },
   });
   if (!error && response.status === 200) {
     await dispatch(reportSlice.upsertCompanyReport(response.data.data));
-    console.log("reports history:", response.data.data);
+    // console.log("reports history:", response.data.data);
     // notify("success", "Lịch sử phân tích");
     // return response.data.data;
   } else {
@@ -98,9 +98,7 @@ const GetCompanyReportData = async (dispatch: any, id: number) => {
     },
   });
   if (!error && response.status === 200) {
-    await dispatch(
-      reportSlice.upsertCompanyReport(response.data.data[0])
-    );
+    await dispatch(reportSlice.upsertCompanyReport(response.data.data[0]));
     console.log("reports history:", response.data.data[0]);
     // notify("success", "Lịch sử phân tích");
     // return response.data.data;
@@ -116,4 +114,4 @@ export {
   UpsertCompanyReport,
   GetCompanyReportData,
   GetUserReport,
- };
+};

@@ -13,7 +13,6 @@ import {
   FinancialState,
   FinancialReportModel,
 } from "@/redux/model/financial_report";
-import { CompanyReport } from "@/redux/model/company";
 import {
   BalanceSheetTable,
   IncomeStatementTable,
@@ -22,13 +21,10 @@ import {
 } from "@/components";
 
 import { Tabs } from "antd";
-import { notify } from "@/utils/toast";
 import type { TabsProps } from "antd";
 
-import * as api from "@/redux/api/financial";
 import { RootState } from "@/redux/Store";
-import { useSelector, useDispatch } from "react-redux";
-import * as reportSlice from "@/redux/slices/report_slice";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ProcessFinancialReports } from "@/utils/common";
 
@@ -57,16 +53,16 @@ const OutstandingSharesMap: { [year: string]: number } = {
   "Q4 2024": 1981210,
 };
 
-const quarterOptions = ["Q1", "Q2", "Q3", "Q4"];
 const NumPeriods = [1, 2, 3, 4, 5];
+const quarterOptions = ["Q1", "Q2", "Q3", "Q4"];
 const unitConcurrency = ["Đồng", "Triệu đồng", "Tỉ đồng"];
 const reportYears = ["2023", "2024"];
 
-const CompanyFinancialReport: React.FC<Props> = () => {
-  const dispatch = useDispatch();
-  const companyInfo = useSelector((state: RootState) => state.company.company);
+const CompanyFinancialHistoryReport: React.FC<Props> = () => {
+  // 1. Variables
+  const dispatch = useDispatch()
   const companyReportData = useSelector(
-    (state: RootState) => state.report.compnayReport
+    (state: RootState) => state.report.userReport
   );
 
   const [formValues, setFormValues] = useState({
@@ -77,7 +73,6 @@ const CompanyFinancialReport: React.FC<Props> = () => {
   });
 
   // ----------------------------------------------------------------
-
   const [financialReportDataDraw, setFinancialReportDataDraw] =
     useState<FinancialState | null>(null);
 
@@ -94,9 +89,7 @@ const CompanyFinancialReport: React.FC<Props> = () => {
     });
   };
 
-  console.log("companyInfo: ", companyInfo);
-  console.log("companyInfo.Company_report: ", companyInfo.Company_report);
-
+  // 3. Effects
   useEffect(() => {
     const conversionUnit =
       formValues.unitConcurrency === "Đồng"
@@ -168,17 +161,12 @@ const CompanyFinancialReport: React.FC<Props> = () => {
       ? companyReportData.reports
       : [];
     let currentCompanyReportDataDraw = ProcessFinancialReports(listReportData);
-    // console.log(
-    //   "currentCompanyReportDataDraw.Ananlyst: ",
-    //   currentCompanyReportDataDraw.financialAnalyst
-    // );
-    // console.log("currentCompanyReportDataDraw: ", currentCompanyReportDataDraw);
-    // setReportData(companyReportData?.reports || []);
+
     setFinancialReportDataDraw({
       ...currentCompanyReportDataDraw,
     } as FinancialState);
     setFinancialAnalysis(currentCompanyReportDataDraw.financialAnalyst);
-  }, [companyReportData]);
+  }, [companyReportData, dispatch]);
 
   return (
     <div className="w-full min-h-full bg-slate-100 relative overflow-y-scroll">
@@ -238,19 +226,6 @@ const CompanyFinancialReport: React.FC<Props> = () => {
                 }))}
               />
             </Form.Item>
-            {/* <div className="ml-auto w-80 flex flex-row items-center justify-between">
-              <Upload {...uploadProps}>
-                <Button icon={<UploadOutlined />} className="w-48">
-                  <span className="direction-rtl block truncate">
-                    {fileName || "Cập nhật dữ liệu"}
-                  </span>
-                </Button>
-              </Upload>
-
-              <Button type="primary" onClick={handelSaveToHistory}>
-                Lưu Phân Tích
-              </Button>
-            </div> */}
           </Form>
         </div>
         <div className="mt-10">
@@ -261,4 +236,4 @@ const CompanyFinancialReport: React.FC<Props> = () => {
   );
 };
 
-export default CompanyFinancialReport;
+export default CompanyFinancialHistoryReport;

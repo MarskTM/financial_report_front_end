@@ -11,7 +11,6 @@ import {
   ReadExcelData,
   CalculateFinancialAnalysis,
   SortByQuarterAndYearASC,
-  ConvertModel,
   ConvertFinancialReportData,
 } from "@/utils/common";
 
@@ -30,9 +29,6 @@ import {
 } from "@/components";
 
 // ------------------------------------------- Declear Model -----------------------------------------------------
-import { BalanceSheetModel } from "@/redux/model/balance_sheet";
-import { CashFlowModel } from "@/redux/model/cash_flow";
-import { IncomeStatementModel } from "@/redux/model/income_statement";
 import {
   FinancialReportModel,
   FinancialAnalysisModel,
@@ -128,6 +124,18 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 
         financialAnalysisData = SortByQuarterAndYearASC(financialAnalysisData);
         setFinancialAnalysis(financialAnalysisData);
+
+        // Thêm dữ liệu của fiancialAnalysis vào để lưu
+        let newFinancialReport = dataSheet.financialReport
+          .filter((report) => report.quarter != undefined) // Lọc các phần tử hợp lệ
+          .map<FinancialReportModel>((report) => {
+            const newData: FinancialReportModel = {
+              ...report,
+              ...(financialAnalysisData[report.quarter!] || {}), // Đảm bảo không có undefined
+            };
+            return newData;
+          });
+        setReportData(newFinancialReport);
 
         console.log("Dữ liệu Balance Sheet:", dataDraw);
       } catch (error) {
@@ -248,9 +256,9 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 
       await api.UpsertReportData(mapReportData, dispatch);
 
-      console.log("handel save to history: ", reportData);
+      // console.log("handel save to history: ", reportData);
     } catch (err) {
-      console.error("L��i khi lưu trữ báo cáo:", err);
+      console.error("Lỗi khi lưu trữ báo cáo:", err);
     }
   };
 
