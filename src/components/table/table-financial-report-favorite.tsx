@@ -5,6 +5,7 @@ import {
   DownloadOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import dayjs, { Dayjs } from "dayjs";
 
 import * as api from "@/redux/api/profile";
 import * as apiReport from "@/redux/api/financial";
@@ -41,7 +42,7 @@ interface DocumentRecord {
   key: string;
   stt: number;
   name: string;
-  created_at: Date;
+  created_at: string;
 }
 
 interface Props {}
@@ -64,8 +65,8 @@ const TableFinancialReportFavorite: React.FC<Props> = () => {
   };
 
   // Xử lý thao tác "Xem"
-  const handleView = (record: DocumentRecord) => {
-    apiReport.GetUserReport(Number(record.key), dispatch);
+  const handleView = async (record: DocumentRecord) => {
+    await apiReport.GetUserReport(Number(record.key), dispatch);
 
     setIsShowModal(true);
   };
@@ -88,14 +89,21 @@ const TableFinancialReportFavorite: React.FC<Props> = () => {
 
   useEffect(() => {
     if (history.length > 0) {
-      setDocuments(
-        history.map<DocumentRecord>((val, index) => ({
-          key: `${val.id}` || "",
-          stt: index + 1,
-          name: val.name || "-",
-          created_at: val.created_at || new Date(),
-        }))
-      );
+     setDocuments(
+       history.map<DocumentRecord>((val, index) => {
+         // Hoặc location.state.history.map(...)
+         const formattedDate = val.date
+           ? dayjs(val.date).format("DD/MM/YYYY")
+           : "-"; // Xử lý null hoặc undefined
+
+         return {
+           key: `${val.id}` || "",
+           stt: index + 1,
+           name: val.name || "-",
+           created_at: formattedDate,
+         };
+       })
+     );
     }
   }, [history]);
 

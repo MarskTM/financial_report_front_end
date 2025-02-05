@@ -24,6 +24,9 @@ export const HEADERS = {
 
   file_header: () => ({
     "Content-Type": "multipart/form-data",
+    authorization: `Bearer ${Cookies.get("AccessToken")};${Cookies.get(
+      "RefreshToken"
+    )}`,
   }),
 };
 
@@ -112,6 +115,12 @@ export const APIS_URL = {
       endPoint: "/basic-query",
       method: "DELETE",
       headers: HEADERS.headerToken(),
+    }),
+
+    uploadFile: () => ({
+      endPoint: "/financial-report/upload",
+      method: "POST",
+      headers: HEADERS.file_header(),
     }),
   },
 };

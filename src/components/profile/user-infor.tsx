@@ -20,14 +20,10 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/Store";
-import { useNavigate } from "react-router-dom";
-import { ROUTE } from "@/utils/route";
 import dayjs, { Dayjs } from "dayjs";
 
 import * as api from "@/redux/api/profile"; // Giả sử bạn có API để cập nhật thông tin người dùng
-import { refesh } from "@/redux/api/auth";
 import { Profile } from "@/redux/model/profile";
-import * as Model from "@/redux/model";
 
 type FormValues = {
   name: string;
@@ -42,7 +38,6 @@ type Props = {};
 
 const UserInfor: React.FC<Props> = ({}) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth.users);
 
   const {

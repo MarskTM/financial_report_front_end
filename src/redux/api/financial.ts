@@ -76,7 +76,7 @@ const GetUserReport = async (id: number, dispatch: any) => {
     },
   });
   if (!error && response.status === 200) {
-    await dispatch(reportSlice.upsertCompanyReport(response.data.data));
+    await dispatch(reportSlice.upsertUserReport(response.data.data[0]));
     // console.log("reports history:", response.data.data);
     // notify("success", "Lịch sử phân tích");
     // return response.data.data;
@@ -108,10 +108,29 @@ const GetCompanyReportData = async (dispatch: any, id: number) => {
   }
 };
 
+const UploadFileReport = async (file: File) => {
+  const api = APIS_URL.BASIC.uploadFile();
+  const formData = new FormData();
+  formData.append("file", file);
+  const { response, error }: any = await useCallApi({
+    ...api,
+    payload: formData,
+  });
+
+  if (!error && response.status === 200) {
+    console.log("File uploaded successfully:", response.data.data);
+    return response.data.data;
+  } else {
+    console.log("File upload failed:", error);
+    return null;
+  }
+};
+
 export {
   UpsertUserReport,
   UpsertReportData,
   UpsertCompanyReport,
+  UploadFileReport,
   GetCompanyReportData,
   GetUserReport,
 };

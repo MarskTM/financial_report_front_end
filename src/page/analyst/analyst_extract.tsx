@@ -6,7 +6,7 @@ import { notify } from "@/utils/toast";
 
 import React, { useEffect, useState } from "react";
 import { Upload, Button, Select, Form } from "antd";
-import { SaveFilled, UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined } from "@ant-design/icons";
 import {
   ReadExcelData,
   CalculateFinancialAnalysis,
@@ -73,6 +73,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
 
   const Profile = useSelector((state: RootState) => state.auth.profile);
 
+  const [file, setFile] = useState<File>();
   const [fileName, setFileName] = useState<string>("");
   const [formValues, setFormValues] = useState({
     quarter: "Q1",
@@ -105,6 +106,7 @@ const AnalystExtract: React.FC<Props> = ({}) => {
     beforeUpload: async (file: File) => {
       // Cập nhật tên file và ngăn chặn upload tự động
       setFileName(file.name);
+      setFile(file);
       try {
         let dataSheet = await ReadExcelData(file);
         const dataDraw = {
@@ -234,19 +236,21 @@ const AnalystExtract: React.FC<Props> = ({}) => {
   }, [financialReportDataDraw, formValues]);
 
   const handelSaveToHistory = async () => {
-    if (reportData === undefined || !reportData) {
+    if (reportData === undefined || file == undefined || !reportData) {
       notify("warning", "Vui lòng cung cấp dữ liệu phân tích của bạn!");
     }
 
     try {
+      const fileReport = await api.UploadFileReport(file!);
+
       const userReport: UserReport = {
         profile_id: Profile.id,
-        name: fileName,
+        document_id: fileReport.id,
+        name: fileReport.title,
         category: "user_reports",
         date: new Date(),
       };
       const userReportID = await api.UpsertUserReport(userReport, dispatch);
-
       const mapReportData = reportData?.map((report) => {
         return {
           ...report,

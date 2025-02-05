@@ -166,7 +166,7 @@ const CompanyFinancialHistoryReport: React.FC<Props> = () => {
       ...currentCompanyReportDataDraw,
     } as FinancialState);
     setFinancialAnalysis(currentCompanyReportDataDraw.financialAnalyst);
-  }, [companyReportData, dispatch]);
+  }, [companyReportData]);
 
   return (
     <div className="w-full min-h-full bg-slate-100 relative overflow-y-scroll">
