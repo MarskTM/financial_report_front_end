@@ -60,20 +60,50 @@ const TableFinancialReportFavorite: React.FC<Props> = () => {
 
   // 2. Handler
   // Xử lý thao tác "Xóa"
-  const handleDelete = (key: string) => {
+  const handleDelete = async (key: string) => {
+    let record = documents.find((doc) => doc.key === key);
+    await apiReport.DeleteUserReport(
+      Number(record?.key),
+      record?.name!,
+      dispatch
+    );
     setDocuments(documents.filter((doc) => doc.key !== key));
   };
 
   // Xử lý thao tác "Xem"
   const handleView = async (record: DocumentRecord) => {
     await apiReport.GetUserReport(Number(record.key), dispatch);
-
     setIsShowModal(true);
   };
 
   // Xử lý thao tác "Tải"
-  const handleDownload = (record: DocumentRecord) => {
-    alert(`Tải tài liệu: ${record.name}`);
+  const handleDownload = async (record: DocumentRecord) => {
+    const baseURL = import.meta.env.VITE_REACT_APP_BASE_URL;
+    const fileUrl = `${baseURL}/media/${record.name}`; // Tạo URL đầy đủ đến file
+
+    try {
+      const response = await fetch(fileUrl); // Fetch the file from the server
+      if (!response.ok) {
+        throw new Error('Network response was not ok'); // Handle network errors
+      }
+      const blob = await response.blob(); // Convert the response to a Blob
+      const url = window.URL.createObjectURL(blob); // Create a URL for the Blob
+
+      // Tạo thẻ <a> ẩn
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", record.name); // Đặt tên file khi tải về
+      document.body.appendChild(link);
+
+      // Kích hoạt tải về bằng cách click vào thẻ <a>
+      link.click();
+
+      // Xóa thẻ <a> sau khi tải về
+      link.remove();
+      window.URL.revokeObjectURL(url); // Release the object URL
+    } catch (error) {
+      console.error('Download error:', error); // Log any errors
+    }
   };
 
   const handleModalClose = () => {
@@ -89,21 +119,21 @@ const TableFinancialReportFavorite: React.FC<Props> = () => {
 
   useEffect(() => {
     if (history.length > 0) {
-     setDocuments(
-       history.map<DocumentRecord>((val, index) => {
-         // Hoặc location.state.history.map(...)
-         const formattedDate = val.date
-           ? dayjs(val.date).format("DD/MM/YYYY")
-           : "-"; // Xử lý null hoặc undefined
+      setDocuments(
+        history.map<DocumentRecord>((val, index) => {
+          // Hoặc location.state.history.map(...)
+          const formattedDate = val.date
+            ? dayjs(val.date).format("DD/MM/YYYY")
+            : "-"; // Xử lý null hoặc undefined
 
-         return {
-           key: `${val.id}` || "",
-           stt: index + 1,
-           name: val.name || "-",
-           created_at: formattedDate,
-         };
-       })
-     );
+          return {
+            key: `${val.id}` || "",
+            stt: index + 1,
+            name: val.name || "-",
+            created_at: formattedDate,
+          };
+        })
+      );
     }
   }, [history]);
 

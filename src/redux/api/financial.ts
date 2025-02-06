@@ -14,7 +14,7 @@ const UpsertUserReport = async (data: any, dispatch: any) => {
   });
   if (!error && response.status === 200) {
     await dispatch(reportSlice.upsertUserReport(response.data.data));
-    notify("success", "Cập nhật thành công");
+    // notify("success", "Cập nhật thành công");
 
     console.log(response);
     return response.data.data.id;
@@ -35,7 +35,7 @@ const UpsertCompanyReport = async (data: any, dispatch: any) => {
   });
   if (!error && response.status === 200) {
     await dispatch(reportSlice.upsertCompanyReport(response.data.data));
-    notify("success", "Cập nhật thành công");
+    // notify("success", "Cập nhật thành công");
 
     console.log(response);
     return response.data.data.id;
@@ -56,7 +56,7 @@ const UpsertReportData = async (data: any, dispatch: any) => {
   });
   if (!error && response.status === 200) {
     await dispatch(reportSlice.upsertUserReportData(response.data.data));
-    notify("success", "Cập nhật báo cáo thành công");
+    notify("success", "Cập nhật thành công");
 
     console.log(response);
   } else {
@@ -126,6 +126,29 @@ const UploadFileReport = async (file: File) => {
   }
 };
 
+const DeleteUserReport = async (
+  id: number,
+  fileName: string,
+  dispatch: any
+) => {
+  const api = APIS_URL.BASIC.deleteReport();
+  const { response, error }: any = await useCallApi({
+    ...api,
+    payload: {
+      id: id,
+      fileName: fileName,
+    },
+  });
+
+  if (!error && response.status === 200) {
+    console.log("Delete report successfully:", response.data.data);
+    return response.data.data;
+  } else {
+    console.log("Delete report failed:", error);
+    return null;
+  }
+};
+
 export {
   UpsertUserReport,
   UpsertReportData,
@@ -133,4 +156,5 @@ export {
   UploadFileReport,
   GetCompanyReportData,
   GetUserReport,
+  DeleteUserReport,
 };

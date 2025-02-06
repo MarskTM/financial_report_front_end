@@ -122,5 +122,11 @@ export const APIS_URL = {
       method: "POST",
       headers: HEADERS.file_header(),
     }),
+
+    deleteReport: () => ({
+      endPoint: "/financial-report/delete",
+      method: "DELETE",
+      headers: HEADERS.headerToken(),
+    }),
   },
 };
