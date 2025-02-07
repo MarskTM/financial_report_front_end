@@ -1,13 +1,19 @@
 // -------------------------------- Tiding Model --------------------------------
 export interface TidingModel {
-  id: string;
-  title: string;
-  content: string;
-  sub_subcontent: string;
-  category: string;
-  body: string;
+  id?: number;
+  parent_id?: number;
+  category?: string;
+  title?: string;
+  content?: string;
+  images?: string[];
+
+  prev_content?: string;
+  prev_image?: string;
+
+  sub_tidings?: TidingModel[];
+
   created_at: Date;
-  deleted_at: Date;
+  updated_at: Date;
 }
 
 export interface TidingItem {

@@ -1,40 +1,50 @@
-import React, { useState } from "react";
-import { CloseOutlined } from "@ant-design/icons";
-import { Card, Form, Typography, Select } from "antd";
-import { Transfer, Modal, Table, Button } from "antd";
-import { Input, Tooltip, Space, Tag, Checkbox } from "antd";
+import React, { useState, useCallback, useEffect } from "react";
 import {
+  CloseOutlined,
   EyeOutlined,
   DeleteOutlined,
   SearchOutlined,
   EditOutlined,
 } from "@ant-design/icons";
+import {
+  Card,
+  Form,
+  Typography,
+  Select,
+  Transfer,
+  Modal,
+  Table,
+  Button,
+  Input,
+  Tooltip,
+  Space,
+  Tag,
+  Checkbox,
+} from "antd";
 import type { TransferDirection } from "antd/es/transfer";
 import { createStyles } from "antd-style";
+import { TidingModel, TidingItem } from "@/redux/model/tiding";
+import debounce from "lodash.debounce";
 
 const useStyle = createStyles(({ css }) => ({
   customTable: css`
     .ant-table {
-      height: 400px; /* Xét chiều cao cố định của bảng */
+      height: 400px;
       .ant-table-container {
-        height: 100%; /* Đảm bảo container sử dụng toàn bộ chiều cao */
+        height: 100%;
         .ant-table-body,
         .ant-table-content {
           scrollbar-width: thin;
           scrollbar-color: #eaeaea transparent;
           scrollbar-gutter: stable;
         }
-        ,
         .ant-pagination {
-          margin-top: auto; /* Đẩy phần phân trang xuống đáy */
+          margin-top: auto;
         }
       }
     }
   `,
 }));
-
-import { TidingModel, TidingItem } from "@/redux/model/tiding";
-
 
 const SystemTransferNewsApproval: React.FC = () => {
   const initialNews: TidingItem[] = [
@@ -103,7 +113,6 @@ const SystemTransferNewsApproval: React.FC = () => {
       content: "Nội dung chi tiết của tin tức 3.",
     },
   ];
-
   const [tiding, setTiding] = useState<TidingModel>({} as TidingModel);
   const [sourceData, setSourceData] = useState<TidingItem[]>(initialNews);
   const [targetKeys, setTargetKeys] = useState<React.Key[]>([]);
@@ -111,6 +120,7 @@ const SystemTransferNewsApproval: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const { styles } = useStyle();
+  const [form] = Form.useForm();
 
   const handleTransfer = (
     keys: React.Key[],
@@ -139,6 +149,27 @@ const SystemTransferNewsApproval: React.FC = () => {
       item.title.toLowerCase().includes(searchValue.toLowerCase())
     );
 
+  const debouncedSetTiding = useCallback(
+    debounce((name: string, value: string) => {
+      setTiding((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }, 300),
+    []
+  );
+
+  const handleInputChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = (event) => {
+    const { name, value } = event.target;
+    debouncedSetTiding(name, value);
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    debouncedSetTiding(name, value);
+  };
+
   const renderTable = (
     data: TidingItem[],
     isTarget: boolean,
@@ -155,7 +186,7 @@ const SystemTransferNewsApproval: React.FC = () => {
         />
         {!isPublish && (
           <Button
-            key="close"
+            key="add"
             onClick={() => setIsModalVisible(true)}
             className="mx-2"
           >
@@ -246,20 +277,39 @@ const SystemTransferNewsApproval: React.FC = () => {
     </div>
   );
 
-  // --------------------------------- modal handel -------------------------------
-  const [form] = Form.useForm();
-
-
   const handelUpdateTidings = async () => {
-    console.log(`New tidings: `, tiding);
-  }
+    const formData = form.getFieldsValue();
+    const tidingModel = convertFormDataToTidingModel(formData);
+    console.log(`New tidings: `, tidingModel);
+  };
 
   const handelFormValueChanged = (changedValues: any, allValues: any) => {
-    console.log("SubTitle:", changedValues.sub_title);
-    setTiding((prev) => {
-      return { ...prev, body: JSON.stringify(allValues, null, 2) };
-    });
+    setTiding(convertFormDataToTidingModel(allValues));
   };
+
+  const convertFormDataToTidingModel = (formData: any): TidingModel => {
+    return {
+      title: formData.title,
+      category: formData.category,
+      content: formData.content,
+      images: formData.images?.map((img: any) => img.image),
+      sub_tidings: formData.items?.map((item: any) => ({
+        title: item.title,
+        content: item.content,
+        images: item.images?.map((img: any) => img.image),
+      })),
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+    form.resetFields();
+    setTiding({} as TidingModel);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <div className="p-6 bg-white">
@@ -287,66 +337,65 @@ const SystemTransferNewsApproval: React.FC = () => {
         }
       </Transfer>
 
-      {/* Hiển thị chi tiết */}
       <Modal
         title="Chi tiết bài đọc"
-        // open={isModalOpen}
-        // onOk={handleOk}
-        style={{ marginRight: 110 }}
-        width={1500}
-        height={600}
+        style={{ marginRight: 140, marginTop: -40, marginBottom: 30 }}
+        width={1450}
+        height={700}
         visible={isModalVisible}
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={handleModalClose}
         footer={[
-          <Button key="close" onClick={handelUpdateTidings} className="mx-2">
+          <Button
+            key="update"
+            onClick={handelUpdateTidings}
+            className="mx-2 mt-3"
+          >
             Cập nhật
           </Button>,
-          <Button key="close" onClick={() => setIsModalVisible(false)}>
+          <Button key="close" onClick={handleModalClose}>
             Đóng
           </Button>,
         ]}
       >
         <div className="flex flex-row justify-between">
           <div className="w-1/2 mr-4">
-            <div className="py-5 border-t-2">
-              <h1 className="text-md font-semibold">Tiêu Đề Chính</h1>
-              <Input
-                size="large"
-                placeholder=""
-                required
-                onChange={(e) => {
-                  setTiding((prev) => {
-                    return { ...prev, title: e.target.value };
-                  });
-                }}
-              />
-
-              <h1 className="text-md font-semibold mt-4 mb-1">Phân loại tin</h1>
-              <Select
-                defaultValue="economy"
-                style={{ width: `25%` }}
-                onChange={(value) => {
-                  setTiding((prev) => {
-                    return { ...prev, category: value };
-                  });
-                }}
-                options={[
-                  { value: "economy", label: "Kinh tế" },
-                  { value: "society", label: "Xã hội" },
-                  { value: "macro", label: "Vĩ mô" },
-                ]}
-              />
-            </div>
             <Form
               labelCol={{ span: 3 }}
               wrapperCol={{ span: 20 }}
               form={form}
-              name="dynamic_form_complex"
-              // style={{ maxWidth: 600 }}
+              name="sub_tidings"
               autoComplete="off"
               initialValues={{ items: [{}] }}
               onValuesChange={handelFormValueChanged}
             >
+              {" "}
+              <div className="py-5 border-t-2">
+                <h1 className="text-md font-semibold">Tiêu Đề Chính</h1>
+                <Form.Item name="title" rules={[{ required: true }]}>
+                  <Input
+                    size="middle"
+                    placeholder=""
+                    required
+                    name="title"
+                    onChange={handleInputChange}
+                  />
+                </Form.Item>
+                <h1 className="text-md font-semibold mt-2 mb-1">
+                  Phân loại tin
+                </h1>
+                <Form.Item name="category" rules={[{ required: true }]}>
+                  <Select
+                    defaultValue="economy"
+                    style={{ width: `25%` }}
+                    onChange={(value) => handleSelectChange("category", value)}
+                    options={[
+                      { value: "economy", label: "Kinh tế" },
+                      { value: "society", label: "Xã hội" },
+                      { value: "macro", label: "Vĩ mô" },
+                    ]}
+                  />
+                </Form.Item>
+              </div>
               <Form.List name="items">
                 {(fields, { add, remove }) => (
                   <div
@@ -355,6 +404,7 @@ const SystemTransferNewsApproval: React.FC = () => {
                       rowGap: 16,
                       flexDirection: "column",
                     }}
+                    className="overflow-y-scroll max-h-[460px]"
                   >
                     {fields.map((field) => (
                       <Card
@@ -369,19 +419,21 @@ const SystemTransferNewsApproval: React.FC = () => {
                           />
                         }
                       >
-                        <Form.Item name={[field.name, "sub_title"]} label="Tiêu đề">
-                          <Input />
+                        <Form.Item name={[field.name, "title"]} label="Tiêu đề">
+                          <Input name="title" onChange={handleInputChange} />
                         </Form.Item>
                         <Form.Item
                           label="Nội dung"
                           name={[field.name, "content"]}
                         >
-                          <Input.TextArea rows={4} />
+                          <Input.TextArea
+                            rows={4}
+                            name="content"
+                            onChange={handleInputChange}
+                          />
                         </Form.Item>
-
-                        {/* Nest Form.List */}
                         <Form.Item label="Đính kèm">
-                          <Form.List name={[field.name, "list"]}>
+                          <Form.List name={[field.name, "images"]}>
                             {(subFields, subOpt) => (
                               <div
                                 style={{
@@ -399,9 +451,12 @@ const SystemTransferNewsApproval: React.FC = () => {
                                       noStyle
                                       name={[subField.name, "image"]}
                                     >
-                                      <Input placeholder="Link ảnh" />
+                                      <Input
+                                        placeholder="Link ảnh"
+                                        name="image"
+                                        onChange={handleInputChange}
+                                      />
                                     </Form.Item>
-
                                     <CloseOutlined
                                       onClick={() => {
                                         subOpt.remove(subField.name);
@@ -417,13 +472,6 @@ const SystemTransferNewsApproval: React.FC = () => {
                                   >
                                     + ảnh minh họa
                                   </Button>
-                                  {/* <Button
-                              type="dashed"
-                              onClick={() => subOpt.add()}
-                              block
-                            >
-                              + nội dung
-                            </Button> */}
                                 </div>
                               </div>
                             )}
@@ -431,25 +479,64 @@ const SystemTransferNewsApproval: React.FC = () => {
                         </Form.Item>
                       </Card>
                     ))}
-
                     <Button type="dashed" onClick={() => add()} block>
                       + Thêm nội dung
                     </Button>
                   </div>
                 )}
               </Form.List>
-
-              <Form.Item noStyle shouldUpdate>
+              {/* <Form.Item noStyle shouldUpdate>
                 {() => (
                   <Typography>
                     <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
                   </Typography>
                 )}
-              </Form.Item>
+              </Form.Item> */}
             </Form>
           </div>
-          <div className="w-1/2 -mt-6">
-            <h1 className="font-bold border-b-2">Preview</h1>
+          <div className="w-1/2 mt-2">
+            {/* Live Preview */}
+            <div className="p-4 border rounded-lg shadow-md min-h-[660px] overflow-y-scroll">
+              <h2 className="text-xl font-bold mb-2">{tiding.title}</h2>
+              <p className="text-gray-600 mb-4">{tiding.category}</p>
+              {/* <p className="mb-4">{tiding.content}</p> */}
+              {tiding.images && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {tiding.images.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`image-${index}`}
+                      className="w-32 h-32 object-cover"
+                    />
+                  ))}
+                </div>
+              )}
+              {tiding.sub_tidings && (
+                <div className="mt-10">
+                  {tiding.sub_tidings.map((subTiding, index) => (
+                    <div key={index} className="mb-4">
+                      <h3 className="text-lg font-semibold mb-2">
+                        {subTiding.title}
+                      </h3>
+                      <p className="mb-2">{subTiding.content}</p>
+                      {subTiding.images && (
+                        <div className="flex flex-wrap gap-2">
+                          {subTiding.images.map((image, subIndex) => (
+                            <img
+                              key={subIndex}
+                              src={image}
+                              alt={`sub-image-${subIndex}`}
+                              className="w-24 h-24 object-cover"
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </Modal>
