@@ -10,7 +10,7 @@ export interface TidingModel {
   prev_content?: string;
   prev_image?: string;
 
-  sub_tidings?: TidingModel[];
+  tidings?: TidingModel[];
 
   created_at: Date;
   updated_at: Date;

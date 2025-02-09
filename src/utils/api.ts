@@ -129,4 +129,32 @@ export const APIS_URL = {
       headers: HEADERS.headerToken(),
     }),
   },
+
+  TIDING: {
+    getall: () => {
+      return {
+        endPoint: "/tiding/all",
+        method: "GET",
+        headers: HEADERS.headerToken(),
+      };
+    },
+
+    create: () => ({
+      endPoint: "/tiding/create",
+      method: "POST",
+      headers: HEADERS.headerToken(),
+    }),
+
+    update: () => ({
+      endPoint: "/tiding/update",
+      method: "POST",
+      headers: HEADERS.headerToken(),
+    }),
+
+    delete: () => ({
+      endPoint: "/tiding/delete",
+      method: "POST",
+      headers: HEADERS.headerToken(),
+    }),
+  },
 };

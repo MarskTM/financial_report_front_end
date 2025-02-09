@@ -26,6 +26,9 @@ import { createStyles } from "antd-style";
 import { TidingModel, TidingItem } from "@/redux/model/tiding";
 import debounce from "lodash.debounce";
 
+import * as api from "@/redux/api/tiding";
+import { useDispatch } from "react-redux";
+
 const useStyle = createStyles(({ css }) => ({
   customTable: css`
     .ant-table {
@@ -47,74 +50,9 @@ const useStyle = createStyles(({ css }) => ({
 }));
 
 const SystemTransferNewsApproval: React.FC = () => {
-  const initialNews: TidingItem[] = [
-    {
-      key: "1",
-      title: "Tin tức 1",
-      type: "Thời sự",
-      createdDate: "2023-12-01",
-      updatedDate: "2023-12-05",
-      content: "Nội dung chi tiết của tin tức 1.",
-    },
-    {
-      key: "2",
-      title: "Tin tức 2",
-      type: "Kinh tế",
-      createdDate: "2023-12-02",
-      updatedDate: "2023-12-06",
-      content: "Nội dung chi tiết của tin tức 2.",
-    },
-    {
-      key: "3",
-      title: "Tin tức 3",
-      type: "Giải trí",
-      createdDate: "2023-12-03",
-      updatedDate: "2023-12-07",
-      content: "Nội dung chi tiết của tin tức 3.",
-    },
-    {
-      key: "4",
-      title: "Tin tức 4",
-      type: "Giải trí",
-      createdDate: "2023-12-03",
-      updatedDate: "2023-12-07",
-      content: "Nội dung chi tiết của tin tức 3.",
-    },
-    {
-      key: "5",
-      title: "Tin tức 5",
-      type: "Giải trí",
-      createdDate: "2023-12-03",
-      updatedDate: "2023-12-07",
-      content: "Nội dung chi tiết của tin tức 3.",
-    },
-    {
-      key: "6",
-      title: "Tin tức 7",
-      type: "Giải trí",
-      createdDate: "2023-12-03",
-      updatedDate: "2023-12-07",
-      content: "Nội dung chi tiết của tin tức 3.",
-    },
-    {
-      key: "7",
-      title: "Tin tức 7",
-      type: "Giải trí",
-      createdDate: "2023-12-03",
-      updatedDate: "2023-12-07",
-      content: "Nội dung chi tiết của tin tức 3.",
-    },
-    {
-      key: "8",
-      title: "Tin tức 8",
-      type: "Giải trí",
-      createdDate: "2023-12-03",
-      updatedDate: "2023-12-07",
-      content: "Nội dung chi tiết của tin tức 3.",
-    },
-  ];
+  const dispatch = useDispatch();
   const [tiding, setTiding] = useState<TidingModel>({} as TidingModel);
-  const [sourceData, setSourceData] = useState<TidingItem[]>(initialNews);
+  const [sourceData, setSourceData] = useState<TidingItem[]>([]);
   const [targetKeys, setTargetKeys] = useState<React.Key[]>([]);
   const [selectedNews, setSelectedNews] = useState<TidingItem | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -278,12 +216,15 @@ const SystemTransferNewsApproval: React.FC = () => {
   );
 
   const handelUpdateTidings = async () => {
-    const formData = form.getFieldsValue();
-    const tidingModel = convertFormDataToTidingModel(formData);
-    console.log(`New tidings: `, tidingModel);
+    if (tiding.id && tiding.id != 0) {
+      await api.UpdateTiding(tiding, dispatch);
+    } else {
+      await api.InsertTiding(tiding, dispatch);
+    }
+    console.log(tiding);
   };
 
-  const handelFormValueChanged = (changedValues: any, allValues: any) => {
+  const handelFormValueChanged = (_: any, allValues: any) => {
     setTiding(convertFormDataToTidingModel(allValues));
   };
 
@@ -293,14 +234,28 @@ const SystemTransferNewsApproval: React.FC = () => {
       category: formData.category,
       content: formData.content,
       images: formData.images?.map((img: any) => img.image),
-      sub_tidings: formData.items?.map((item: any) => ({
-        title: item.title,
-        content: item.content,
-        images: item.images?.map((img: any) => img.image),
+      tidings: formData.items?.map((item: any) => ({
+        id: item.id,
+        title: item.sub_title,
+        content: item.sub_content,
+        images: item.sub_images?.map((img: any) => img.image),
       })),
       created_at: new Date(),
       updated_at: new Date(),
     };
+  };
+
+  const convertTidingModelToTidingItem = (
+    tidings: TidingModel[]
+  ): TidingItem[] => {
+    return tidings.map((tiding) => ({
+      key: tiding.id?.toString() || "",
+      title: tiding.title || "",
+      type: tiding.category || "",
+      createdDate: tiding.created_at.toISOString(),
+      updatedDate: tiding.updated_at.toISOString(),
+      content: tiding.content || "",
+    }));
   };
 
   const handleModalClose = () => {
@@ -309,7 +264,13 @@ const SystemTransferNewsApproval: React.FC = () => {
     setTiding({} as TidingModel);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await api.GetTidingList(dispatch);
+      setSourceData(convertTidingModelToTidingItem(data));
+    };
+    fetchData();
+  }, [dispatch]);
 
   return (
     <div className="p-6 bg-white">
@@ -363,7 +324,7 @@ const SystemTransferNewsApproval: React.FC = () => {
               labelCol={{ span: 3 }}
               wrapperCol={{ span: 20 }}
               form={form}
-              name="sub_tidings"
+              name="tidings"
               autoComplete="off"
               initialValues={{ items: [{}] }}
               onValuesChange={handelFormValueChanged}
@@ -376,16 +337,18 @@ const SystemTransferNewsApproval: React.FC = () => {
                     size="middle"
                     placeholder=""
                     required
-                    name="title"
                     onChange={handleInputChange}
                   />
                 </Form.Item>
                 <h1 className="text-md font-semibold mt-2 mb-1">
                   Phân loại tin
                 </h1>
-                <Form.Item name="category" rules={[{ required: true }]}>
+                <Form.Item
+                  name="category"
+                  rules={[{ required: true }]}
+                  initialValue="economy"
+                >
                   <Select
-                    defaultValue="economy"
                     style={{ width: `25%` }}
                     onChange={(value) => handleSelectChange("category", value)}
                     options={[
@@ -419,21 +382,25 @@ const SystemTransferNewsApproval: React.FC = () => {
                           />
                         }
                       >
-                        <Form.Item name={[field.name, "title"]} label="Tiêu đề">
-                          <Input name="title" onChange={handleInputChange} />
+                        <Form.Item
+                          name={[field.name, "sub_title"]}
+                          label="Tiêu đề"
+                        >
+                          <Input
+                            onChange={handleInputChange}
+                          />
                         </Form.Item>
                         <Form.Item
                           label="Nội dung"
-                          name={[field.name, "content"]}
+                          name={[field.name, "sub_content"]}
                         >
                           <Input.TextArea
                             rows={4}
-                            name="content"
                             onChange={handleInputChange}
                           />
                         </Form.Item>
                         <Form.Item label="Đính kèm">
-                          <Form.List name={[field.name, "images"]}>
+                          <Form.List name={[field.name, "sub_images"]}>
                             {(subFields, subOpt) => (
                               <div
                                 style={{
@@ -442,9 +409,9 @@ const SystemTransferNewsApproval: React.FC = () => {
                                   rowGap: 16,
                                 }}
                               >
-                                {subFields.map((subField) => (
+                                {subFields.map((subField, subIndex) => (
                                   <div
-                                    key={subField.key}
+                                    key={`${field.key}-${subIndex}`}
                                     className="flex flex-row gap-x-5"
                                   >
                                     <Form.Item
@@ -453,7 +420,6 @@ const SystemTransferNewsApproval: React.FC = () => {
                                     >
                                       <Input
                                         placeholder="Link ảnh"
-                                        name="image"
                                         onChange={handleInputChange}
                                       />
                                     </Form.Item>
@@ -499,7 +465,7 @@ const SystemTransferNewsApproval: React.FC = () => {
             <div className="p-4 border rounded-lg shadow-md min-h-[660px] overflow-y-scroll">
               <h2 className="text-xl font-bold mb-2">{tiding.title}</h2>
               <p className="text-gray-600 mb-4">{tiding.category}</p>
-              {/* <p className="mb-4">{tiding.content}</p> */}
+              <p className="mb-4">{tiding.content}</p>
               {tiding.images && (
                 <div className="flex flex-wrap gap-2 mb-4">
                   {tiding.images.map((image, index) => (
@@ -512,9 +478,9 @@ const SystemTransferNewsApproval: React.FC = () => {
                   ))}
                 </div>
               )}
-              {tiding.sub_tidings && (
+              {tiding.tidings && (
                 <div className="mt-10">
-                  {tiding.sub_tidings.map((subTiding, index) => (
+                  {tiding.tidings.map((subTiding, index) => (
                     <div key={index} className="mb-4">
                       <h3 className="text-lg font-semibold mb-2">
                         {subTiding.title}
