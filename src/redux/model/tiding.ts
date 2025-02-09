@@ -6,17 +6,16 @@ export interface TidingModel {
   title?: string;
   content?: string;
   images?: string[];
-
+  state?: boolean;
   prev_content?: string;
   prev_image?: string;
-
   tidings?: TidingModel[];
-
-  created_at: Date;
-  updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 export interface TidingItem {
+  id: number;
   key: string;
   title: string;
   type: string;

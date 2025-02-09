@@ -1,9 +1,8 @@
-import { notify } from "@/utils/toast";
+// import { notify } from "@/utils/toast";
 import { APIS_URL } from "@/utils/api";
 import { useCallApi } from "./api-call";
 import * as authSlice from "@/redux/slices/auth_slice";
 import * as reportSlice from "@/redux/slices/report_slice";
-import { useSelector } from "react-redux";
 
 const UpsertProfile = async (data: any, dispatch: any) => {
   const api = APIS_URL.BASIC.upsert();

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CloseOutlined,
   EyeOutlined,
@@ -9,7 +9,7 @@ import {
 import {
   Card,
   Form,
-  Typography,
+  // Typography,
   Select,
   Transfer,
   Modal,
@@ -24,7 +24,7 @@ import {
 import type { TransferDirection } from "antd/es/transfer";
 import { createStyles } from "antd-style";
 import { TidingModel, TidingItem } from "@/redux/model/tiding";
-import debounce from "lodash.debounce";
+import dayjs from "dayjs";
 
 import * as api from "@/redux/api/tiding";
 import { useDispatch } from "react-redux";
@@ -54,32 +54,78 @@ const SystemTransferNewsApproval: React.FC = () => {
   const [tiding, setTiding] = useState<TidingModel>({} as TidingModel);
   const [sourceData, setSourceData] = useState<TidingItem[]>([]);
   const [targetKeys, setTargetKeys] = useState<React.Key[]>([]);
-  const [selectedNews, setSelectedNews] = useState<TidingItem | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+
   const { styles } = useStyle();
   const [form] = Form.useForm();
 
-  const handleTransfer = (
-    keys: React.Key[],
+  const handleTransfer = async (
+    _: React.Key[],
     direction: TransferDirection,
     moveKeys: React.Key[]
   ) => {
+    const updatedElements = sourceData.filter((item) =>
+      moveKeys.includes(item.key)
+    );
+
+    let newData = updatedElements.map<TidingModel>((item) => {
+      return {
+        id: item.id,
+        state: direction === "right",
+      };
+    });
+
+    console.log("tidings:", newData);
+
+    await api.UpdateListTiding(newData);
+
     if (direction === "right") {
       setTargetKeys([...targetKeys, ...moveKeys]);
     } else {
       setTargetKeys(targetKeys.filter((key) => !moveKeys.includes(key)));
     }
+
+    console.log("Updated elements:", updatedElements);
   };
 
-  const handleViewDetails = (news: TidingItem) => {
-    setSelectedNews(news);
-    setIsModalVisible(true);
+  const handelInitalFromValue = (tidingModel: TidingModel) => {
+    let newdata = {
+      title: tidingModel.title,
+      category: tidingModel.category,
+      content: tidingModel.content,
+      images: tidingModel.images?.map((image) => ({ image })),
+      items: tidingModel.tidings?.map((item) => ({
+        id: item.id,
+        sub_title: item.title,
+        sub_content: item.content,
+        sub_images: item.images?.map((image) => ({ image })) || [{}],
+      })),
+    };
+    console.log("new data form", tiding);
+    return newdata;
   };
 
-  const handleDelete = (key: string) => {
-    setSourceData(sourceData.filter((item) => item.key !== key));
-    setTargetKeys(targetKeys.filter((targetKey) => targetKey !== key));
+  const handleViewDetails = async (news: TidingItem) => {
+    try {
+      const tidingDetail = await api.GetTidingByID(news.id); // Await the API call
+      const tidingModel = convertDataToTidingModel(tidingDetail);
+
+      setTiding(tidingModel[0]);
+      form.setFieldsValue(handelInitalFromValue(tidingModel[0]));
+      setIsModalVisible(true);
+      // console.log("tiding model:", tidingModel); // Debug: Log converted tiding model
+    } catch (error) {
+      console.error("Error fetching tiding detail:", error); // Debug: Log any errors
+    }
+  };
+
+  const handleDelete = (news: TidingItem) => {
+    let tidingModel = { id: news.id } as TidingModel;
+    api.DeleteTiding(tidingModel);
+
+    setSourceData(sourceData.filter((item) => item.key !== news.key));
+    setTargetKeys(targetKeys.filter((targetKey) => targetKey !== news.key));
   };
 
   const filterData = (data: TidingItem[]) =>
@@ -87,145 +133,147 @@ const SystemTransferNewsApproval: React.FC = () => {
       item.title.toLowerCase().includes(searchValue.toLowerCase())
     );
 
-  const debouncedSetTiding = useCallback(
-    debounce((name: string, value: string) => {
-      setTiding((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }, 300),
-    []
-  );
-
-  const handleInputChange: React.ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = (event) => {
-    const { name, value } = event.target;
-    debouncedSetTiding(name, value);
-  };
-
-  const handleSelectChange = (name: string, value: string) => {
-    debouncedSetTiding(name, value);
-  };
-
   const renderTable = (
     data: TidingItem[],
     isTarget: boolean,
     isPublish: boolean
-  ) => (
-    <div>
-      <div className="flex flex-row my-2">
-        <Input
-          placeholder="Tìm kiếm..."
-          prefix={<SearchOutlined />}
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          className="mb-3 rounded-r-md rounded-l-none border-none"
-        />
-        {!isPublish && (
-          <Button
-            key="add"
-            onClick={() => setIsModalVisible(true)}
-            className="mx-2"
-          >
-            <EditOutlined />
-            Thêm mới
-          </Button>
-        )}
-      </div>
-      <Table
-        dataSource={filterData(data)}
-        rowKey="key"
-        pagination={{ pageSize: 5 }}
-        columns={[
-          {
-            title: "",
-            dataIndex: "key",
-            render: (_: any, record: TidingItem) => (
-              <Checkbox
-                checked={isTarget ? targetKeys.includes(record.key) : false}
-                onChange={() => {
-                  const exists = targetKeys.includes(record.key);
-                  if (exists) {
-                    setTargetKeys((prevKeys) =>
-                      prevKeys.filter((key) => key !== record.key)
+  ) => {
+    return (
+      <div>
+        <div className="flex flex-row my-2">
+          <Input
+            placeholder="Tìm kiếm..."
+            prefix={<SearchOutlined />}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            className="mb-3 rounded-r-md rounded-l-none border-none"
+          />
+          {!isPublish && (
+            <Button
+              key="add"
+              onClick={() => setIsModalVisible(true)}
+              className="mx-2"
+            >
+              <EditOutlined />
+              Thêm mới
+            </Button>
+          )}
+        </div>
+        <Table
+          dataSource={filterData(data)}
+          rowKey="key"
+          pagination={{ pageSize: 5 }}
+          columns={[
+            {
+              title: "",
+              dataIndex: "key",
+              render: (_: any, record: TidingItem) => (
+                <Checkbox
+                  checked={isTarget ? targetKeys.includes(record.key) : false}
+                  onChange={() => {
+                    const exists = targetKeys.includes(record.key);
+                    const updatedElement = sourceData.find(
+                      (item) => item.key === record.key
                     );
-                  } else {
-                    setTargetKeys((prevKeys) => [...prevKeys, record.key]);
-                  }
-                }}
-              />
-            ),
-            width: 40,
-          },
-          {
-            title: "Stt",
-            dataIndex: "key",
-            render: (_: string, __: any, index: number) => index + 1,
-            width: 60,
-          },
-          {
-            title: "Tiêu đề",
-            dataIndex: "title",
-            width: 250,
-          },
-          {
-            title: "Loại tin",
-            dataIndex: "type",
-            render: (type: string) => <Tag color="blue">{type}</Tag>,
-          },
-          {
-            title: "Cập nhật",
-            dataIndex: "updatedDate",
-          },
-          {
-            title: "Thao tác",
-            render: (record: TidingItem) => (
-              <Space>
-                <Tooltip title="Xem chi tiết">
-                  <Button
-                    type="primary"
-                    shape="circle"
-                    icon={<EyeOutlined />}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleViewDetails(record);
-                    }}
-                  />
-                </Tooltip>
-                <Tooltip title="Xóa">
-                  <Button
-                    type="default"
-                    danger
-                    shape="circle"
-                    icon={<DeleteOutlined />}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(record.key);
-                    }}
-                  />
-                </Tooltip>
-              </Space>
-            ),
-          },
-        ]}
-        className={styles.customTable}
-        scroll={{ y: 55 * 6 }}
-      />
-    </div>
-  );
+
+                    api.UpdateTiding(
+                      { id: updatedElement?.id!, state: !exists },
+                      dispatch
+                    );
+
+                    if (exists) {
+                      setTargetKeys((prevKeys) =>
+                        prevKeys.filter((key) => key !== record.key)
+                      );
+                    } else {
+                      setTargetKeys((prevKeys) => [...prevKeys, record.key]);
+                    }
+
+                    // console.log("Updated element:", updatedElement);
+                  }}
+                />
+              ),
+              width: 40,
+            },
+            {
+              title: "Stt",
+              dataIndex: "key",
+              render: (_: string, __: any, index: number) => index + 1,
+              width: 60,
+            },
+            {
+              title: "Tiêu đề",
+              dataIndex: "title",
+              width: 250,
+            },
+            {
+              title: "Loại tin",
+              dataIndex: "type",
+              render: (type: string) => <Tag color="blue">{type}</Tag>,
+            },
+            {
+              title: "Cập nhật",
+              dataIndex: "updatedDate",
+              render: (date: string) => dayjs(date).format("DD/MM/YYYY"),
+            },
+            {
+              title: "Thao tác",
+              render: (record: TidingItem) => (
+                <Space>
+                  <Tooltip title="Xem chi tiết">
+                    <Button
+                      type="primary"
+                      shape="circle"
+                      icon={<EyeOutlined />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleViewDetails(record);
+                      }}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Xóa">
+                    <Button
+                      type="default"
+                      danger
+                      shape="circle"
+                      icon={<DeleteOutlined />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(record);
+                      }}
+                    />
+                  </Tooltip>
+                </Space>
+              ),
+            },
+          ]}
+          className={styles.customTable}
+          scroll={{ y: 55 * 6 }}
+        />
+      </div>
+    );
+  };
 
   const handelUpdateTidings = async () => {
-    if (tiding.id && tiding.id != 0) {
+    if (tiding.id && tiding.id !== 0) {
       await api.UpdateTiding(tiding, dispatch);
     } else {
       await api.InsertTiding(tiding, dispatch);
     }
-    console.log(tiding);
+
+    const data: any = await api.GetTidingList(dispatch);
+    // console.log("Fetched data:", data); // Debug: Log fetched data
+    const convertedData = convertTidingModelToTidingItem(
+      convertDataToTidingModel(data)
+    );
+    // console.log("Converted data:", convertedData); // Debug: Log converted data
+    setSourceData(convertedData);
+    setIsModalVisible(false);
   };
 
   const handelFormValueChanged = (_: any, allValues: any) => {
-    setTiding(convertFormDataToTidingModel(allValues));
+    let data = convertFormDataToTidingModel(allValues);
+    setTiding((prev) => ({ ...data, id: prev.id }));
   };
 
   const convertFormDataToTidingModel = (formData: any): TidingModel => {
@@ -233,6 +281,7 @@ const SystemTransferNewsApproval: React.FC = () => {
       title: formData.title,
       category: formData.category,
       content: formData.content,
+      state: formData.state,
       images: formData.images?.map((img: any) => img.image),
       tidings: formData.items?.map((item: any) => ({
         id: item.id,
@@ -248,30 +297,65 @@ const SystemTransferNewsApproval: React.FC = () => {
   const convertTidingModelToTidingItem = (
     tidings: TidingModel[]
   ): TidingItem[] => {
-    return tidings.map((tiding) => ({
-      key: tiding.id?.toString() || "",
+    return tidings.map((tiding, index) => ({
+      id: tiding.id || 0,
+      key: (index + 1)?.toString() || "",
       title: tiding.title || "",
       type: tiding.category || "",
-      createdDate: tiding.created_at.toISOString(),
-      updatedDate: tiding.updated_at.toISOString(),
+      createdDate: dayjs(tiding.created_at).format("DD/MM/YYYY"),
+      updatedDate: dayjs(tiding.updated_at).format("DD/MM/YYYY"),
       content: tiding.content || "",
+    }));
+  };
+
+  const convertDataToTidingModel = (data: any): TidingModel[] => {
+    return data.map((item: any) => ({
+      id: item.id,
+      parent_id: item.parent_id,
+      category: item.category,
+      title: item.title,
+      content: item.content,
+      images: item.images,
+      state: item.state,
+      prev_content: item.prev_content,
+      prev_image: item.prev_image,
+      tidings: item.tidings ? convertDataToTidingModel(item.tidings) : [],
+      created_at: new Date(item.created_at),
+      updated_at: new Date(item.updated_at),
     }));
   };
 
   const handleModalClose = () => {
     setIsModalVisible(false);
-    form.resetFields();
     setTiding({} as TidingModel);
+    form.resetFields();
   };
 
+  // load data before call api get list
   useEffect(() => {
     const fetchData = async () => {
-      const data = await api.GetTidingList(dispatch);
-      setSourceData(convertTidingModelToTidingItem(data));
+      try {
+        const data: any = await api.GetTidingList(dispatch);
+        // console.log("Fetched data:", data); // Debug: Log fetched data
+        const convertedData = convertTidingModelToTidingItem(
+          convertDataToTidingModel(data)
+        );
+
+        // console.log("Converted data:", convertedData); // Debug: Log converted data
+        setSourceData(convertedData);
+      } catch (error) {
+        console.error("Error fetching data:", error); // Debug: Log any errors
+      }
     };
     fetchData();
   }, [dispatch]);
 
+  // load data before call api get details
+  useEffect(() => {
+    // form.setFieldsValue(handelInitalFromValue(tiding));
+  }, [isModalVisible]);
+
+  // console.log("tiding model:", tiding); // Debug: Log converted tiding model
   return (
     <div className="p-6 bg-white">
       <h2 className="text-lg font-bold mb-4">Phê duyệt tin tức</h2>
@@ -326,7 +410,7 @@ const SystemTransferNewsApproval: React.FC = () => {
               form={form}
               name="tidings"
               autoComplete="off"
-              initialValues={{ items: [{}] }}
+              initialValues={{ category: "economy", items: [{}] }}
               onValuesChange={handelFormValueChanged}
             >
               {" "}
@@ -335,9 +419,9 @@ const SystemTransferNewsApproval: React.FC = () => {
                 <Form.Item name="title" rules={[{ required: true }]}>
                   <Input
                     size="middle"
-                    placeholder=""
+                    placeholder="Vui lòng điền tiều đề"
                     required
-                    onChange={handleInputChange}
+                    // onChange={handleInputChange}
                   />
                 </Form.Item>
                 <h1 className="text-md font-semibold mt-2 mb-1">
@@ -346,11 +430,15 @@ const SystemTransferNewsApproval: React.FC = () => {
                 <Form.Item
                   name="category"
                   rules={[{ required: true }]}
-                  initialValue="economy"
+                  initialValue={() =>
+                    form.getFieldValue("category") === ""
+                      ? "economy"
+                      : form.getFieldValue("category")
+                  }
                 >
                   <Select
                     style={{ width: `25%` }}
-                    onChange={(value) => handleSelectChange("category", value)}
+                    // onChange={(value) => handleSelectChange("category", value)}
                     options={[
                       { value: "economy", label: "Kinh tế" },
                       { value: "society", label: "Xã hội" },
@@ -387,7 +475,8 @@ const SystemTransferNewsApproval: React.FC = () => {
                           label="Tiêu đề"
                         >
                           <Input
-                            onChange={handleInputChange}
+                            placeholder="Tiêu đề nội dung"
+                            // onChange={handleInputChange}
                           />
                         </Form.Item>
                         <Form.Item
@@ -396,7 +485,7 @@ const SystemTransferNewsApproval: React.FC = () => {
                         >
                           <Input.TextArea
                             rows={4}
-                            onChange={handleInputChange}
+                            // onChange={handleInputChange}
                           />
                         </Form.Item>
                         <Form.Item label="Đính kèm">
@@ -420,7 +509,7 @@ const SystemTransferNewsApproval: React.FC = () => {
                                     >
                                       <Input
                                         placeholder="Link ảnh"
-                                        onChange={handleInputChange}
+                                        // onChange={handleInputChange}
                                       />
                                     </Form.Item>
                                     <CloseOutlined
@@ -465,19 +554,7 @@ const SystemTransferNewsApproval: React.FC = () => {
             <div className="p-4 border rounded-lg shadow-md min-h-[660px] overflow-y-scroll">
               <h2 className="text-xl font-bold mb-2">{tiding.title}</h2>
               <p className="text-gray-600 mb-4">{tiding.category}</p>
-              <p className="mb-4">{tiding.content}</p>
-              {tiding.images && (
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {tiding.images.map((image, index) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`image-${index}`}
-                      className="w-32 h-32 object-cover"
-                    />
-                  ))}
-                </div>
-              )}
+              {/* <p className="mb-4">{tiding.content}</p> */}
               {tiding.tidings && (
                 <div className="mt-10">
                   {tiding.tidings.map((subTiding, index) => (
@@ -489,12 +566,13 @@ const SystemTransferNewsApproval: React.FC = () => {
                       {subTiding.images && (
                         <div className="flex flex-wrap gap-2">
                           {subTiding.images.map((image, subIndex) => (
-                            <img
-                              key={subIndex}
-                              src={image}
-                              alt={`sub-image-${subIndex}`}
-                              className="w-24 h-24 object-cover"
-                            />
+                            <div key={subIndex} className="relative">
+                              <img
+                                src={image}
+                                alt={`sub-image-${subIndex}`}
+                                className="w-24 h-24 object-cover"
+                              />
+                            </div>
                           ))}
                         </div>
                       )}
