@@ -16,6 +16,9 @@ import { ROUTE } from "@/utils/route";
 import { Button } from "antd";
 import Cookies from "js-cookie";
 
+import { RootState } from "@/redux/Store";
+import { useSelector } from "react-redux";
+
 // ---------------------------- Declare Constain -----------------------------------
 type Item = {
   icon: React.ReactNode;
@@ -88,6 +91,8 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
     },
   ]);
 
+  const user = useSelector((state: RootState) => state.auth.users);
+
   const getItemUI = (
     item: Item,
     baseStyle: string,
@@ -157,7 +162,7 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
         </Link>
       </div>
       <Separator />
-      <nav className="flex-1 space-y-1 p-4">
+      <div className="flex-1 space-y-1 p-4">
         {menuItems.map((item) => (
           <Link
             key={item.link}
@@ -183,50 +188,53 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
             <span className="text-sm">{item.label}</span>
           </Link>
         ))}
-      </nav>
-
-      {/* ============================= Admin Navigation ============================== */}
-      <div className="p-4">
-        <h2 className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Quản Trị Viên
-        </h2>
-        <Separator />
-        <nav className="space-y-1">
-          {adminMenuItems.map((item) => (
-            <Link
-              key={item.link}
-              to={item.link}
-              className={getItemUI(
-                item,
-                "flex items-center gap-3 rounded-lg px-3 py-2 transition-all ",
-                "text-gray-500 hover:text-gray-900",
-                "text-blue-500 hover:text-blue-600"
-              )}
-              onClick={(event) => handleBeforeNavigate(event, item)}
-            >
-              <div
-                className={getItemUI(
-                  item,
-                  "flex h-8 w-8 items-center justify-center rounded-full ",
-                  "bg-gray-100",
-                  "bg-blue-500 text-white"
-                )}
-              >
-                {item.icon}
-              </div>
-              <span className="text-sm">{item.label}</span>
-            </Link>
-          ))}
-        </nav>
       </div>
 
+      {/* ============================= Admin Navigation ============================== */}
+      {user && (user.role === "Admin" || user.role === "Manager") ? (
+        <div className="p-4">
+          <h2 className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
+            Quản Trị Viên
+          </h2>
+          <Separator />
+          <div className="space-y-1">
+            {adminMenuItems.map((item) => (
+              <Link
+                key={item.link}
+                to={item.link}
+                className={getItemUI(
+                  item,
+                  "flex items-center gap-3 rounded-lg px-3 py-2 transition-all ",
+                  "text-gray-500 hover:text-gray-900",
+                  "text-blue-500 hover:text-blue-600"
+                )}
+                onClick={(event) => handleBeforeNavigate(event, item)}
+              >
+                <div
+                  className={getItemUI(
+                    item,
+                    "flex h-8 w-8 items-center justify-center rounded-full ",
+                    "bg-gray-100",
+                    "bg-blue-500 text-white"
+                  )}
+                >
+                  {item.icon}
+                </div>
+                <span className="text-sm">{item.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
+      
       {/* ============================ Account Pages ========================================== */}
       <div className="p-4">
         <h2 className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
           Cài Đặt
         </h2>
         <Separator />
-        <nav className="space-y-1">
+
+        <div className="space-y-1">
           <Link
             to={ROUTE.PROFILE.PATH}
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900"
@@ -237,7 +245,7 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
             <span className="text-sm">Hồ Sơ</span>
           </Link>
 
-          <Link
+          {/* <Link
             to={ROUTE.LOGIN.PATH}
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900"
           >
@@ -255,8 +263,9 @@ const SidebarMenu: React.FC<Props> = ({ defaultLink }) => {
               <UserPlus className="h-4 w-4" />
             </div>
             <span className="text-sm">Đăng Ký</span>
-          </Link>
-        </nav>
+          </Link> */}
+        </div>
+
         {/* Help Section */}
         <div className="p-4">
           <Button
