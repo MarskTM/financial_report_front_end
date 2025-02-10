@@ -11,6 +11,7 @@ export interface TidingState {
 const initialState: TidingState = {
   is_fetching: false,
   is_clear_data: false,
+  // tidingList: [] as TidingModel[], // You can add other properties for your tiding model here. For example, tidingList: TidingModel[] = []; or tidingList: TidingModel[] | undefined = undefined;
 };
 
 export const tidingSlice = createSlice({
@@ -33,6 +34,11 @@ export const tidingSlice = createSlice({
     InsertTiding: (state) => {
       state.is_fetching = true;
     },
+
+    // setListTiding: (state, payload: PayloadAction<TidingModel>) => {
+    //   state.is_clear_data = true;
+    //   state.is_fetching = false;
+    // },
   },
 });
 

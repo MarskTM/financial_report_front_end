@@ -1,8 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTE } from "@/utils/route";
+
+import { useEffect, useState } from "react";
+import * as api from "@/redux/api/tiding";
+import { TidingModel } from "@/redux/model/tiding";
 
 export default function CategoryGrid() {
   const financialNews = [
@@ -48,50 +52,54 @@ export default function CategoryGrid() {
     },
   ];
 
-  const newsItems = [
-    {
-      id: 1,
-      title: `LEGO Manufacturing Việt Nam được vinh danh là "Nơi Làm Việc Tốt Nhất Việt Nam® 2024"`,
-      reached: 1,
-      label: "HOT",
-      labelColor: "destructive",
-    },
-    {
-      id: 2,
-      title: "Chuyển tiền Kiều hối Ria về Việt Nam tại Agribank – phí 0 đồng",
-      reached: 1,
-      label: "HOT",
-      labelColor: "destructive",
-    },
-    {
-      id: 3,
-      title: "HT Pearl - Hành trình 1 năm kiến tạo nhịp sống an cư lý tưởng",
-      reached: 1,
-      label: "NEW",
-      labelColor: "success",
-    },
-    {
-      id: 4,
-      title: "TECHPRO: Tiên phong trong lĩnh vực chuyển đổi số tại Việt Nam",
-      reached: 1,
-    },
-    {
-      id: 5,
-      title: "Dàn đội mẫu xe ô tô cực chất tại Ô Tô Hoàng Kim",
-      reached: 1,
-    },
-    {
-      id: 6,
-      title: "VitaDairy được vinh danh top 10 công ty thực phẩm uy tín 2024",
-      reached: 1,
-    },
-  ];
+  const navigate = useNavigate();
+
+  const [tidingCompany, setTidingCompany] = useState<TidingModel[]>([]);
+
+  const convertDataToTidingModel = (data: any): TidingModel[] => {
+    if (!Array.isArray(data)) {
+      return [];
+    }
+    return data.map((item: any) => ({
+      id: item.id,
+      parent_id: item.parent_id,
+      category: item.category,
+      title: item.title,
+      content: item.content,
+      images: item.images,
+      state: item.state,
+      prev_content: item.prev_content,
+      prev_image: item.prev_image,
+      tidings: item.tidings ? convertDataToTidingModel(item.tidings) : [],
+      created_at: new Date(item.created_at),
+      updated_at: new Date(item.updated_at),
+    }));
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const news = await api.GetTidingList();
+        setTidingCompany(
+          // convertDataToTidingModel(news).filter((item) => {
+          //   return item.category === "enterprise";
+          // })
+          convertDataToTidingModel(news)
+        );
+        console.log(news);
+      } catch (error) {
+        console.error("Error fetching tiding list:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <div className="flex flex-row justify-between gap-6 pt-5">
+    <div className="flex flex-row justify-between gap-6 pt-3">
       <div className="w-2/3 pl-12 md:col-span-3">
         {/* Featured Article */}
-        <Link to={ROUTE.NEWS_DETAIL.PATH}>
+        <Link to={ROUTE.NEWS_DETAIL.getPath(financialNews[0].id)}>
           <div className="mb-10 md:col-span-2 border-none bg-blue-100 opacity-85 hover:cursor-pointer">
             <div className="p-0">
               <div className="grid md:grid-cols-2 gap-0">
@@ -157,18 +165,20 @@ export default function CategoryGrid() {
         </div>
       </div>
 
-      <div className="">
-        <Card className="w-full max-w-md border-none">
-          <Link to=""></Link>
+      <div className="w-1/3 px-5">
+        <Card className="w-full max-w-md min-h-[500px] p-4 border-none shadow-none">
           <CardHeader className="bg-[#1a2737] text-white">
             <CardTitle>TIN DOANH NGHIỆP</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             <div className="divide-y">
-              {newsItems.map((item) => (
+              {tidingCompany.map((item) => (
                 <div
                   key={item.id}
                   className="p-4 hover:bg-muted/50 transition-colors cursor-pointer"
+                  onClick={() => {
+                    navigate(ROUTE.NEWS_DETAIL.getPath(item.id!));
+                  }}
                 >
                   <div className="flex gap-2 items-start">
                     <div className="flex-1">
@@ -186,7 +196,7 @@ export default function CategoryGrid() {
                         )}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        +{item.reached} Reached
+                        +{item.view} view
                       </div>
                     </div>
                   </div>

@@ -1,3 +1,4 @@
+import { Label } from "@/components/ui/label";
 // -------------------------------- Tiding Model --------------------------------
 export interface TidingModel {
   id?: number;
@@ -9,6 +10,8 @@ export interface TidingModel {
   state?: boolean;
   prev_content?: string;
   prev_image?: string;
+  label?: string;
+  view?: number;
   tidings?: TidingModel[];
   created_at?: Date;
   updated_at?: Date;

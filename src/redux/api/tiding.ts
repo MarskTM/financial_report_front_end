@@ -1,7 +1,7 @@
 import { APIS_URL } from "@/utils/api";
 import { useCallApi } from "./api-call";
 import { notify } from "@/utils/toast";
-// import * as tidingSlice from "@/redux/slices/tiding_slice";
+import * as tidingSlice from "@/redux/slices/tiding_slice";
 
 const GetTidingByID = async (id: number) => {
   const api = APIS_URL.ADVANCE.filter();
@@ -23,7 +23,7 @@ const GetTidingByID = async (id: number) => {
   }
 };
 
-const GetTidingList = async (dispatch: any) => {
+const GetTidingList = async () => {
   const api = APIS_URL.TIDING.getall();
   const { response, error }: any = await useCallApi({
     ...api,

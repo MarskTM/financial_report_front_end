@@ -37,8 +37,9 @@ export const ROUTE = {
   },
 
   NEWS_DETAIL: {
-    PATH: "/news/deatail/:id",
+    PATH: "/news/detail/:id",
     ROLE: [ROLE.ADMIN, ROLE.CLIENT],
+    getPath: (id: number) => `/news/detail/${id}`,
   },
 
   ANALYST: {

@@ -261,7 +261,7 @@ const SystemTransferNewsApproval: React.FC = () => {
       await api.InsertTiding(tiding, dispatch);
     }
 
-    const data: any = await api.GetTidingList(dispatch);
+    const data: any = await api.GetTidingList();
     // console.log("Fetched data:", data); // Debug: Log fetched data
     const convertedData = convertTidingModelToTidingItem(
       convertDataToTidingModel(data)
@@ -335,7 +335,7 @@ const SystemTransferNewsApproval: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data: any = await api.GetTidingList(dispatch);
+        const data: any = await api.GetTidingList();
         // console.log("Fetched data:", data); // Debug: Log fetched data
         const convertedData = convertTidingModelToTidingItem(
           convertDataToTidingModel(data)
@@ -430,11 +430,6 @@ const SystemTransferNewsApproval: React.FC = () => {
                 <Form.Item
                   name="category"
                   rules={[{ required: true }]}
-                  initialValue={() =>
-                    form.getFieldValue("category") === ""
-                      ? "economy"
-                      : form.getFieldValue("category")
-                  }
                 >
                   <Select
                     style={{ width: `25%` }}
